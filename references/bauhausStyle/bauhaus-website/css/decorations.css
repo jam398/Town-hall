@@ -1,0 +1,154 @@
+/* ================================================
+   GEOMETRIC DECORATIONS (Neo-Modernist)
+   ================================================ */
+
+/* Geometric shapes for cards */
+.card-geo {
+  position: absolute;
+  pointer-events: none;
+}
+
+.card-geo-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+}
+
+.card-geo-triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 70px solid;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.card-geo-square {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+
+.card-geo-rect {
+  width: 80px;
+  height: 120px;
+  position: absolute;
+  bottom: -40px;
+  left: -20px;
+}
+
+/* Color variations */
+.geo-blue { 
+  background-color: var(--bauhaus-blue); 
+  border-bottom-color: var(--bauhaus-blue);
+}
+
+.geo-red { 
+  background-color: var(--bauhaus-red); 
+  border-bottom-color: var(--bauhaus-red);
+}
+
+.geo-yellow { 
+  background-color: var(--bauhaus-yellow); 
+  border-bottom-color: var(--bauhaus-yellow);
+}
+
+.geo-black { 
+  background-color: var(--bauhaus-black); 
+  border-bottom-color: var(--bauhaus-black);
+}
+
+.geo-white { 
+  background-color: var(--bauhaus-white); 
+  border-bottom-color: var(--bauhaus-white);
+}
+
+/* Hero floating shapes */
+.hero-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.floating-shape {
+  position: absolute;
+  opacity: 0.15;
+}
+
+.floating-circle {
+  border-radius: 50%;
+}
+
+/* Section decorative elements */
+.section-accent {
+  position: relative;
+}
+
+.section-accent::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.section-accent-blue::before {
+  background-color: var(--bauhaus-blue);
+  top: -100px;
+  right: 10%;
+}
+
+.section-accent-red::before {
+  background-color: var(--bauhaus-red);
+  bottom: -100px;
+  left: 10%;
+}
+
+/* Poster-style card decorations */
+.poster-card {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.poster-card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bauhaus-black);
+  color: var(--bauhaus-white);
+  padding: var(--space-5) var(--space-6);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Small decorative accents */
+.accent-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: var(--space-2);
+}

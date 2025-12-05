@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Exploring Bauhaus Neo-Modernism - Form follows function in the digital age">
+  <title>Bauhaus Neo-Modernism | Design for the Digital Age</title>
+  
+  <!-- Inter Font from CDN -->
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/decorations.css">
+  <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  
+  <!-- HEADER / NAVIGATION -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="header-logo">BAUHAUS</a>
+      <nav class="header-nav" id="mainNav">
+        <a href="#about" class="nav-link active">About</a>
+        <a href="#principles" class="nav-link">Principles</a>
+        <a href="#timeline" class="nav-link">Timeline</a>
+        <a href="#designers" class="nav-link">Designers</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+  <!-- HERO SECTION -->
+  <section class="hero section-relative">
+    <div class="hero-shape hero-shape--red-circle"></div>
+    <div class="hero-shape hero-shape--yellow-triangle"></div>
+    <div class="hero-shape hero-shape--blue-block"></div>
+    
+    <div class="container hero__inner">
+      <div class="hero-content">
+        <p class="eyebrow eyebrow--muted">BAUHAUS REVIVAL — NEO-MODERNISM</p>
+        <h1 class="hero-title">
+          Form. Color. Grid.<br>
+          <span class="hero-title-strong">Clarity with <br>character.</span>
+        </h1>
+        <p class="hero-subtitle">
+          A demonstration of a web aesthetic rooted in geometric rigor, functional 
+          typography, and a disciplined use of primary colors. Designed to feel 
+          poster-like, crisp, and unmistakably modern.
+        </p>
+        <div class="hero-cta">
+          <a href="#principles" class="btn btn-primary btn-lg">Explore Work</a>
+          <a href="#principles" class="btn btn-outline btn-lg">Design Principles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section-relative">
+    <div class="about__shape"></div>
+    
+    <div class="container about__container">
+      <div class="section-heading-group">
+        <p class="section-label">00 — BACKGROUND</p>
+        <h2 class="section-title">
+          The Bauhaus Legacy
+        </h2>
+      </div>
+      
+      <div class="grid-7-5 about__layout">
+        <div>
+          <div class="about__text-columns">
+            <p class="lead about__lead">
+              Founded in 1919 in Weimar, Germany, the Bauhaus school revolutionized design 
+              by uniting art, craft, and technology.
+            </p>
+            <p class="about__copy">
+              The school's philosophy—that form should follow function—continues to influence 
+              contemporary design, from architecture to digital interfaces. Neo-modernism takes 
+              these principles and applies them to today's digital landscape.
+            </p>
+            <p class="about__copy">
+              In the digital age, Bauhaus principles manifest through minimalist interfaces, 
+              geometric layouts, systematic color use, and typography that prioritizes clarity 
+              and readability. Companies like Linear, Stripe, and Vercel exemplify this approach.
+            </p>
+          </div>
+          
+          <div class="about__stats">
+            <div class="about__stat">
+              <div class="about__stat-value about__stat-value--blue">1919</div>
+              <div class="eyebrow eyebrow--subtle about__stat-label">Founded</div>
+            </div>
+            <div class="about__stat">
+              <div class="about__stat-value about__stat-value--red">14</div>
+              <div class="eyebrow eyebrow--subtle about__stat-label">Years Active</div>
+            </div>
+            <div class="about__stat">
+              <div class="about__stat-value about__stat-value--yellow about__stat-value--loop" role="img" aria-label="Enduring Bauhaus influence">
+                <svg viewBox="0 0 56 32" focusable="false" aria-hidden="true">
+                  <path d="M16 4C8 4 4 11.143 4 16s4 12 12 12c3.24 0 5.98-1.38 8-3.44 2.02 2.06 4.76 3.44 8 3.44 8 0 12-7.143 12-12S40 4 32 4c-3.24 0-5.98 1.38-8 3.44C21.98 5.38 19.24 4 16 4Zm0 6c2.27 0 4.04 1.26 5.7 3.02L24 16l-2.3 2.98C20.04 20.74 18.27 22 16 22c-3.31 0-6-2.686-6-6s2.69-6 6-6Zm16 0c3.31 0 6 2.686 6 6s-2.69 6-6 6c-2.27 0-4.04-1.26-5.7-3.02L28 16l2.3-2.98C27.96 11.26 29.73 10 32 10Z" fill="currentColor" fill-rule="evenodd"/>
+                </svg>
+              </div>
+              <div class="eyebrow eyebrow--subtle about__stat-label">Influence</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card palette-card">
+          <h3 class="palette-card__title">Primary Palette</h3>
+          <p class="palette-card__copy">
+            The foundational colors that define every Bauhaus composition.
+          </p>
+          
+          <div class="palette-swatches">
+            <div class="palette-swatch">
+              <div class="palette-swatch__sample palette-swatch__sample--blue"></div>
+              <div>
+                <div class="palette-swatch__meta-title">Bauhaus Blue</div>
+                <div class="palette-swatch__meta-hex">#0064B4</div>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="palette-swatch__sample palette-swatch__sample--red"></div>
+              <div>
+                <div class="palette-swatch__meta-title">Bauhaus Red</div>
+                <div class="palette-swatch__meta-hex">#E1000F</div>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="palette-swatch__sample palette-swatch__sample--yellow"></div>
+              <div>
+                <div class="palette-swatch__meta-title">Bauhaus Yellow</div>
+                <div class="palette-swatch__meta-hex">#FFED00</div>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="palette-swatch__sample palette-swatch__sample--black"></div>
+              <div>
+                <div class="palette-swatch__meta-title">Bauhaus Black</div>
+                <div class="palette-swatch__meta-hex">#000000</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="palette-card__footer">
+            <span class="eyebrow eyebrow--subtle">Impact</span>
+            <p>
+              These four colors shaped modern design, from International Style architecture to digital interfaces.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- PRINCIPLES SECTION -->
+  <section id="principles" class="bg-background">
+    <div class="container">
+      <div class="principles-intro">
+        <p class="section-label">01 — FORM FOLLOWS FUNCTION</p>
+        <h2 class="section-title">Core Principles</h2>
+        <p class="section-lead">
+          Six fundamental guidelines that define the Bauhaus approach to design — from geometric precision to functional beauty.
+        </p>
+      </div>
+      
+      <div class="grid principles-grid">
+        <!-- Card 1: Rational Grid -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Rational Grid</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--rational">
+              <span class="poster-shape poster-shape--circle"></span>
+              <span class="poster-shape poster-shape--rectangle"></span>
+              <span class="poster-shape poster-shape--cross-vertical"></span>
+              <span class="poster-shape poster-shape--cross-horizontal"></span>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Systematic alignment and modular structure create visual order and clarity</p>
+          </div>
+        </div>
+        
+        <!-- Card 2: Geometric Color -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Geometric Color</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--geometric">
+              <span class="poster-shape poster-shape--triangle"></span>
+              <span class="poster-shape poster-shape--circle"></span>
+              <span class="poster-shape poster-shape--square"></span>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Primary colors define space and create bold, unmistakable visual impact</p>
+          </div>
+        </div>
+        
+        <!-- Card 3: Typographic Clarity -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Typographic Clarity</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--type">
+              <span class="poster-letter">A</span>
+              <span class="poster-shape poster-shape--bar"></span>
+              <span class="poster-shape poster-shape--square"></span>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Bold, legible typography ensures clear communication and hierarchy</p>
+          </div>
+        </div>
+        
+        <!-- Card 4: Functional Form -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Functional Form</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--form">
+              <span class="poster-shape poster-shape--circle"></span>
+              <span class="poster-shape poster-shape--rectangle"></span>
+              <span class="poster-shape poster-shape--triangle"></span>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Every element serves a purpose—beauty through utility, not decoration</p>
+          </div>
+        </div>
+        
+        <!-- Card 5: Primary Palette -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Primary Palette</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--palette">
+              <span class="poster-shape poster-shape--bar poster-shape--bar-blue"></span>
+              <span class="poster-shape poster-shape--bar poster-shape--bar-red"></span>
+              <span class="poster-shape poster-shape--bar poster-shape--bar-yellow"></span>
+              <span class="poster-shape poster-shape--square"></span>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Red, blue, yellow, black, and white form the foundation of all compositions</p>
+          </div>
+        </div>
+        
+        <!-- Card 6: Modular System -->
+        <div class="col-4 card poster-card">
+          <div class="poster-card__header">
+            <h3 class="poster-card__title">Modular System</h3>
+          </div>
+          <div class="poster-visual" aria-hidden="true">
+            <div class="poster-composition poster-composition--modular">
+              <div class="poster-grid">
+                <span class="poster-grid__cell poster-grid__cell--blue"></span>
+                <span class="poster-grid__cell poster-grid__cell--red"></span>
+                <span class="poster-grid__cell poster-grid__cell--yellow"></span>
+                <span class="poster-grid__cell poster-grid__cell--yellow"></span>
+                <span class="poster-grid__cell poster-grid__cell--black"></span>
+                <span class="poster-grid__cell poster-grid__cell--blue"></span>
+                <span class="poster-grid__cell poster-grid__cell--red"></span>
+                <span class="poster-grid__cell poster-grid__cell--blue"></span>
+                <span class="poster-grid__cell poster-grid__cell--yellow"></span>
+              </div>
+            </div>
+          </div>
+          <div class="poster-card__divider"></div>
+          <div class="poster-card__body">
+            <p class="poster-card__description">Repeatable patterns and grid-based layouts ensure systematic design</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- TIMELINE SECTION -->
+  <section id="timeline" class="section-relative timeline">
+    <div class="timeline__shape"></div>
+    
+    <div class="container timeline__container">
+      <div class="principles-intro">
+        <p class="section-label">02 — HISTORY</p>
+        <h2 class="section-title">Evolution Timeline</h2>
+        <p class="section-lead">
+          Trace the evolution of Bauhaus principles from the original school in Weimar to their influence on contemporary digital design.
+        </p>
+      </div>
+      
+      <div class="timeline-track">
+        <div class="timeline-line"></div>
+        <div class="timeline-grid">
+          <div class="timeline-item">
+            <div class="timeline-year timeline-year--red">
+              <span>1919<br><span>1933</span></span>
+            </div>
+            <div class="card timeline-card timeline-card--red">
+              <h4>The Bauhaus Era</h4>
+              <p>Walter Gropius founds the Bauhaus in Weimar. Revolutionary school unites art, craft, and technology.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-year timeline-year--blue">
+              <span>1933<br><span>1960s</span></span>
+            </div>
+            <div class="card timeline-card timeline-card--blue">
+              <h4>International Style</h4>
+              <p>Bauhaus masters emigrate worldwide, spreading modernist principles. International Style dominates.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-year timeline-year--yellow">
+              <span>1970s<br><span>1990s</span></span>
+            </div>
+            <div class="card timeline-card timeline-card--yellow">
+              <h4>Swiss & Corporate</h4>
+              <p>Swiss Design refines Bauhaus with grid systems. Corporate America adopts modernist identity.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-year timeline-year--black">
+              <span>2000s<br><span>Today</span></span>
+            </div>
+            <div class="card timeline-card timeline-card--black">
+              <h4>Digital Neo-Modernism</h4>
+              <p>Product teams revive Bauhaus clarity for software—Linear, Stripe, and Vercel champion the aesthetic.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- DESIGNERS SECTION -->
+  <section id="designers">
+    <div class="container">
+      <div class="principles-intro">
+        <p class="section-label">03 — PIONEERS</p>
+        <h2 class="section-title">Designers Who Shaped Bauhaus</h2>
+        <p class="section-lead">
+          Innovators who combined art, craft, and technology—and whose influence still guides modern interface design.
+        </p>
+      </div>
+      
+      <div class="grid designers-grid">
+        <!-- Gropius -->
+        <div class="col-6 card designer-card designer-card--gropius">
+          <div class="designer-card__content">
+            <div class="designer-card__header">
+              <div>
+                <span class="eyebrow designer-card__role">Architect</span>
+                <h3 class="card-title designer-card__name">Walter Gropius</h3>
+                <p class="designer-card__dates">1883–1969</p>
+              </div>
+              <div class="designer-card__badge"></div>
+            </div>
+            <p class="card-body designer-card__body">
+              Founder and first director of the Bauhaus. Architect and educator who united art and technology under the principle “form follows function.”
+            </p>
+            <div class="designer-card__meta">
+              <span class="eyebrow eyebrow--subtle">Key Works</span>
+              <p>Bauhaus Dessau building, Fagus Factory</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Moholy-Nagy -->
+        <div class="col-6 card designer-card designer-card--moholy">
+          <div class="designer-card__content">
+            <div class="designer-card__header">
+              <div>
+                <span class="eyebrow designer-card__role">Photographer</span>
+                <h3 class="card-title designer-card__name">László Moholy-Nagy</h3>
+                <p class="designer-card__dates">1895–1946</p>
+              </div>
+              <div class="designer-card__badge"></div>
+            </div>
+            <p class="card-body designer-card__body">
+              Hungarian artist who championed light, typography, and experimental media. Brought Bauhaus thinking to the U.S. via the New Bauhaus in Chicago.
+            </p>
+            <div class="designer-card__meta">
+              <span class="eyebrow eyebrow--subtle">Known For</span>
+              <p>Photography, typography, experimental film</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bayer -->
+        <div class="col-6 card designer-card designer-card--bayer">
+          <div class="designer-card__content">
+            <div class="designer-card__header">
+              <div>
+                <span class="eyebrow designer-card__role">Typographer</span>
+                <h3 class="card-title designer-card__name">Herbert Bayer</h3>
+                <p class="designer-card__dates">1900–1985</p>
+              </div>
+              <div class="designer-card__badge"></div>
+            </div>
+            <p class="card-body designer-card__body">
+              Graphic designer who developed the “Universal” typeface and set the foundation for modern information design and brand systems.
+            </p>
+            <div class="designer-card__meta">
+              <span class="eyebrow eyebrow--subtle">Key Works</span>
+              <p>Universal typeface, Bauhaus exhibition systems</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Albers -->
+        <div class="col-6 card designer-card designer-card--albers">
+          <div class="designer-card__content">
+            <div class="designer-card__header">
+              <div>
+                <span class="eyebrow designer-card__role">Color Theorist</span>
+                <h3 class="card-title designer-card__name">Josef Albers</h3>
+                <p class="designer-card__dates">1888–1976</p>
+              </div>
+              <div class="designer-card__badge">
+                <div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <p class="card-body designer-card__body">
+              Artist and teacher whose “Homage to the Square” studies proved color is relative—insight that still guides interface palettes and accessibility.
+            </p>
+            <div class="designer-card__meta">
+              <span class="eyebrow eyebrow--subtle">Known For</span>
+              <p>Interaction of Color, Homage to the Square</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="section-relative contact">
+    <div class="contact__shape"></div>
+    
+    <div class="container contact__container">
+      <div class="section-heading-group">
+        <p class="section-label">04 — CONNECT</p>
+        <h2 class="section-title">Get in Touch</h2>
+      </div>
+      
+      <div class="grid-5-7 contact__layout">
+        <div class="contact__intro">
+          <h3>Interested in Bauhaus design?</h3>
+          <p>
+            Whether you're a designer, developer, or simply curious about modernist principles, we'd love to hear from you.
+            Drop us a message and let's discuss how timeless design can shape the future.
+          </p>
+          
+          <div class="contact-info">
+            <div class="contact-card">
+              <div class="contact-card__icon contact-card__icon--blue"></div>
+              <div>
+                <div class="contact-card__label">Email</div>
+                <div class="contact-card__value">hello@bauhaus.design</div>
+              </div>
+            </div>
+            <div class="contact-card contact-card--red">
+              <div class="contact-card__icon contact-card__icon--red"></div>
+              <div>
+                <div class="contact-card__label">Location</div>
+                <div class="contact-card__value">Berlin, Germany</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card contact-form-card">
+          <form>
+            <div class="form-group">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" class="form-input" placeholder="Your name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="message" class="form-label">Message</label>
+              <textarea id="message" class="form-input" rows="6" placeholder="Your message..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-shape footer-shape--blue"></div>
+    <div class="footer-shape footer-shape--red"></div>
+    <div class="footer-shape footer-shape--yellow"></div>
+    
+    <div class="container footer__container">
+      <div class="footer-main">
+        <div>
+          <div class="footer-brand">
+            <div class="footer-avatar"></div>
+            <h3>BAUHAUS</h3>
+          </div>
+          <p>
+            Form follows function. A demonstration of Bauhaus principles applied to modern digital design.
+          </p>
+          <div class="social-buttons">
+            <a href="#" class="btn social-btn social-btn--blue"><span>GH</span></a>
+            <a href="#" class="btn social-btn social-btn--red"><span>TW</span></a>
+            <a href="#" class="btn social-btn social-btn--yellow"><span>IN</span></a>
+          </div>
+        </div>
+        
+        <div class="footer-nav">
+          <div>
+            <h4 class="footer-section-title">Learn</h4>
+            <a href="#principles" class="footer-link">Principles</a>
+            <a href="#timeline" class="footer-link">Timeline</a>
+            <a href="#designers" class="footer-link">Designers</a>
+          </div>
+          <div>
+            <h4 class="footer-section-title">Resources</h4>
+            <a href="#" class="footer-link">Documentation</a>
+            <a href="#" class="footer-link">Design System</a>
+            <a href="#" class="footer-link">Case Studies</a>
+          </div>
+          <div>
+            <h4 class="footer-section-title">Connect</h4>
+            <a href="#contact" class="footer-link">Contact</a>
+            <a href="#" class="footer-link">GitHub</a>
+            <a href="#" class="footer-link">Twitter</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom-row">
+        <p>&copy; 2025 Bauhaus Neo-Modernism. Design exploration project.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
+

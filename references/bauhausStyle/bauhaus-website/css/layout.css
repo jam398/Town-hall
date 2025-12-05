@@ -1,0 +1,205 @@
+/* ================================================
+   LAYOUT & GRID SYSTEM
+   ================================================ */
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-narrow {
+  max-width: 960px;
+}
+
+.container-wide {
+  max-width: 1440px;
+}
+
+.container-full {
+  max-width: none;
+}
+
+/* ============================================
+   SURFACE/BACKGROUND UTILITIES
+   ============================================ */
+
+.bg-background { background-color: var(--color-background); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-surface-variant { background-color: var(--color-surface-variant); }
+
+/* Section helpers */
+.section-relative { position: relative; overflow: hidden; }
+
+/* ============================================
+   CSS GRID SYSTEM (12-column)
+   ============================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gap);
+}
+
+/* Column Spans */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+
+.col-full {
+  grid-column: 1 / -1;
+}
+
+/* ============================================
+   ASYMMETRIC LAYOUTS (Bauhaus)
+   ============================================ */
+
+.grid-5-7 {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--space-8);
+}
+
+.grid-7-5 {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: var(--space-8);
+}
+
+.grid-4-8 {
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  gap: var(--space-8);
+}
+
+.grid-3-9 {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  gap: var(--space-8);
+}
+
+/* ============================================
+   FLEXBOX UTILITIES
+   ============================================ */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+section {
+  padding: var(--space-24) 0; /* Increased from 16 to 24 (128px → 192px) for more breathing room */
+}
+
+section.hero {
+  padding: var(--space-32) 0; /* Increased from 24 to 32 (192px → 256px) for hero impact */
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+  .grid {
+    gap: 2rem;
+  }
+  
+  section {
+    padding: var(--space-20) 0;
+  }
+  
+  section.hero {
+    padding: var(--space-32) 0;
+  }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+  .grid {
+    gap: 2.5rem;
+  }
+  
+  section {
+    padding: var(--space-24) 0;
+  }
+}
+
+/* Mobile: Stack asymmetric layouts */
+@media (max-width: 767px) {
+  .grid-5-7,
+  .grid-7-5,
+  .grid-4-8,
+  .grid-3-9 {
+    grid-template-columns: 1fr;
+  }
+  
+  .col-1, .col-2, .col-3, .col-4,
+  .col-5, .col-6, .col-7, .col-8,
+  .col-9, .col-10, .col-11, .col-12 {
+    grid-column: span 12;
+  }
+}
