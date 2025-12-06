@@ -1,0 +1,387 @@
+/* ============================================
+   TOWN HALL - BAUHAUS NEO-MODERNISM DESIGN SYSTEM
+   ============================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   ============================================ */
+
+:root {
+  /* Bauhaus Primary Colors */
+  --bauhaus-red: hsl(356, 100%, 44%);
+  --bauhaus-yellow: hsl(51, 100%, 50%);
+  --bauhaus-blue: hsl(206, 100%, 35%);
+  --bauhaus-black: hsl(0, 0%, 0%);
+  --bauhaus-white: hsl(0, 0%, 100%);
+
+  /* Primary System (Blue) */
+  --color-primary: var(--bauhaus-blue);
+  --color-primary-50: hsl(206, 100%, 95%);
+  --color-primary-100: hsl(206, 100%, 90%);
+  --color-primary-200: hsl(206, 100%, 80%);
+  --color-primary-300: hsl(206, 100%, 65%);
+  --color-primary-400: hsl(206, 100%, 50%);
+  --color-primary-500: hsl(206, 100%, 35%);
+  --color-primary-600: hsl(206, 100%, 30%);
+  --color-primary-700: hsl(206, 100%, 25%);
+  --color-primary-800: hsl(206, 100%, 20%);
+  --color-primary-900: hsl(206, 100%, 15%);
+  --color-on-primary: var(--bauhaus-white);
+
+  /* Secondary System (Red) */
+  --color-secondary: var(--bauhaus-red);
+  --color-secondary-50: hsl(356, 100%, 95%);
+  --color-secondary-500: hsl(356, 100%, 44%);
+  --color-secondary-600: hsl(356, 100%, 38%);
+  --color-secondary-700: hsl(356, 100%, 32%);
+  --color-on-secondary: var(--bauhaus-white);
+
+  /* Accent System (Yellow) */
+  --color-accent: var(--bauhaus-yellow);
+  --color-accent-50: hsl(51, 100%, 95%);
+  --color-accent-500: hsl(51, 100%, 50%);
+  --color-accent-600: hsl(51, 100%, 45%);
+  --color-on-accent: var(--bauhaus-black);
+
+  /* Surface & Background */
+  --color-surface: var(--bauhaus-white);
+  --color-surface-variant: hsl(0, 0%, 98%);
+  --color-background: var(--bauhaus-white);
+  --color-on-surface: var(--bauhaus-black);
+  --color-on-background: var(--bauhaus-black);
+
+  /* Gray Scale */
+  --color-gray-50: hsl(0, 0%, 98%);
+  --color-gray-100: hsl(0, 0%, 96%);
+  --color-gray-200: hsl(0, 0%, 92%);
+  --color-gray-300: hsl(0, 0%, 85%);
+  --color-gray-400: hsl(0, 0%, 70%);
+  --color-gray-500: hsl(0, 0%, 50%);
+  --color-gray-600: hsl(0, 0%, 40%);
+  --color-gray-700: hsl(0, 0%, 30%);
+  --color-gray-800: hsl(0, 0%, 15%);
+  --color-gray-900: hsl(0, 0%, 8%);
+
+  /* Outline */
+  --color-outline: hsl(0, 0%, 75%);
+  --color-outline-variant: hsl(0, 0%, 90%);
+
+  /* Semantic Colors */
+  --color-error: hsl(0, 84%, 60%);
+  --color-error-container: hsl(0, 84%, 95%);
+  --color-on-error: var(--bauhaus-white);
+  --color-on-error-container: hsl(0, 84%, 25%);
+
+  --color-success: hsl(122, 39%, 49%);
+  --color-success-container: hsl(122, 39%, 95%);
+  --color-on-success: var(--bauhaus-white);
+  --color-on-success-container: hsl(122, 39%, 25%);
+
+  --color-warning: hsl(36, 100%, 50%);
+  --color-warning-container: hsl(36, 100%, 95%);
+  --color-on-warning: var(--bauhaus-black);
+
+  /* Text Colors */
+  --text-primary: var(--bauhaus-black);
+  --text-secondary: hsl(0, 0%, 30%);
+  --text-tertiary: hsl(0, 0%, 50%);
+  --text-disabled: hsl(0, 0%, 70%);
+
+  /* Typography Scale (Perfect Fifth 1.5) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3.375rem;
+  --text-5xl: 5.063rem;
+
+  /* Font Weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Shadows (Minimal for Bauhaus) */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: hsl(0, 0%, 12%);
+    --color-surface-variant: hsl(0, 0%, 18%);
+    --color-background: hsl(0, 0%, 8%);
+    --color-on-surface: hsl(0, 0%, 95%);
+    --color-on-background: hsl(0, 0%, 95%);
+    --text-primary: hsl(0, 0%, 95%);
+    --text-secondary: hsl(0, 0%, 70%);
+    --text-tertiary: hsl(0, 0%, 50%);
+    --color-outline: hsl(0, 0%, 35%);
+    --color-outline-variant: hsl(0, 0%, 25%);
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--color-background);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, var(--text-5xl));
+  font-weight: var(--weight-black);
+  letter-spacing: var(--tracking-tighter);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, var(--text-4xl));
+  font-weight: var(--weight-bold);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, var(--text-3xl));
+  font-weight: var(--weight-semibold);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+}
+
+h5 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+h6 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+p {
+  margin-bottom: 1em;
+  max-width: 65ch;
+}
+
+.lead {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-light);
+  line-height: var(--leading-relaxed);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-primary-700);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   FOCUS STATES (Accessibility)
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   BAUHAUS GEOMETRIC DECORATIONS
+   ============================================ */
+
+.bauhaus-circle {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.bauhaus-square {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.bauhaus-triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 86.6px solid var(--color-primary);
+}
+
+/* Color blocks */
+.bg-bauhaus-red { background-color: var(--bauhaus-red); }
+.bg-bauhaus-yellow { background-color: var(--bauhaus-yellow); }
+.bg-bauhaus-blue { background-color: var(--bauhaus-blue); }
+.bg-bauhaus-black { background-color: var(--bauhaus-black); }
+
+.text-bauhaus-red { color: var(--bauhaus-red); }
+.text-bauhaus-yellow { color: var(--bauhaus-yellow); }
+.text-bauhaus-blue { color: var(--bauhaus-blue); }
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+/* Staggered animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.container-narrow {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.uppercase-label {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}

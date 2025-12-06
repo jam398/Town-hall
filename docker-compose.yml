@@ -1,0 +1,59 @@
+# Town Hall - Docker Compose Configuration
+# 
+# Usage:
+#   docker-compose up        # Start all services
+#   docker-compose up -d     # Start in background
+#   docker-compose down      # Stop all services
+#   docker-compose logs -f   # Follow logs
+
+version: '3.8'
+
+services:
+  # Frontend - Next.js Application
+  frontend:
+    build:
+      context: ./townhall-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:3001/api
+    depends_on:
+      - backend
+    networks:
+      - townhall-network
+    restart: unless-stopped
+
+  # Backend - API Server (to be implemented by backend developer)
+  backend:
+    build:
+      context: ./townhall-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:-}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY:-}
+      - HUBSPOT_API_KEY=${HUBSPOT_API_KEY:-}
+    networks:
+      - townhall-network
+    restart: unless-stopped
+    # Uncomment when backend is ready:
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+
+networks:
+  townhall-network:
+    driver: bridge
+
+# Volumes for persistent data (if needed)
+# volumes:
+#   db-data:

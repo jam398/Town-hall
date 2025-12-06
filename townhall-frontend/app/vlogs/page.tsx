@@ -1,0 +1,211 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { Play, Clock, Eye } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Vlogs',
+  description: 'Video content from Town Hall Newark. Watch workshop recordings, tutorials, and community stories.',
+};
+
+interface Vlog {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  duration: string;
+  views: number;
+  date: string;
+  youtubeId: string;
+}
+
+// Mock data - will be replaced with API calls
+const vlogs: Vlog[] = [
+  {
+    id: '1',
+    title: 'Introduction to AI Workshop - Full Recording',
+    description: 'Missed our intro workshop? Watch the full recording and learn the basics of AI, machine learning, and how to get started.',
+    thumbnail: '/thumbnails/intro-ai.jpg',
+    duration: '1:45:00',
+    views: 1234,
+    date: '2024-12-15',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '2',
+    title: 'ChatGPT Tips & Tricks You Need to Know',
+    description: 'Our community shares their favorite ChatGPT prompts and techniques for getting better results.',
+    thumbnail: '/thumbnails/chatgpt-tips.jpg',
+    duration: '25:30',
+    views: 856,
+    date: '2024-12-10',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '3',
+    title: 'Community Spotlight: Maria\'s AI Journey',
+    description: 'Meet Maria, a Newark small business owner who transformed her bakery using AI tools. Hear her inspiring story.',
+    thumbnail: '/thumbnails/maria-story.jpg',
+    duration: '12:45',
+    views: 2341,
+    date: '2024-12-05',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '4',
+    title: 'AI for Job Seekers: Resume & Interview Tips',
+    description: 'Learn how to use AI tools to improve your resume, prepare for interviews, and stand out in the job market.',
+    thumbnail: '/thumbnails/job-seekers.jpg',
+    duration: '35:20',
+    views: 1567,
+    date: '2024-11-28',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '5',
+    title: 'Protecting Your Privacy Online - Workshop Recording',
+    description: 'Full recording of our privacy workshop covering data protection, secure browsing, and AI privacy concerns.',
+    thumbnail: '/thumbnails/privacy.jpg',
+    duration: '1:15:00',
+    views: 923,
+    date: '2024-11-20',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '6',
+    title: 'Town Hall Year in Review 2024',
+    description: 'Celebrating a year of community, learning, and growth. See highlights from our events and hear from members.',
+    thumbnail: '/thumbnails/year-review.jpg',
+    duration: '18:30',
+    views: 3456,
+    date: '2024-11-15',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+];
+
+function VlogCard({ vlog }: { vlog: Vlog }) {
+  const formattedDate = new Date(vlog.date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  return (
+    <Link
+      href={`https://youtube.com/watch?v=${vlog.youtubeId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+      data-testid="vlog-card"
+    >
+      <div className="border-2 border-black overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
+        {/* Thumbnail */}
+        <div className="relative aspect-video bg-gray-900">
+          {/* Placeholder gradient - replace with actual thumbnail */}
+          <div className="absolute inset-0 bg-gradient-to-br from-bauhaus-blue via-bauhaus-red to-bauhaus-yellow opacity-50" />
+          
+          {/* Play button overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 bg-white/90 flex items-center justify-center group-hover:bg-bauhaus-yellow transition-colors">
+              <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
+            </div>
+          </div>
+
+          {/* Duration badge */}
+          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-xs font-semibold">
+            {vlog.duration}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          <h3 className="font-bold text-lg mb-2 group-hover:text-bauhaus-blue transition-colors line-clamp-2">
+            {vlog.title}
+          </h3>
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+            {vlog.description}
+          </p>
+          <div className="flex items-center gap-4 text-xs text-gray-500">
+            <div className="flex items-center gap-1">
+              <Eye className="w-4 h-4" aria-hidden="true" />
+              <span>{vlog.views.toLocaleString()} views</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" aria-hidden="true" />
+              <span>{formattedDate}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export default function VlogsPage() {
+  return (
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="relative py-20 bg-bauhaus-yellow overflow-hidden">
+        {/* Bauhaus decorations */}
+        <div className="absolute top-10 right-10 w-40 h-40 rounded-full bg-bauhaus-blue/20" />
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-bauhaus-red/20" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <p className="text-sm font-bold uppercase tracking-widest text-bauhaus-red mb-4">
+            Watch & Learn
+          </p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase mb-6">
+            Vlogs
+          </h1>
+          <p className="text-xl text-gray-800 max-w-2xl">
+            Workshop recordings, tutorials, and community stories. 
+            Learn at your own pace, anytime.
+          </p>
+        </div>
+      </section>
+
+      {/* Vlogs Grid */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {vlogs.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {vlogs.map((vlog) => (
+                <VlogCard key={vlog.id} vlog={vlog} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 flex items-center justify-center">
+                <Play className="w-12 h-12 text-gray-400" />
+              </div>
+              <h2 className="text-2xl font-bold mb-2">No Videos Yet</h2>
+              <p className="text-gray-600 mb-6">
+                Check back soon for new content!
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* YouTube CTA */}
+      <section className="py-16 bg-black text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-black uppercase mb-4">
+            Subscribe to Our Channel
+          </h2>
+          <p className="text-gray-300 mb-6">
+            Get notified when we post new workshops, tutorials, and community stories.
+          </p>
+          <a
+            href="https://youtube.com/@townhallnewark"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-bauhaus-red text-white font-semibold uppercase tracking-wider hover:bg-red-700 transition-colors"
+          >
+            <Play className="w-5 h-5" fill="currentColor" />
+            Subscribe on YouTube
+          </a>
+        </div>
+      </section>
+    </div>
+  );
+}

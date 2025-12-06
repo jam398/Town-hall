@@ -1,0 +1,124 @@
+# Town Hall - CI/CD Pipeline
+# 
+# Runs on every push and pull request to main/Beginning branches
+# Tests: Lint, Unit, E2E, Accessibility, Visual, Performance
+
+name: Tests
+
+on:
+  push:
+    branches: [main, Beginning, master]
+  pull_request:
+    branches: [main, Beginning, master]
+
+jobs:
+  # Frontend Tests
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./townhall-frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './townhall-frontend/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm run test:unit
+        continue-on-error: true  # Remove once unit tests are implemented
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        continue-on-error: true  # Remove once app is implemented
+
+      - name: Run accessibility tests
+        run: npm run test:a11y
+        continue-on-error: true  # Remove once app is implemented
+
+      - name: Run Lighthouse tests
+        run: npm run test:lighthouse
+        continue-on-error: true  # Remove once app is implemented
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: |
+            townhall-frontend/playwright-report/
+            townhall-frontend/test-results/
+          retention-days: 30
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: townhall-frontend/coverage/
+          retention-days: 30
+
+  # Build verification
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    needs: frontend-tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './townhall-frontend/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./townhall-frontend
+
+      - name: Build application
+        run: npm run build
+        working-directory: ./townhall-frontend
+        continue-on-error: true  # Remove once app is implemented
+
+  # Docker build verification
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./townhall-frontend
+          push: false
+          tags: townhall-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+        continue-on-error: true  # Remove once Dockerfile is complete
