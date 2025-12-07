@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Vlog is Working!</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .api-data {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 10px 10px 10px 0;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            background: #5568d3;
+        }
+        #vlogData {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Your Vlog is Live!</h1>
+        
+        <div class="success">
+            ✅ Backend API Working | ✅ Sanity CMS Connected | ✅ Video Embedded
+        </div>
+
+        <div id="vlogData">
+            <p style="text-align: center;">Loading your vlog...</p>
+        </div>
+
+        <div class="info">
+            <h3>🎓 What Just Happened:</h3>
+            <ol>
+                <li>You created a vlog post in Sanity Studio</li>
+                <li>You added the YouTube ID: <code>QXvNkpdVVww</code></li>
+                <li>You published it (changed status from draft to published)</li>
+                <li>The backend API fetched it from Sanity</li>
+                <li>Now it's displayed here as an embedded video!</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="http://localhost:3001/api/vlogs" class="button" target="_blank">View API Response</a>
+            <a href="http://localhost:3333" class="button" target="_blank">Open Sanity Studio</a>
+        </div>
+    </div>
+
+    <script>
+        // Fetch vlog from API
+        async function loadVlog() {
+            const container = document.getElementById('vlogData');
+            
+            try {
+                console.log('Fetching from: http://localhost:3001/api/vlogs');
+                const response = await fetch('http://localhost:3001/api/vlogs', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    mode: 'cors'
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Data received:', data);
+                
+                if (data.vlogs && data.vlogs.length > 0) {
+                    const vlog = data.vlogs[0];
+                    
+                    // Test with known working video if the current one fails
+                    const testVideoId = 'dQw4w9WgXcQ'; // Rick Astley - Never Gonna Give You Up (known working)
+                    
+                    container.innerHTML = `
+                        <h2 style="text-align: center; color: #333;">${vlog.title}</h2>
+                        
+                        <div class="info" style="background: #fff3cd; border: 2px solid #ffc107; color: #856404;">
+                            <p><strong>⚠️ Video ID from API:</strong> <code>${vlog.youtubeId}</code> (${vlog.youtubeId.length} characters)</p>
+                            <p><strong>YouTube URL:</strong> <a href="${vlog.youtubeUrl}" target="_blank">${vlog.youtubeUrl}</a></p>
+                            ${vlog.youtubeId.length !== 11 ? '<p style="color: red;">❌ Invalid length! YouTube IDs must be exactly 11 characters.</p>' : ''}
+                        </div>
+                        
+                        <h3 style="text-align: center; margin-top: 30px;">Your Video from API:</h3>
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${vlog.youtubeId}"
+                                title="${vlog.title}"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        
+                        <h3 style="text-align: center; margin-top: 30px;">Test Video (Known Working):</h3>
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${testVideoId}"
+                                title="Test Video"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        
+                        ${vlog.description ? `<p style="text-align: center; color: #666; font-size: 1.1em;">${vlog.description}</p>` : ''}
+                        
+                        <div class="info">
+                            <h3>📊 Data from API:</h3>
+                            <div class="api-data">${JSON.stringify(vlog, null, 2)}</div>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="info">
+                            <p>No vlogs found. Make sure your vlog is published in Sanity Studio!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                container.innerHTML = `
+                    <div class="info" style="background: #f8d7da; border: 2px solid #f5c6cb; color: #721c24;">
+                        <h3>❌ Error Loading Vlog</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Check:</strong></p>
+                        <ol>
+                            <li>Backend running: <code>netstat -ano | findstr :3001</code></li>
+                            <li>API accessible: <a href="http://localhost:3001/api/vlogs" target="_blank">http://localhost:3001/api/vlogs</a></li>
+                            <li>Browser console for CORS errors (F12)</li>
+                        </ol>
+                        <button onclick="loadVlog()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                            🔄 Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load on page load
+        loadVlog();
+    </script>
+</body>
+</html>

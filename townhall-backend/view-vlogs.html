@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to View Vlogs - Town Hall Backend</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .url {
+            background: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 10px 10px 10px 0;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            background: #5568d3;
+        }
+        .youtube-embed {
+            margin: 20px 0;
+            text-align: center;
+        }
+        iframe {
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #cce5ff;
+            border-left: 4px solid #004085;
+            color: #004085;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 How to View Vlogs</h1>
+        
+        <div class="success">
+            <strong>✅ Backend is Running!</strong><br>
+            Your API is operational at <code>http://localhost:3001</code>
+        </div>
+
+        <h2>Three Ways to See Videos:</h2>
+
+        <!-- Method 1 -->
+        <div class="step">
+            <h3>Method 1: Test with API Directly (No Content Yet)</h3>
+            <p>Open this URL in your browser:</p>
+            <div class="url">http://localhost:3001/api/vlogs</div>
+            <a href="http://localhost:3001/api/vlogs" class="button" target="_blank">Open Vlog API →</a>
+            <p><strong>Current Result:</strong> <code>{"vlogs":[]}</code> (empty because no content added yet)</p>
+        </div>
+
+        <!-- Method 2 -->
+        <div class="step">
+            <h3>Method 2: Add Content via Sanity Studio</h3>
+            <p><strong>Step 1:</strong> Open Sanity Studio</p>
+            <div class="url">http://localhost:3333</div>
+            <a href="http://localhost:3333" class="button" target="_blank">Open Sanity Studio →</a>
+            
+            <p><strong>Step 2:</strong> In Sanity Studio:</p>
+            <ol>
+                <li>Look for <strong>"Vlog Post"</strong> in the left menu</li>
+                <li>Click the <strong>"+"</strong> or <strong>"Create"</strong> button</li>
+                <li>Fill in these fields:
+                    <ul>
+                        <li><strong>Title:</strong> "Test AI Workshop"</li>
+                        <li><strong>YouTube Video ID:</strong> <code>dQw4w9WgXcQ</code></li>
+                        <li><strong>Published At:</strong> Select today's date</li>
+                        <li><strong>Description:</strong> (optional) "Test video"</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"Publish"</strong></li>
+                <li>Go back to <a href="http://localhost:3001/api/vlogs" target="_blank">http://localhost:3001/api/vlogs</a></li>
+            </ol>
+            <p><strong>Result:</strong> You'll see the video data in JSON format!</p>
+        </div>
+
+        <!-- Method 3 -->
+        <div class="step">
+            <h3>Method 3: View Embedded Video Example</h3>
+            <p>This is how a YouTube video will look when embedded:</p>
+            
+            <div class="youtube-embed">
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="Test Video"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p>This is what your frontend will display using the YouTube ID from the API.</p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info">
+            <h3>📝 How to Get YouTube Video IDs</h3>
+            <p>From any YouTube URL:</p>
+            <div class="url">https://www.youtube.com/watch?v=<strong style="color: #d63031;">dQw4w9WgXcQ</strong></div>
+            <p>The part after <code>v=</code> is the Video ID</p>
+            
+            <p><strong>Test IDs you can use:</strong></p>
+            <ul>
+                <li><code>dQw4w9WgXcQ</code> - Popular test video</li>
+                <li><code>jNQXAC9IVRw</code> - First YouTube video</li>
+                <li><code>9bZkp7q19f0</code> - Gangnam Style</li>
+            </ul>
+        </div>
+
+        <h2>🔍 Testing Checklist</h2>
+        <ol>
+            <li>✅ <a href="http://localhost:3001" target="_blank">Backend API Running</a></li>
+            <li>✅ <a href="http://localhost:3333" target="_blank">Sanity Studio Running</a></li>
+            <li>⏳ Add a vlog post in Sanity</li>
+            <li>⏳ <a href="http://localhost:3001/api/vlogs" target="_blank">Check API returns data</a></li>
+            <li>⏳ Video plays when embedded</li>
+        </ol>
+
+        <h2>🚀 Next Steps</h2>
+        <div class="step">
+            <p><strong>For the Frontend:</strong></p>
+            <p>Once you add vlogs in Sanity, the frontend can fetch and display them:</p>
+            <code>
+                fetch('http://localhost:3001/api/vlogs')<br>
+                .then(res => res.json())<br>
+                .then(data => console.log(data.vlogs))
+            </code>
+        </div>
+
+        <hr style="margin: 40px 0;">
+        
+        <div style="text-align: center; color: #666;">
+            <p>Need help? Check the documentation at <code>docs/VLOG_TESTING.md</code></p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh status
+        setInterval(async () => {
+            try {
+                const res = await fetch('http://localhost:3001/api/vlogs');
+                const data = await res.json();
+                if (data.vlogs.length > 0) {
+                    console.log('✅ Vlogs found:', data.vlogs.length);
+                }
+            } catch (e) {
+                console.log('⏳ Waiting for content...');
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

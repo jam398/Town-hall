@@ -108,12 +108,15 @@ export const sanityService = {
     const query = `*[_type == "vlogPost" && status == "published"] | order(publishedAt desc) {
       _id,
       title,
+      slug,
       description,
       youtubeId,
+      "youtubeUrl": "https://www.youtube.com/watch?v=" + youtubeId,
       thumbnail,
       duration,
       publishedAt,
-      summary
+      summary,
+      tags
     }`;
     return client.fetch(query);
   },

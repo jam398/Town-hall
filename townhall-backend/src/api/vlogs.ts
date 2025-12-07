@@ -9,10 +9,11 @@ router.get('/', async (req: Request, res: Response) => {
     const vlogs = await sanityService.getVlogPosts();
 
     const vlogPosts = vlogs.map((vlog) => ({
-      slug: vlog.slug.current,
+      slug: vlog.slug?.current || vlog.slug,
       title: vlog.title,
       description: vlog.description,
       publishedAt: vlog.publishedAt,
+      youtubeId: vlog.youtubeId,
       youtubeUrl: vlog.youtubeUrl,
       thumbnail: vlog.thumbnail?.asset?.url,
       duration: vlog.duration,
