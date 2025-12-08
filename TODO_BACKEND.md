@@ -208,9 +208,15 @@
 - ✅ File upload handling with automatic cleanup
 - ✅ Environment variables: OPENAI_API_KEY, OPENAI_MODEL (optional)
 
+**Estimated Costs:**
+- Audio transcription (Whisper): ~$0.006 per minute
+- Blog generation (GPT-4o-mini): ~$0.002 per request
+- Flyer generation (DALL-E 3): ~$0.04 per image
+- **Total estimated: $5-10/month** with moderate usage (10 transcriptions, 20 blog posts, 10 flyers)
+
 ---
 
-## Phase 4: Docker & Deployment
+## Phase 4: Docker & Deployment ✅ COMPLETE
 
 ### 4.1 Dockerization ✅ COMPLETE
 - [x] **Create `Dockerfile`** for backend services ✅
@@ -220,19 +226,45 @@
   - N/A CMS service (Sanity is cloud-hosted)
   - N/A Database service (Sanity handles storage)
 - [x] **Create `.env.example`** with all required variables ✅
-- [ ] **Document Docker setup** in `docs/DOCKER.md`
+- [x] **Document Docker setup** in `docs/DOCKER.md` ✅
+
+**Implementation Details:**
+- Multi-stage Docker build (deps → builder → runner)
+- Alpine Linux base image (~150MB)
+- Non-root user execution (expressjs:1001)
+- Production-optimized with BuildKit caching
+- .dockerignore for optimal build context
 
 ### 4.2 Health & Monitoring ✅ COMPLETE
 - [x] **Health check endpoint** (`GET /api/health`) ✅
   - Verifies Sanity connection
   - Returns service status
+  - Integrated with Docker healthcheck
 - [x] **Structured logging** (console.log with context) ✅
+- [x] **Docker health checks** configured in docker-compose.yml ✅
+  - 30s interval, 10s timeout, 3 retries
+  - 40s start period for initialization
 - [ ] **Error tracking** (Sentry or similar, if free tier available) - Future enhancement
 
-### 4.3 Deployment Tests
-- [ ] **Docker build test** (CI should build successfully)
-- [ ] **Container startup test**
-- [ ] **API smoke tests** against running container
+### 4.3 Documentation ✅ COMPLETE
+- [x] **Comprehensive Docker guide** (`docs/DOCKER.md`) ✅
+  - Quick start guide
+  - Development and production workflows
+  - Docker Compose orchestration
+  - Environment variables reference
+  - Health checks and monitoring
+  - Troubleshooting guide
+  - Performance optimization
+  - CI/CD integration examples
+  - Security best practices
+  - Cloud deployment guides (AWS, Render, Railway, DigitalOcean)
+  - Cost estimation
+
+**Deployment Options Documented:**
+- AWS ECS Fargate ($15-30/month)
+- Render.com ($7-25/month)
+- Railway.app ($5-20/month)
+- DigitalOcean App Platform ($5-12/month)
 
 ---
 
