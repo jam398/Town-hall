@@ -25,7 +25,7 @@ services:
       - townhall-network
     restart: unless-stopped
 
-  # Backend - API Server (to be implemented by backend developer)
+  # Backend - API Server
   backend:
     build:
       context: ./townhall-backend
@@ -34,21 +34,37 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL:-}
+      - PORT=3001
+      # Sanity CMS
+      - SANITY_PROJECT_ID=${SANITY_PROJECT_ID}
+      - SANITY_DATASET=${SANITY_DATASET:-production}
+      - SANITY_API_VERSION=${SANITY_API_VERSION:-2024-01-01}
+      - SANITY_TOKEN=${SANITY_TOKEN}
+      # Email Service
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-hello@townhallnewark.org}
+      # HubSpot CRM
+      - HUBSPOT_API_KEY=${HUBSPOT_API_KEY}
+      - HUBSPOT_PORTAL_ID=${HUBSPOT_PORTAL_ID:-}
+      # OpenAI (Optional - Phase 3)
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:-}
-      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
-      - SENDGRID_API_KEY=${SENDGRID_API_KEY:-}
-      - HUBSPOT_API_KEY=${HUBSPOT_API_KEY:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      # Discord Webhooks (Optional - Phase 2.2)
+      - DISCORD_WEBHOOK_EVENTS=${DISCORD_WEBHOOK_EVENTS:-}
+      - DISCORD_WEBHOOK_VOLUNTEERS=${DISCORD_WEBHOOK_VOLUNTEERS:-}
+      - DISCORD_WEBHOOK_GENERAL=${DISCORD_WEBHOOK_GENERAL:-}
+      # Rate Limiting
+      - RATE_LIMIT_WINDOW_MS=${RATE_LIMIT_WINDOW_MS:-60000}
+      - RATE_LIMIT_MAX_REQUESTS=${RATE_LIMIT_MAX_REQUESTS:-100}
     networks:
       - townhall-network
     restart: unless-stopped
-    # Uncomment when backend is ready:
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 networks:
   townhall-network:

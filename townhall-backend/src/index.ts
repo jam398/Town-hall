@@ -14,6 +14,8 @@ import volunteerRouter from './api/volunteer';
 import contactRouter from './api/contact';
 import healthRouter from './api/health';
 import webhooksRouter from './api/webhooks';
+import aiRouter from './api/ai';
+import newsletterRouter from './api/newsletter';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -58,6 +60,8 @@ app.use('/api/vlogs', vlogsRouter);
 app.use('/api/volunteer', volunteerRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/webhooks', webhooksRouter);
+app.use('/api/ai', aiRouter);
+app.use('/api/newsletter', newsletterRouter);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -73,6 +77,7 @@ app.get('/', (req, res) => {
       vlogs: '/api/vlogs',
       volunteer: '/api/volunteer',
       contact: '/api/contact',
+      newsletter: '/api/newsletter',
     },
   });
 });
