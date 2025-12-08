@@ -124,4 +124,151 @@ describe('Email Service', () => {
       ).rejects.toThrow('Failed to send contact form notification');
     });
   });
+
+  describe('sendEventReminder', () => {
+    it('should send event reminder email', async () => {
+      const data = {
+        to: 'attendee@example.com',
+        firstName: 'John',
+        eventTitle: 'AI Workshop',
+        eventDate: 'December 15, 2025',
+        eventTime: '6:00 PM',
+        eventLocation: 'Newark Public Library',
+        eventAddress: '5 Washington St, Newark, NJ 07102',
+      };
+
+      await emailService.sendEventReminder(data);
+
+      expect(mockSend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: data.to,
+          subject: expect.stringContaining('Tomorrow'),
+          html: expect.stringContaining(data.firstName),
+        })
+      );
+    });
+
+    it('should handle email sending errors', async () => {
+      mockSend.mockRejectedValue(new Error('Send failed'));
+
+      const data = {
+        to: 'attendee@example.com',
+        firstName: 'John',
+        eventTitle: 'AI Workshop',
+        eventDate: 'December 15, 2025',
+        eventTime: '6:00 PM',
+        eventLocation: 'Newark Public Library',
+        eventAddress: '5 Washington St, Newark, NJ 07102',
+      };
+
+      await expect(
+        emailService.sendEventReminder(data)
+      ).rejects.toThrow('Failed to send event reminder');
+    });
+  });
+
+  describe('sendPostEventFollowUp', () => {
+    it('should send post-event follow-up with all optional content', async () => {
+      const data = {
+        to: 'attendee@example.com',
+        firstName: 'John',
+        eventTitle: 'AI Workshop',
+        recordingUrl: 'https://example.com/recording',
+        summaryUrl: 'https://example.com/summary',
+        nextEvents: [
+          { title: 'Next Workshop', date: 'January 15, 2026', slug: 'next-workshop' },
+        ],
+      };
+
+      await emailService.sendPostEventFollowUp(data);
+
+      expect(mockSend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: data.to,
+          subject: expect.stringContaining('Thanks for attending'),
+          html: expect.stringContaining(data.recordingUrl),
+        })
+      );
+    });
+
+    it('should send post-event follow-up without optional content', async () => {
+      const data = {
+        to: 'attendee@example.com',
+        firstName: 'John',
+        eventTitle: 'AI Workshop',
+      };
+
+      await emailService.sendPostEventFollowUp(data);
+
+      expect(mockSend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: data.to,
+          subject: expect.stringContaining('Thanks for attending'),
+        })
+      );
+    });
+
+    it('should handle email sending errors', async () => {
+      mockSend.mockRejectedValue(new Error('Send failed'));
+
+      const data = {
+        to: 'attendee@example.com',
+        firstName: 'John',
+        eventTitle: 'AI Workshop',
+      };
+
+      await expect(
+        emailService.sendPostEventFollowUp(data)
+      ).rejects.toThrow('Failed to send post-event follow-up');
+    });
+  });
+
+  describe('sendVolunteerApprovedNotification', () => {
+    it('should send volunteer approved notification with Discord invite', async () => {
+      const data = {
+        to: 'volunteer@example.com',
+        firstName: 'Jane',
+        discordInviteUrl: 'https://discord.gg/example',
+      };
+
+      await emailService.sendVolunteerApprovedNotification(data);
+
+      expect(mockSend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: data.to,
+          subject: expect.stringContaining('approved'),
+          html: expect.stringContaining(data.discordInviteUrl),
+        })
+      );
+    });
+
+    it('should send volunteer approved notification without Discord invite', async () => {
+      const data = {
+        to: 'volunteer@example.com',
+        firstName: 'Jane',
+      };
+
+      await emailService.sendVolunteerApprovedNotification(data);
+
+      expect(mockSend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: data.to,
+          subject: expect.stringContaining('approved'),
+        })
+      );
+    });
+
+    it('should handle email sending errors', async () => {
+      mockSend.mockRejectedValue(new Error('Send failed'));
+
+      const data = {
+        to: 'volunteer@example.com',
+        firstName: 'Jane',
+      };
+
+      await expect(
+        emailService.sendVolunteerApprovedNotification(data)
+      ).rejects.toThrow('Failed to send volunteer approved notification');
+    });
+  });
 });
