@@ -1,80 +1,29 @@
 import { Metadata } from 'next';
-import { EventCard, Event } from '@/components/ui/EventCard';
+import { Event } from '@/components/ui/EventCard';
+import { EventsPageClient } from './EventsPageClient';
+import { events as eventsData, getAllEventTags } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Upcoming AI workshops, meetups, and community events at Town Hall Newark. Free and open to everyone.',
 };
 
-// Mock data - will be replaced with API calls
-const events: Event[] = [
-  {
-    slug: 'intro-to-ai-january',
-    title: 'Introduction to AI: What Everyone Should Know',
-    description: 'A beginner-friendly workshop covering the basics of artificial intelligence, machine learning, and how AI is changing our daily lives. No technical background required!',
-    date: '2025-01-15',
-    time: '6:00 PM',
-    location: 'Newark Public Library',
-    capacity: 50,
-    registered: 32,
-    tags: ['Beginner', 'Workshop'],
-  },
-  {
-    slug: 'ai-for-small-business',
-    title: 'AI Tools for Small Business Owners',
-    description: 'Learn practical AI tools that can help automate tasks, improve customer service, and grow your small business. Hands-on demonstrations included.',
-    date: '2025-01-22',
-    time: '7:00 PM',
-    location: 'Newark Innovation Center',
-    capacity: 30,
-    registered: 18,
-    tags: ['Business', 'Practical'],
-  },
-  {
-    slug: 'community-ai-showcase',
-    title: 'Community AI Showcase',
-    description: 'See what your neighbors are building! Local community members present their AI projects and share their learning journeys. Networking and refreshments provided.',
-    date: '2025-02-01',
-    time: '5:00 PM',
-    location: 'Town Hall Community Space',
-    capacity: 100,
-    registered: 45,
-    tags: ['Community', 'Showcase'],
-  },
-  {
-    slug: 'ai-art-workshop',
-    title: 'Creating Art with AI',
-    description: 'Explore the creative side of AI! Learn to use tools like DALL-E and Midjourney to create stunning artwork. All skill levels welcome.',
-    date: '2025-02-08',
-    time: '2:00 PM',
-    location: 'Newark Arts Center',
-    capacity: 25,
-    registered: 12,
-    tags: ['Creative', 'Workshop'],
-  },
-  {
-    slug: 'ai-ethics-discussion',
-    title: 'AI Ethics: A Community Discussion',
-    description: 'Join us for an open discussion about the ethical implications of AI in our society. Share your thoughts and concerns in a safe, moderated environment.',
-    date: '2025-02-15',
-    time: '6:30 PM',
-    location: 'Town Hall Community Space',
-    capacity: 40,
-    registered: 22,
-    tags: ['Discussion', 'Ethics'],
-  },
-  {
-    slug: 'chatgpt-deep-dive',
-    title: 'ChatGPT Deep Dive: Advanced Prompting',
-    description: 'Already familiar with ChatGPT? Take your skills to the next level with advanced prompting techniques, custom instructions, and real-world applications.',
-    date: '2025-02-22',
-    time: '7:00 PM',
-    location: 'Newark Public Library',
-    capacity: 35,
-    registered: 28,
-    tags: ['Intermediate', 'ChatGPT'],
-  },
-];
+// Transform full events to card format
+const events: Event[] = eventsData.map(event => ({
+  slug: event.slug,
+  title: event.title,
+  description: event.description,
+  date: event.date,
+  time: event.time,
+  location: event.location,
+  capacity: event.capacity,
+  registered: event.registered,
+  tags: event.tags,
+  image: event.image,
+}));
+
+// Get all unique tags
+const allTags = getAllEventTags();
 
 export default function EventsPage() {
   return (
@@ -99,28 +48,8 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Events Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {events.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {events.map((event) => (
-                <EventCard key={event.slug} event={event} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 flex items-center justify-center">
-                <span className="text-4xl">📅</span>
-              </div>
-              <h2 className="text-2xl font-bold mb-2">No Upcoming Events</h2>
-              <p className="text-gray-600 mb-6">
-                Check back soon for new workshops and meetups!
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Events with Search/Filter */}
+      <EventsPageClient events={events} allTags={allTags} />
 
       {/* Past Events CTA */}
       <section className="py-16 bg-gray-50">

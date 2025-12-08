@@ -63,6 +63,39 @@ const milestones = [
   { year: '2025', event: 'Expanding to multiple Newark locations' },
 ];
 
+const partners = [
+  {
+    name: 'Newark Public Library',
+    description: 'Providing workshop spaces and community outreach',
+    type: 'Community Partner',
+  },
+  {
+    name: 'Rutgers University-Newark',
+    description: 'Academic partnership for curriculum development',
+    type: 'Education Partner',
+  },
+  {
+    name: 'Newark Innovation Center',
+    description: 'Technology resources and event hosting',
+    type: 'Technology Partner',
+  },
+  {
+    name: 'Essex County Community Foundation',
+    description: 'Funding support for free community programs',
+    type: 'Funding Partner',
+  },
+  {
+    name: 'New Jersey Tech Council',
+    description: 'Industry connections and mentorship programs',
+    type: 'Industry Partner',
+  },
+  {
+    name: 'Newark Arts Council',
+    description: 'Creative AI workshops and cultural programming',
+    type: 'Arts Partner',
+  },
+];
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
@@ -225,6 +258,54 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners & Sponsors */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-black uppercase mb-4">
+              Our Partners
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              We&apos;re grateful for the organizations that support our mission 
+              to bring AI education to Newark.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {partners.map((partner) => (
+              <div
+                key={partner.name}
+                className="bg-white border-2 border-black p-6 hover:shadow-lg transition-shadow"
+              >
+                {/* Partner logo placeholder */}
+                <div className="w-full h-16 bg-gray-100 flex items-center justify-center mb-4 border border-gray-200">
+                  <span className="text-gray-400 font-semibold text-sm uppercase tracking-wider">
+                    {partner.name}
+                  </span>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-bauhaus-blue mb-2">
+                  {partner.type}
+                </p>
+                <h3 className="font-bold text-lg mb-2">{partner.name}</h3>
+                <p className="text-gray-600 text-sm">{partner.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-gray-600 mb-4">
+              Interested in partnering with Town Hall?
+            </p>
+            <Link href="/contact">
+              <Button variant="outline">
+                Become a Partner
+                <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

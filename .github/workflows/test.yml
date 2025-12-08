@@ -37,24 +37,24 @@ jobs:
       - name: Run linter
         run: npm run lint
 
-      - name: Run unit tests
-        run: npm run test:unit
-        continue-on-error: true  # Remove once unit tests are implemented
+      - name: Run unit tests with coverage
+        run: npm run test:unit -- --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Run E2E tests
         run: npm run test:e2e
-        continue-on-error: true  # Remove once app is implemented
 
       - name: Run accessibility tests
         run: npm run test:a11y
-        continue-on-error: true  # Remove once app is implemented
+
+      - name: Run integration tests
+        run: npx playwright test tests/integration
 
       - name: Run Lighthouse tests
         run: npm run test:lighthouse
-        continue-on-error: true  # Remove once app is implemented
+        continue-on-error: true  # Performance tests may vary in CI environment
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -98,7 +98,6 @@ jobs:
       - name: Build application
         run: npm run build
         working-directory: ./townhall-frontend
-        continue-on-error: true  # Remove once app is implemented
 
   # Docker build verification
   docker-build:
@@ -121,4 +120,13 @@ jobs:
           tags: townhall-frontend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-        continue-on-error: true  # Remove once Dockerfile is complete
+
+      - name: Build test Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./townhall-frontend
+          file: ./townhall-frontend/Dockerfile.test
+          push: false
+          tags: townhall-frontend:test-runner
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

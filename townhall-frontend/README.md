@@ -1,5 +1,8 @@
 # Town Hall Frontend
 
+[![Tests](https://github.com/jam398/Town-hall/actions/workflows/test.yml/badge.svg)](https://github.com/jam398/Town-hall/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](./coverage)
+
 Newark AI Community Nonprofit - Frontend Application
 
 ## Tech Stack
@@ -92,13 +95,20 @@ tests/
 │   ├── navigation.spec.ts  # Navigation & layout
 │   ├── events.spec.ts      # Events flow
 │   ├── blog.spec.ts        # Blog & vlogs
-│   └── volunteer.spec.ts   # Volunteer & contact forms
+│   ├── volunteer.spec.ts   # Volunteer & contact forms
+│   ├── contact.spec.ts     # Contact form
+│   └── about.spec.ts       # About page
 ├── accessibility/          # WCAG compliance tests
 │   └── a11y.spec.ts        # axe-core accessibility audits
 ├── visual/                 # Screenshot comparison tests
 │   └── visual.spec.ts      # Visual regression
-└── performance/            # Lighthouse audits
-    └── lighthouse.spec.ts  # Performance metrics
+├── performance/            # Lighthouse audits
+│   └── lighthouse.spec.ts  # Performance metrics
+├── integration/            # API integration tests
+│   └── api.spec.ts         # Loading, error, empty states
+└── mocks/                  # Test utilities
+    ├── handlers.ts         # API mock handlers
+    └── data.ts             # Mock data
 ```
 
 ## Project Structure

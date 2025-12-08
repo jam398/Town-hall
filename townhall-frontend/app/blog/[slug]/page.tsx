@@ -3,94 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, User, Clock, Share2, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
-
-// This would come from API/CMS in production
-const getPost = (slug: string) => {
-  const posts: Record<string, any> = {
-    'what-is-chatgpt': {
-      slug: 'what-is-chatgpt',
-      title: 'What is ChatGPT and How Can It Help You?',
-      excerpt: 'A simple guide to understanding ChatGPT, how it works, and practical ways you can use it in your daily life and work.',
-      content: `
-        <p class="lead">You've probably heard about ChatGPT by now. It's been all over the news, and maybe your friends or coworkers have mentioned it. But what exactly is it, and how can it help you?</p>
-
-        <h2>What is ChatGPT?</h2>
-        <p>ChatGPT is an AI assistant created by OpenAI. Think of it as a very smart computer program that can understand and respond to questions in plain English (and many other languages). It's like having a knowledgeable friend available 24/7 to help you with various tasks.</p>
-
-        <h2>How Does It Work?</h2>
-        <p>Without getting too technical, ChatGPT was trained on a massive amount of text from the internet—books, articles, websites, and more. This training helps it understand language patterns and provide helpful responses.</p>
-        
-        <p>When you ask it a question, it doesn't "search" for an answer like Google. Instead, it generates a response based on patterns it learned during training. This is why it can be creative and conversational.</p>
-
-        <h2>What Can You Use It For?</h2>
-        <p>Here are some practical ways people in our community are using ChatGPT:</p>
-        
-        <ul>
-          <li><strong>Writing Help:</strong> Draft emails, letters, or social media posts. It can help you find the right words when you're stuck.</li>
-          <li><strong>Learning:</strong> Ask it to explain complex topics in simple terms. It's like having a patient tutor.</li>
-          <li><strong>Brainstorming:</strong> Need ideas for a project, gift, or event? ChatGPT can help generate options.</li>
-          <li><strong>Problem Solving:</strong> Describe a challenge you're facing, and it can suggest approaches.</li>
-          <li><strong>Translation:</strong> It can translate between many languages and explain cultural nuances.</li>
-        </ul>
-
-        <h2>Important Things to Know</h2>
-        <p>While ChatGPT is incredibly useful, there are some important limitations to understand:</p>
-        
-        <ul>
-          <li><strong>It can be wrong:</strong> ChatGPT sometimes generates incorrect information confidently. Always verify important facts.</li>
-          <li><strong>It has a knowledge cutoff:</strong> It doesn't know about very recent events.</li>
-          <li><strong>Privacy matters:</strong> Don't share sensitive personal information in your conversations.</li>
-          <li><strong>It's a tool, not a replacement:</strong> Use it to assist your thinking, not replace it.</li>
-        </ul>
-
-        <h2>Getting Started</h2>
-        <p>Ready to try it? Here's how to get started:</p>
-        
-        <ol>
-          <li>Visit <a href="https://chat.openai.com">chat.openai.com</a></li>
-          <li>Create a free account</li>
-          <li>Start with a simple question or request</li>
-          <li>Experiment and have fun!</li>
-        </ol>
-
-        <h2>Join Our Workshop</h2>
-        <p>Want to learn more? Join us at Town Hall for our hands-on ChatGPT workshop where we'll explore practical uses together. Check our <a href="/events">events page</a> for upcoming sessions.</p>
-      `,
-      date: '2024-12-20',
-      author: 'Sarah Johnson',
-      authorBio: 'Sarah is a technology educator and Town Hall volunteer who specializes in making AI accessible to everyone.',
-      tags: ['AI Basics', 'ChatGPT'],
-      readTime: '5 min read',
-      image: null,
-    },
-  };
-  return posts[slug] || null;
-};
-
-// Related posts
-const relatedPosts: BlogPost[] = [
-  {
-    slug: 'free-ai-tools-everyone',
-    title: '10 Free AI Tools Everyone Should Know About',
-    excerpt: 'A curated list of free AI tools that can help with writing, learning, creativity, and productivity.',
-    date: '2024-11-20',
-    author: 'Town Hall Team',
-    tags: ['Tools', 'Resources'],
-    readTime: '10 min read',
-  },
-  {
-    slug: 'protecting-privacy-ai-age',
-    title: 'Protecting Your Privacy in the Age of AI',
-    excerpt: 'Practical tips for keeping your personal information safe while using AI tools and services.',
-    date: '2024-12-10',
-    author: 'Dr. Lisa Chen',
-    tags: ['Privacy', 'Safety'],
-    readTime: '6 min read',
-  },
-];
+import { getBlogPost, getRelatedPosts, BlogPostFull } from '@/lib/data';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = getPost(params.slug);
+  const post = getBlogPost(params.slug);
   if (!post) {
     return { title: 'Post Not Found' };
   }
@@ -101,7 +17,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getPost(params.slug);
+  const post = getBlogPost(params.slug);
+  const relatedPosts = getRelatedPosts(params.slug, 2);
 
   if (!post) {
     return (
@@ -275,8 +192,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               Related Articles
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
-              {relatedPosts.map((relatedPost) => (
-                <BlogCard key={relatedPost.slug} post={relatedPost} />
+              {relatedPosts.map((relatedPost: BlogPostFull) => (
+                <BlogCard key={relatedPost.slug} post={{
+                  slug: relatedPost.slug,
+                  title: relatedPost.title,
+                  excerpt: relatedPost.excerpt,
+                  date: relatedPost.date,
+                  author: relatedPost.author,
+                  tags: relatedPost.tags,
+                  readTime: relatedPost.readTime,
+                }} />
               ))}
             </div>
           </div>

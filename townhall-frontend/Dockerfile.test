@@ -1,0 +1,45 @@
+# Dockerfile.test - For running tests in CI/CD pipelines
+# This image includes all dependencies needed for unit, E2E, accessibility,
+# visual regression, and performance tests.
+
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Set environment variables
+ENV NODE_ENV=test
+ENV CI=true
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the application
+COPY . .
+
+# Build the application (needed for some tests)
+RUN npm run build
+
+# Install Playwright browsers (already included in base image, but ensure latest)
+RUN npx playwright install --with-deps chromium firefox webkit
+
+# Create directories for test artifacts
+RUN mkdir -p /app/test-results /app/playwright-report /app/coverage
+
+# Default command runs all tests
+CMD ["npm", "test"]
+
+# Alternative commands for specific test suites:
+# docker run townhall-test npm run test:unit
+# docker run townhall-test npm run test:e2e
+# docker run townhall-test npm run test:a11y
+# docker run townhall-test npm run test:visual
+# docker run townhall-test npm run test:lighthouse
+
+# To extract test artifacts:
+# docker cp <container_id>:/app/playwright-report ./playwright-report
+# docker cp <container_id>:/app/coverage ./coverage
