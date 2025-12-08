@@ -1,53 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, MapPin, Users, Clock, Share2 } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Users, Clock, Share2, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { RegistrationForm } from '@/components/forms/RegistrationForm';
-
-// This would come from API in production
-const getEvent = (slug: string) => {
-  const events: Record<string, any> = {
-    'intro-to-ai-january': {
-      slug: 'intro-to-ai-january',
-      title: 'Introduction to AI: What Everyone Should Know',
-      description: 'A beginner-friendly workshop covering the basics of artificial intelligence, machine learning, and how AI is changing our daily lives.',
-      longDescription: `
-        <p>Artificial Intelligence is everywhere—from the recommendations on your phone to the tools transforming businesses. But what exactly is AI, and how does it work?</p>
-        
-        <p>In this beginner-friendly workshop, we'll demystify AI and give you a solid foundation to understand this transformative technology.</p>
-        
-        <h3>What You'll Learn</h3>
-        <ul>
-          <li>What AI actually is (and isn't)</li>
-          <li>The difference between AI, Machine Learning, and Deep Learning</li>
-          <li>Real-world examples of AI in everyday life</li>
-          <li>How to start using AI tools safely and effectively</li>
-          <li>Common misconceptions and concerns about AI</li>
-        </ul>
-        
-        <h3>Who Should Attend</h3>
-        <p>This workshop is perfect for anyone curious about AI, regardless of technical background. Whether you're a complete beginner or just want to fill in some gaps in your knowledge, you'll find value here.</p>
-        
-        <h3>What to Bring</h3>
-        <ul>
-          <li>A laptop or tablet (optional but recommended)</li>
-          <li>Your questions and curiosity!</li>
-        </ul>
-      `,
-      date: '2025-01-15',
-      time: '6:00 PM',
-      endTime: '8:00 PM',
-      location: 'Newark Public Library',
-      address: '5 Washington Street, Newark, NJ 07102',
-      capacity: 50,
-      registered: 32,
-      tags: ['Beginner', 'Workshop'],
-      instructor: 'Dr. Sarah Chen',
-      instructorBio: 'AI researcher and educator with 10+ years of experience making complex topics accessible.',
-    },
-  };
-  return events[slug] || null;
-};
+import { ICalButton } from './ICalButton';
+import { getEvent, EventFull } from '@/lib/data';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const event = getEvent(params.slug);
@@ -149,6 +106,50 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
               dangerouslySetInnerHTML={{ __html: event.longDescription }}
             />
 
+            {/* What You'll Learn */}
+            {event.whatYoullLearn && event.whatYoullLearn.length > 0 && (
+              <div className="bg-gray-50 p-6 mb-8 border-l-4 border-bauhaus-blue">
+                <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
+                  What You&apos;ll Learn
+                </h2>
+                <ul className="space-y-3">
+                  {event.whatYoullLearn.map((item: string, index: number) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-bauhaus-blue flex-shrink-0 mt-0.5" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Who Should Attend */}
+            {event.whoShouldAttend && (
+              <div className="mb-8">
+                <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
+                  Who Should Attend
+                </h2>
+                <p className="text-gray-700">{event.whoShouldAttend}</p>
+              </div>
+            )}
+
+            {/* What to Bring */}
+            {event.whatToBring && event.whatToBring.length > 0 && (
+              <div className="bg-bauhaus-yellow/10 p-6 mb-8 border-l-4 border-bauhaus-yellow">
+                <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
+                  What to Bring
+                </h2>
+                <ul className="space-y-2">
+                  {event.whatToBring.map((item: string, index: number) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="text-bauhaus-yellow">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Instructor */}
             {event.instructor && (
               <div className="border-t-2 border-black pt-8 mt-8">
@@ -248,30 +249,13 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
                   >
                     Google Calendar
                   </a>
-                  <button
-                    className="block w-full px-4 py-2 text-center bg-gray-100 text-gray-700 font-semibold text-sm uppercase tracking-wider hover:bg-gray-200 transition-colors"
-                    onClick={() => {
-                      // Generate iCal file
-                      const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-DTSTART:${calendarDate}T180000
-DTEND:${calendarDate}T200000
-SUMMARY:${event.title}
-DESCRIPTION:${event.description}
-LOCATION:${event.address}
-END:VEVENT
-END:VCALENDAR`;
-                      const blob = new Blob([icsContent], { type: 'text/calendar' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = `${event.slug}.ics`;
-                      a.click();
-                    }}
-                  >
-                    Download .ics
-                  </button>
+                  <ICalButton
+                    eventSlug={event.slug}
+                    eventTitle={event.title}
+                    eventDescription={event.description}
+                    eventAddress={event.address}
+                    calendarDate={calendarDate}
+                  />
                 </div>
               </div>
 

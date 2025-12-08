@@ -1,75 +1,32 @@
 import Link from 'next/link';
-import { ArrowRight, Calendar, Users, Lightbulb, Heart } from 'lucide-react';
+import { ArrowRight, Calendar, Users, Lightbulb, Heart, Star, Shield, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { EventCard, Event } from '@/components/ui/EventCard';
 import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
+import { events as eventsData, blogPosts as blogPostsData } from '@/lib/data';
 
-// Mock data - will be replaced with API calls
-const upcomingEvents: Event[] = [
-  {
-    slug: 'intro-to-ai-january',
-    title: 'Introduction to AI: What Everyone Should Know',
-    description: 'A beginner-friendly workshop covering the basics of artificial intelligence, machine learning, and how AI is changing our daily lives.',
-    date: '2025-01-15',
-    time: '6:00 PM',
-    location: 'Newark Public Library',
-    capacity: 50,
-    registered: 32,
-    tags: ['Beginner', 'Workshop'],
-  },
-  {
-    slug: 'ai-for-small-business',
-    title: 'AI Tools for Small Business Owners',
-    description: 'Learn practical AI tools that can help automate tasks, improve customer service, and grow your small business.',
-    date: '2025-01-22',
-    time: '7:00 PM',
-    location: 'Newark Innovation Center',
-    capacity: 30,
-    registered: 18,
-    tags: ['Business', 'Practical'],
-  },
-  {
-    slug: 'community-ai-showcase',
-    title: 'Community AI Showcase',
-    description: 'See what your neighbors are building! Local community members present their AI projects and share their learning journeys.',
-    date: '2025-02-01',
-    time: '5:00 PM',
-    location: 'Town Hall Community Space',
-    capacity: 100,
-    registered: 45,
-    tags: ['Community', 'Showcase'],
-  },
-];
+// Get first 3 events and posts for homepage
+const upcomingEvents: Event[] = eventsData.slice(0, 3).map(event => ({
+  slug: event.slug,
+  title: event.title,
+  description: event.description,
+  date: event.date,
+  time: event.time,
+  location: event.location,
+  capacity: event.capacity,
+  registered: event.registered,
+  tags: event.tags,
+}));
 
-const latestPosts: BlogPost[] = [
-  {
-    slug: 'what-is-chatgpt',
-    title: 'What is ChatGPT and How Can It Help You?',
-    excerpt: 'A simple guide to understanding ChatGPT, how it works, and practical ways you can use it in your daily life and work.',
-    date: '2024-12-20',
-    author: 'Sarah Johnson',
-    tags: ['AI Basics', 'ChatGPT'],
-    readTime: '5 min read',
-  },
-  {
-    slug: 'ai-job-market-newark',
-    title: 'AI and the Job Market: Opportunities in Newark',
-    excerpt: 'Exploring how AI is creating new job opportunities in our community and what skills are in demand.',
-    date: '2024-12-15',
-    author: 'Marcus Williams',
-    tags: ['Careers', 'Local'],
-    readTime: '7 min read',
-  },
-  {
-    slug: 'protecting-privacy-ai-age',
-    title: 'Protecting Your Privacy in the Age of AI',
-    excerpt: 'Practical tips for keeping your personal information safe while using AI tools and services.',
-    date: '2024-12-10',
-    author: 'Dr. Lisa Chen',
-    tags: ['Privacy', 'Safety'],
-    readTime: '6 min read',
-  },
-];
+const latestPosts: BlogPost[] = blogPostsData.slice(0, 3).map(post => ({
+  slug: post.slug,
+  title: post.title,
+  excerpt: post.excerpt,
+  date: post.date,
+  author: post.author,
+  tags: post.tags,
+  readTime: post.readTime,
+}));
 
 export default function HomePage() {
   return (
