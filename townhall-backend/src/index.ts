@@ -14,6 +14,7 @@ import volunteerRouter from './api/volunteer';
 import contactRouter from './api/contact';
 import healthRouter from './api/health';
 import webhooksRouter from './api/webhooks';
+import aiRouter from './api/ai';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -58,6 +59,7 @@ app.use('/api/vlogs', vlogsRouter);
 app.use('/api/volunteer', volunteerRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/webhooks', webhooksRouter);
+app.use('/api/ai', aiRouter);
 
 // Root endpoint
 app.get('/', (req, res) => {

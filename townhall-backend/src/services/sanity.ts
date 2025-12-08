@@ -103,6 +103,14 @@ export const sanityService = {
     return client.fetch(query, { slug });
   },
 
+  async createBlogPost(data: Partial<BlogPost>): Promise<BlogPost> {
+    const doc = {
+      _type: 'blogPost' as const,
+      ...data,
+    };
+    return client.create(doc) as Promise<BlogPost>;
+  },
+
   // Vlog Posts
   async getVlogPosts(): Promise<VlogPost[]> {
     const query = `*[_type == "vlogPost" && status == "published"] | order(publishedAt desc) {
