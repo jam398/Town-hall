@@ -1,4 +1,8 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load .env from project root (parent directory)
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';

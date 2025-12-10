@@ -1,6 +1,19 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to allow tests to run without API key
+let resend: Resend | null = null;
+
+const getResend = (): Resend => {
+  if (!resend) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY environment variable is not set');
+    }
+    resend = new Resend(apiKey);
+  }
+  return resend;
+};
+
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
 export const emailService = {
@@ -56,7 +69,7 @@ export const emailService = {
     `;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to,
         subject: `Confirmed: ${eventTitle}`,
@@ -110,7 +123,7 @@ export const emailService = {
     `;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to,
         subject: 'Thank You for Volunteering with Town Hall Newark',
@@ -145,7 +158,7 @@ export const emailService = {
 
     try {
       // Send to team email (you can configure this)
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to: fromEmail, // Change to your team email
         subject: `Contact Form: ${subject}`,
@@ -154,7 +167,7 @@ export const emailService = {
       });
 
       // Send confirmation to user
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to: email,
         subject: 'We received your message',
@@ -233,7 +246,7 @@ export const emailService = {
     `;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to,
         subject: `Reminder: ${eventTitle} is Tomorrow!`,
@@ -327,7 +340,7 @@ export const emailService = {
     `;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to,
         subject: `Thanks for attending ${eventTitle}!`,
@@ -402,7 +415,7 @@ export const emailService = {
     `;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromEmail,
         to,
         subject: '🎉 Your volunteer application has been approved!',

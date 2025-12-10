@@ -2,9 +2,19 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization to allow app to start without API key
+let openai: OpenAI | null = null;
+
+const getOpenAI = (): OpenAI => {
+  if (!openai) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY environment variable is not set');
+    }
+    openai = new OpenAI({ apiKey });
+  }
+  return openai;
+};
 
 export const aiService = {
   /**
@@ -14,7 +24,7 @@ export const aiService = {
     try {
       const fileStream = fs.createReadStream(filePath);
       
-      const transcription = await openai.audio.transcriptions.create({
+      const transcription = await getOpenAI().audio.transcriptions.create({
         file: fileStream,
         model: 'whisper-1',
         language: 'en',
@@ -73,7 +83,7 @@ Format your response as JSON:
   "tags": ["tag1", "tag2", ...]
 }`;
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
         messages: [
           {
@@ -159,7 +169,7 @@ Format your response as JSON:
   "prerequisites": ["prerequisite 1"]
 }`;
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
         messages: [
           {
@@ -220,7 +230,7 @@ Mood: Professional, innovative, community-focused, welcoming
 
 The flyer should be eye-catching, suitable for social media, and clearly communicate that this is a free community AI event in Newark, NJ.`;
 
-      const response = await openai.images.generate({
+      const response = await getOpenAI().images.generate({
         model: 'dall-e-3',
         prompt: prompt,
         n: 1,
@@ -256,7 +266,7 @@ The flyer should be eye-catching, suitable for social media, and clearly communi
     variation: string;
   }): Promise<string> {
     try {
-      const response = await openai.images.generate({
+      const response = await getOpenAI().images.generate({
         model: 'dall-e-3',
         prompt: `${data.originalPrompt}\n\nVariation: ${data.variation}`,
         n: 1,

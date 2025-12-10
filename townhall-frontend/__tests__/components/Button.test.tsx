@@ -17,13 +17,13 @@ describe('Button', () => {
   it('renders secondary variant', () => {
     render(<Button variant="secondary">Secondary</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-black');
+    expect(button).toHaveClass('bg-bauhaus-red');
   });
 
   it('renders accent variant', () => {
     render(<Button variant="accent">Accent</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-bauhaus-red');
+    expect(button).toHaveClass('bg-bauhaus-yellow');
   });
 
   it('renders outline variant', () => {
@@ -42,22 +42,22 @@ describe('Button', () => {
   it('renders small size', () => {
     render(<Button size="sm">Small</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('px-3');
-    expect(button).toHaveClass('py-1.5');
+    expect(button).toHaveClass('px-4');
+    expect(button).toHaveClass('py-2');
   });
 
   it('renders medium size by default', () => {
     render(<Button>Medium</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('px-5');
-    expect(button).toHaveClass('py-2.5');
+    expect(button).toHaveClass('px-6');
+    expect(button).toHaveClass('py-3');
   });
 
   it('renders large size', () => {
     render(<Button size="lg">Large</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('px-7');
-    expect(button).toHaveClass('py-3.5');
+    expect(button).toHaveClass('px-8');
+    expect(button).toHaveClass('py-4');
   });
 
   it('renders full width when specified', () => {
@@ -70,7 +70,8 @@ describe('Button', () => {
     render(<Button isLoading>Loading</Button>);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
-    expect(button).toHaveClass('cursor-not-allowed');
+    // disabled:cursor-not-allowed is applied via Tailwind disabled: prefix
+    expect(button).toHaveClass('disabled:cursor-not-allowed');
   });
 
   it('is disabled when disabled prop is true', () => {

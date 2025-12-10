@@ -1,3 +1,6 @@
+// Set mock API key before importing the service
+process.env.RESEND_API_KEY = 'test_api_key';
+
 // Mock Resend BEFORE importing the service
 const mockSend = jest.fn();
 jest.mock('resend', () => ({

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import { ToastProvider, useToast } from '@/components/ui/Toast';
+import { ToastProvider, useToast, toast, toastHelpers } from '@/components/ui/Toast';
 
 // Test component that uses the toast hook
 function TestComponent() {
@@ -225,6 +225,165 @@ describe('Toast accessibility', () => {
     await waitFor(() => {
       const dismissButton = screen.getByRole('button', { name: /dismiss/i });
       expect(dismissButton).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Toast helper functions', () => {
+  // Test component that exposes context for helper function testing
+  function HelperTestComponent({ onContextReady }: { onContextReady: (ctx: ReturnType<typeof useToast>) => void }) {
+    const context = useToast();
+    
+    return (
+      <div>
+        <button onClick={() => onContextReady(context)}>Get Context</button>
+        <span data-testid="toast-count">{context.toasts.length}</span>
+      </div>
+    );
+  }
+
+  it('toast function adds toast via context', async () => {
+    let capturedContext: ReturnType<typeof useToast> | null = null;
+    
+    render(
+      <ToastProvider>
+        <HelperTestComponent onContextReady={(ctx) => { capturedContext = ctx; }} />
+      </ToastProvider>
+    );
+
+    // Get context
+    fireEvent.click(screen.getByText('Get Context'));
+    
+    // Use toast helper
+    act(() => {
+      if (capturedContext) {
+        toast(capturedContext, { type: 'info', title: 'Helper Toast' });
+      }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Helper Toast')).toBeInTheDocument();
+    });
+  });
+
+  it('toastHelpers.success adds success toast', async () => {
+    let capturedContext: ReturnType<typeof useToast> | null = null;
+    
+    render(
+      <ToastProvider>
+        <HelperTestComponent onContextReady={(ctx) => { capturedContext = ctx; }} />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Get Context'));
+    
+    act(() => {
+      if (capturedContext) {
+        toastHelpers.success(capturedContext, 'Success Helper', 'Success message');
+      }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Success Helper')).toBeInTheDocument();
+      expect(screen.getByText('Success message')).toBeInTheDocument();
+    });
+  });
+
+  it('toastHelpers.error adds error toast', async () => {
+    let capturedContext: ReturnType<typeof useToast> | null = null;
+    
+    render(
+      <ToastProvider>
+        <HelperTestComponent onContextReady={(ctx) => { capturedContext = ctx; }} />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Get Context'));
+    
+    act(() => {
+      if (capturedContext) {
+        toastHelpers.error(capturedContext, 'Error Helper');
+      }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Error Helper')).toBeInTheDocument();
+    });
+  });
+
+  it('toastHelpers.warning adds warning toast', async () => {
+    let capturedContext: ReturnType<typeof useToast> | null = null;
+    
+    render(
+      <ToastProvider>
+        <HelperTestComponent onContextReady={(ctx) => { capturedContext = ctx; }} />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Get Context'));
+    
+    act(() => {
+      if (capturedContext) {
+        toastHelpers.warning(capturedContext, 'Warning Helper');
+      }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Warning Helper')).toBeInTheDocument();
+    });
+  });
+
+  it('toastHelpers.info adds info toast', async () => {
+    let capturedContext: ReturnType<typeof useToast> | null = null;
+    
+    render(
+      <ToastProvider>
+        <HelperTestComponent onContextReady={(ctx) => { capturedContext = ctx; }} />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Get Context'));
+    
+    act(() => {
+      if (capturedContext) {
+        toastHelpers.info(capturedContext, 'Info Helper');
+      }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Info Helper')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Toast styling variants', () => {
+  it('displays warning toast with correct styling', async () => {
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Show Warning'));
+    
+    await waitFor(() => {
+      const toast = screen.getByRole('alert');
+      expect(toast).toHaveClass('border-l-bauhaus-yellow');
+    });
+  });
+
+  it('displays info toast with correct styling', async () => {
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Show Info'));
+    
+    await waitFor(() => {
+      const toast = screen.getByRole('alert');
+      expect(toast).toHaveClass('border-l-bauhaus-blue');
     });
   });
 });
