@@ -51,15 +51,17 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch('/api/events/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, eventSlug }),
+      });
 
-      // In production, this would be:
-      // await fetch('/api/events/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ ...formData, eventSlug }),
-      // });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Registration failed');
+      }
 
       setIsSuccess(true);
     } catch (error) {
