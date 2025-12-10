@@ -1,31 +1,37 @@
 import { Metadata } from 'next';
 import { Event } from '@/components/ui/EventCard';
 import { EventsPageClient } from './EventsPageClient';
-import { events as eventsData, getAllEventTags } from '@/lib/data';
+import { getEvents } from '@/lib/api';
 
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Upcoming AI workshops, meetups, and community events at Town Hall Newark. Free and open to everyone.',
 };
 
-// Transform full events to card format
-const events: Event[] = eventsData.map(event => ({
-  slug: event.slug,
-  title: event.title,
-  description: event.description,
-  date: event.date,
-  time: event.time,
-  location: event.location,
-  capacity: event.capacity,
-  registered: event.registered,
-  tags: event.tags,
-  image: event.image,
-}));
+// Fetch events from backend API
+async function fetchEvents() {
+  try {
+    const apiEvents = await getEvents();
+    return apiEvents;
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+}
 
-// Get all unique tags
-const allTags = getAllEventTags();
+// Get all unique tags from events
+function getAllTagsFromEvents(events: Event[]): string[] {
+  const tagsSet = new Set<string>();
+  events.forEach(event => {
+    event.tags.forEach(tag => tagsSet.add(tag));
+  });
+  return Array.from(tagsSet).sort();
+}
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events = await fetchEvents();
+  const allTags = getAllTagsFromEvents(events);
+  
   return (
     <div className="min-h-screen">
       {/* Hero */}

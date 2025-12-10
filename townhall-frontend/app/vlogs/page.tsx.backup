@@ -43,11 +43,9 @@ function VlogCard({ vlog }: { vlog: Vlog }) {
               <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
             </div>
           </div>
-          {vlog.duration && (
-            <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-xs font-semibold">
-              {vlog.duration}
-            </div>
-          )}
+          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-xs font-semibold">
+            {vlog.duration}
+          </div>
         </div>
         <div className="p-4">
           <h3 className="font-bold text-lg mb-2 group-hover:text-bauhaus-blue transition-colors line-clamp-2">
@@ -72,7 +70,119 @@ function VlogCard({ vlog }: { vlog: Vlog }) {
   );
 }
 
-// Main page content
+
+  {
+    id: '2',
+    title: 'ChatGPT Tips & Tricks You Need to Know',
+    description: 'Our community shares their favorite ChatGPT prompts and techniques for getting better results.',
+    thumbnail: '/thumbnails/chatgpt-tips.jpg',
+    duration: '25:30',
+    views: 856,
+    date: '2024-12-10',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '3',
+    title: 'Community Spotlight: Maria\'s AI Journey',
+    description: 'Meet Maria, a Newark small business owner who transformed her bakery using AI tools. Hear her inspiring story.',
+    thumbnail: '/thumbnails/maria-story.jpg',
+    duration: '12:45',
+    views: 2341,
+    date: '2024-12-05',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '4',
+    title: 'AI for Job Seekers: Resume & Interview Tips',
+    description: 'Learn how to use AI tools to improve your resume, prepare for interviews, and stand out in the job market.',
+    thumbnail: '/thumbnails/job-seekers.jpg',
+    duration: '35:20',
+    views: 1567,
+    date: '2024-11-28',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '5',
+    title: 'Protecting Your Privacy Online - Workshop Recording',
+    description: 'Full recording of our privacy workshop covering data protection, secure browsing, and AI privacy concerns.',
+    thumbnail: '/thumbnails/privacy.jpg',
+    duration: '1:15:00',
+    views: 923,
+    date: '2024-11-20',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+  {
+    id: '6',
+    title: 'Town Hall Year in Review 2024',
+    description: 'Celebrating a year of community, learning, and growth. See highlights from our events and hear from members.',
+    thumbnail: '/thumbnails/year-review.jpg',
+    duration: '18:30',
+    views: 3456,
+    date: '2024-11-15',
+    youtubeId: 'dQw4w9WgXcQ',
+  },
+];
+
+function VlogCard({ vlog }: { vlog: Vlog }) {
+  const formattedDate = new Date(vlog.date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  return (
+    <Link
+      href={`https://youtube.com/watch?v=${vlog.youtubeId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+      data-testid="vlog-card"
+    >
+      <div className="border-2 border-black overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
+        {/* Thumbnail */}
+        <div className="relative aspect-video bg-gray-900">
+          {/* Placeholder gradient - replace with actual thumbnail */}
+          <div className="absolute inset-0 bg-gradient-to-br from-bauhaus-blue via-bauhaus-red to-bauhaus-yellow opacity-50" />
+          
+          {/* Play button overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 bg-white/90 flex items-center justify-center group-hover:bg-bauhaus-yellow transition-colors">
+              <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
+            </div>
+          </div>
+
+          {/* Duration badge */}
+          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-xs font-semibold">
+            {vlog.duration}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          <h3 className="font-bold text-lg mb-2 group-hover:text-bauhaus-blue transition-colors line-clamp-2">
+            {vlog.title}
+          </h3>
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+            {vlog.description}
+          </p>
+          <div className="flex items-center gap-4 text-xs text-gray-500">
+            <div className="flex items-center gap-1">
+              <Eye className="w-4 h-4" aria-hidden="true" />
+              <span>{vlog.views.toLocaleString()} views</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" aria-hidden="true" />
+              <span>{formattedDate}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// Delete the line above that says: export default function VlogsPage() {
+// The new one is at the top after imports
 function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
   return (
     <div className="min-h-screen">
