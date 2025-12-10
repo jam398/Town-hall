@@ -25,6 +25,14 @@ jest.mock('next/link', () => {
   };
 });
 
+// Mock next/image
+jest.mock('next/image', () => {
+  return ({ src, alt, fill, priority, ...props }) => {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt || ''} {...props} />;
+  };
+});
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

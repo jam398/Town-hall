@@ -3,9 +3,16 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ContactForm } from '@/components/forms/ContactForm';
 
+// Mock fetch
+global.fetch = jest.fn();
+
 describe('ContactForm', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, message: 'Message sent' }),
+    });
   });
 
   it('renders all form fields', () => {

@@ -3,9 +3,16 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { VolunteerForm } from '@/components/forms/VolunteerForm';
 
+// Mock fetch
+global.fetch = jest.fn();
+
 describe('VolunteerForm', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, message: 'Application submitted' }),
+    });
   });
 
   it('renders all form fields', () => {

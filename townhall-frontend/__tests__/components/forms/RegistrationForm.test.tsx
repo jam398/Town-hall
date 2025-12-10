@@ -3,6 +3,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RegistrationForm } from '@/components/forms/RegistrationForm';
 
+// Mock fetch
+global.fetch = jest.fn();
+
 describe('RegistrationForm', () => {
   const defaultProps = {
     eventSlug: 'test-event',
@@ -11,6 +14,10 @@ describe('RegistrationForm', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, message: 'Registration successful' }),
+    });
   });
 
   it('renders all form fields', () => {

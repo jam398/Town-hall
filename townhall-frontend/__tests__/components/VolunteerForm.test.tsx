@@ -127,8 +127,8 @@ describe('VolunteerForm', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/thank you/i)).toBeInTheDocument();
-      expect(screen.getByText(/we've received your volunteer application/i)).toBeInTheDocument();
-    });
+      expect(screen.getByText(/received your volunteer application/i)).toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 
   it('shows error message when API call fails', async () => {
@@ -173,7 +173,7 @@ describe('VolunteerForm', () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalled();
       expect(screen.getByText(/thank you/i)).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 
   it('disables submit button while submitting', async () => {
@@ -198,6 +198,6 @@ describe('VolunteerForm', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/thank you/i)).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 });

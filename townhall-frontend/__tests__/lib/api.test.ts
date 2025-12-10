@@ -46,7 +46,7 @@ describe('API Client', () => {
       
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockEvents),
+        json: () => Promise.resolve({ events: mockEvents }),
       });
 
       const events = await getEvents();
@@ -75,7 +75,7 @@ describe('API Client', () => {
       
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockEvent),
+        json: () => Promise.resolve({ event: mockEvent }),
       });
 
       const event = await getEvent('test-event');
@@ -139,34 +139,37 @@ describe('API Client', () => {
 
   describe('getBlogPosts', () => {
     it('fetches blog posts successfully', async () => {
-      const mockPosts = [
-        { slug: 'post-1', title: 'Post 1' },
-        { slug: 'post-2', title: 'Post 2' },
+      const mockSanityPosts = [
+        { slug: 'post-1', title: 'Post 1', excerpt: 'Excerpt 1', publishedAt: '2024-01-01', author: { name: 'Author 1' }, tags: [] },
+        { slug: 'post-2', title: 'Post 2', excerpt: 'Excerpt 2', publishedAt: '2024-01-02', author: { name: 'Author 2' }, tags: [] },
       ];
       
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockPosts),
+        json: () => Promise.resolve({ posts: mockSanityPosts }),
       });
 
       const posts = await getBlogPosts();
       
-      expect(posts).toEqual(mockPosts);
+      expect(posts).toHaveLength(2);
+      expect(posts[0].slug).toBe('post-1');
+      expect(posts[0].author).toBe('Author 1');
     });
   });
 
   describe('getBlogPost', () => {
     it('fetches single blog post by slug', async () => {
-      const mockPost = { slug: 'test-post', title: 'Test Post' };
+      const mockSanityPost = { slug: 'test-post', title: 'Test Post', excerpt: 'Excerpt', publishedAt: '2024-01-01', author: { name: 'Author' }, tags: [] };
       
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockPost),
+        json: () => Promise.resolve({ post: mockSanityPost }),
       });
 
       const post = await getBlogPost('test-post');
       
-      expect(post).toEqual(mockPost);
+      expect(post?.slug).toBe('test-post');
+      expect(post?.author).toBe('Author');
     });
 
     it('returns null for 404', async () => {
@@ -191,7 +194,7 @@ describe('API Client', () => {
       
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockVlogs),
+        json: () => Promise.resolve({ vlogs: mockVlogs }),
       });
 
       const vlogs = await getVlogs();
