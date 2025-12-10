@@ -7,6 +7,8 @@ import {
   debounce,
   getShareUrls,
   generateGoogleCalendarUrl,
+  generateICalContent,
+  downloadICal,
 } from '@/lib/utils';
 
 describe('cn (classNames)', () => {
@@ -250,5 +252,163 @@ describe('generateGoogleCalendarUrl', () => {
     };
     const url = generateGoogleCalendarUrl(minimalEvent);
     expect(url).toContain('calendar.google.com');
+  });
+
+  it('defaults to 2-hour duration when endTime is not provided', () => {
+    const eventNoEnd = {
+      title: 'No End Time Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    const url = generateGoogleCalendarUrl(eventNoEnd);
+    // URL should contain dates parameter with start and calculated end
+    expect(url).toContain('dates=');
+  });
+});
+
+describe('generateICalContent', () => {
+  const event = {
+    title: 'AI Workshop',
+    description: 'Learn about AI',
+    location: 'Newark Library',
+    startDate: '2025-01-15',
+    startTime: '18:00',
+    endTime: '20:00',
+  };
+
+  it('generates valid iCal content', () => {
+    const content = generateICalContent(event);
+    expect(content).toContain('BEGIN:VCALENDAR');
+    expect(content).toContain('END:VCALENDAR');
+    expect(content).toContain('BEGIN:VEVENT');
+    expect(content).toContain('END:VEVENT');
+  });
+
+  it('includes event title as SUMMARY', () => {
+    const content = generateICalContent(event);
+    expect(content).toContain('SUMMARY:AI Workshop');
+  });
+
+  it('includes event description', () => {
+    const content = generateICalContent(event);
+    expect(content).toContain('DESCRIPTION:Learn about AI');
+  });
+
+  it('includes event location', () => {
+    const content = generateICalContent(event);
+    expect(content).toContain('LOCATION:Newark Library');
+  });
+
+  it('includes DTSTART and DTEND', () => {
+    const content = generateICalContent(event);
+    expect(content).toContain('DTSTART:');
+    expect(content).toContain('DTEND:');
+  });
+
+  it('handles missing optional fields', () => {
+    const minimalEvent = {
+      title: 'Simple Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    const content = generateICalContent(minimalEvent);
+    expect(content).toContain('BEGIN:VCALENDAR');
+    expect(content).toContain('SUMMARY:Simple Event');
+    expect(content).toContain('DESCRIPTION:');
+    expect(content).toContain('LOCATION:');
+  });
+
+  it('defaults to 2-hour duration when endTime is not provided', () => {
+    const eventNoEnd = {
+      title: 'No End Time Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    const content = generateICalContent(eventNoEnd);
+    expect(content).toContain('DTEND:');
+  });
+});
+
+describe('downloadICal', () => {
+  let clickMock: jest.Mock;
+  let linkElement: { href: string; download: string; click: jest.Mock };
+  const originalCreateObjectURL = URL.createObjectURL;
+  const originalRevokeObjectURL = URL.revokeObjectURL;
+
+  beforeEach(() => {
+    clickMock = jest.fn();
+    linkElement = {
+      href: '',
+      download: '',
+      click: clickMock,
+    };
+    
+    // Mock URL methods on global
+    URL.createObjectURL = jest.fn().mockReturnValue('blob:test-url');
+    URL.revokeObjectURL = jest.fn();
+    
+    jest.spyOn(document.body, 'appendChild').mockImplementation((node) => node);
+    jest.spyOn(document.body, 'removeChild').mockImplementation((node) => node);
+    jest.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
+      if (tagName === 'a') {
+        return linkElement as unknown as HTMLAnchorElement;
+      }
+      return document.createElement(tagName);
+    });
+  });
+
+  afterEach(() => {
+    URL.createObjectURL = originalCreateObjectURL;
+    URL.revokeObjectURL = originalRevokeObjectURL;
+    jest.restoreAllMocks();
+  });
+
+  it('creates a blob with iCal content', () => {
+    const event = {
+      title: 'Test Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    
+    downloadICal(event);
+    
+    expect(URL.createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
+  });
+
+  it('triggers download by clicking the link', () => {
+    const event = {
+      title: 'Test Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    
+    downloadICal(event);
+    
+    expect(clickMock).toHaveBeenCalled();
+  });
+
+  it('cleans up by revoking the object URL', () => {
+    const event = {
+      title: 'Test Event',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    
+    downloadICal(event);
+    
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:test-url');
+  });
+
+  it('generates filename from event title', () => {
+    const event = {
+      title: 'AI Workshop 2025',
+      startDate: '2025-01-15',
+      startTime: '18:00',
+    };
+    
+    downloadICal(event);
+    
+    // The link's download property should be set to a slugified filename
+    expect(linkElement.download).toBe('ai-workshop-2025.ics');
   });
 });

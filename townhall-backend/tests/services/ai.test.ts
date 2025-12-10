@@ -1,3 +1,6 @@
+// Set mock API key before importing the service
+process.env.OPENAI_API_KEY = 'test-api-key';
+
 // Mock OpenAI before importing the service
 const mockCreateTranscription = jest.fn();
 const mockCreateChatCompletion = jest.fn();
