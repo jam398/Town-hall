@@ -1,29 +1,36 @@
 import { Metadata } from 'next';
 import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
 import { BlogPageClient } from './BlogPageClient';
-import { blogPosts, getAllBlogTags } from '@/lib/data';
+import { getBlogPosts } from '@/lib/api';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Articles about AI, technology, and community from Town Hall Newark. Learn about artificial intelligence in plain language.',
 };
 
-// Transform full posts to card format
-const posts: BlogPost[] = blogPosts.map(post => ({
-  slug: post.slug,
-  title: post.title,
-  excerpt: post.excerpt,
-  date: post.date,
-  author: post.author,
-  tags: post.tags,
-  readTime: post.readTime,
-  image: post.image,
-}));
+// Fetch blog posts from backend API
+async function fetchBlogPosts() {
+  try {
+    const apiPosts = await getBlogPosts();
+    return apiPosts;
+  } catch (error) {
+    console.error('Error fetching blog posts:', error);
+    return [];
+  }
+}
 
-// Get all unique tags
-const allTags = getAllBlogTags();
+// Get all unique tags from posts
+function getAllTagsFromPosts(posts: BlogPost[]): string[] {
+  const tagsSet = new Set<string>();
+  posts.forEach(post => {
+    post.tags.forEach(tag => tagsSet.add(tag));
+  });
+  return Array.from(tagsSet).sort();
+}
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await fetchBlogPosts();
+  const allTags = getAllTagsFromPosts(posts);
   return (
     <div className="min-h-screen">
       {/* Hero */}

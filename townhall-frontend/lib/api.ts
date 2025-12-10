@@ -13,6 +13,7 @@ export interface Event {
   title: string;
   description: string;
   longDescription?: string;
+  whatYouWillLearn?: string[];
   date: string;
   time: string;
   endTime?: string;
@@ -36,6 +37,23 @@ export interface BlogPost {
   authorBio?: string;
   tags: string[];
   image?: string;
+  readTime?: string;
+}
+
+interface SanityBlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  publishedAt: string;
+  author: {
+    name: string;
+    bio?: string;
+    image?: string;
+  } | null;
+  mainImage?: string;
+  body?: string;
+  categories?: string[];
+  tags: string[];
   readTime?: string;
 }
 
@@ -125,12 +143,14 @@ async function apiRequest<T>(
 
 // Events API
 export async function getEvents(): Promise<Event[]> {
-  return apiRequest<Event[]>('/events');
+  const response = await apiRequest<{ events: Event[] }>('/events');
+  return response.events;
 }
 
 export async function getEvent(slug: string): Promise<Event | null> {
   try {
-    return await apiRequest<Event>(`/events/${slug}`);
+    const response = await apiRequest<{ event: Event }>(`/events/${slug}`);
+    return response.event;
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) {
       return null;
@@ -146,14 +166,32 @@ export async function registerForEvent(data: RegistrationData): Promise<{ succes
   });
 }
 
+// Helper to convert Sanity blog post format to frontend format
+function mapSanityBlogPost(post: SanityBlogPost): BlogPost {
+  return {
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    content: post.body,
+    date: post.publishedAt,
+    author: post.author?.name || 'Town Hall Team',
+    authorBio: post.author?.bio,
+    tags: post.tags || [],
+    image: post.mainImage,
+    readTime: post.readTime,
+  };
+}
+
 // Blog API
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  return apiRequest<BlogPost[]>('/blog');
+  const response = await apiRequest<{ posts: SanityBlogPost[] }>('/blog');
+  return response.posts.map(mapSanityBlogPost);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    return await apiRequest<BlogPost>(`/blog/${slug}`);
+    const response = await apiRequest<{ post: SanityBlogPost }>(`/blog/${slug}`);
+    return mapSanityBlogPost(response.post);
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) {
       return null;
@@ -164,7 +202,8 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
 // Vlogs API
 export async function getVlogs(): Promise<Vlog[]> {
-  return apiRequest<Vlog[]>('/vlogs');
+  const response = await apiRequest<{ vlogs: Vlog[] }>('/vlogs');
+  return response.vlogs;
 }
 
 // Forms API

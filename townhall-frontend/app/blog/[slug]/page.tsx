@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, User, Clock, Share2, Twitter, Facebook, Linkedin } from 'lucide-react';
-import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
-import { getBlogPost, getRelatedPosts, BlogPostFull } from '@/lib/data';
+import { BlogCard } from '@/components/ui/BlogCard';
+import { getBlogPost, getBlogPosts, BlogPost } from '@/lib/api';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = getBlogPost(params.slug);
+  const post = await getBlogPost(params.slug);
   if (!post) {
     return { title: 'Post Not Found' };
   }
@@ -16,9 +16,17 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPost(params.slug);
-  const relatedPosts = getRelatedPosts(params.slug, 2);
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = await getBlogPost(params.slug);
+  
+  // Get related posts (same tags)
+  let relatedPosts: BlogPost[] = [];
+  if (post) {
+    const allPosts = await getBlogPosts();
+    relatedPosts = allPosts
+      .filter(p => p.slug !== post.slug && p.tags.some(tag => post.tags.includes(tag)))
+      .slice(0, 2);
+  }
 
   if (!post) {
     return (
@@ -90,10 +98,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               <Calendar className="w-5 h-5" aria-hidden="true" />
               <time dateTime={post.date} data-testid="blog-date">{formattedDate}</time>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5" aria-hidden="true" />
-              <span>{post.readTime}</span>
-            </div>
+            {post.readTime && (
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5" aria-hidden="true" />
+                <span>{post.readTime}</span>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -104,23 +114,31 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="grid lg:grid-cols-12 gap-12">
             {/* Main content */}
             <div className="lg:col-span-8">
-              <div
-                className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-a:text-bauhaus-blue prose-a:no-underline hover:prose-a:underline"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
+              <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-a:text-bauhaus-blue prose-a:no-underline hover:prose-a:underline">
+                {post.content && (
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                )}
+                {!post.content && (
+                  <p className="text-gray-600">{post.excerpt}</p>
+                )}
+              </div>
 
               {/* Author bio */}
-              <div className="mt-12 pt-8 border-t-2 border-black">
-                <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                    {post.author.split(' ').map((n: string) => n[0]).join('')}
-                  </div>
-                  <div>
-                    <p className="font-bold text-lg">About {post.author}</p>
-                    <p className="text-gray-600">{post.authorBio}</p>
+              {post.author && (
+                <div className="mt-12 pt-8 border-t-2 border-black">
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                      {post.author.split(' ').map((n: string) => n[0]).join('')}
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg">About {post.author}</p>
+                      {post.authorBio && (
+                        <p className="text-gray-600">{post.authorBio}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -192,16 +210,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               Related Articles
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
-              {relatedPosts.map((relatedPost: BlogPostFull) => (
-                <BlogCard key={relatedPost.slug} post={{
-                  slug: relatedPost.slug,
-                  title: relatedPost.title,
-                  excerpt: relatedPost.excerpt,
-                  date: relatedPost.date,
-                  author: relatedPost.author,
-                  tags: relatedPost.tags,
-                  readTime: relatedPost.readTime,
-                }} />
+              {relatedPosts.map((relatedPost) => (
+                <BlogCard key={relatedPost.slug} post={relatedPost} />
               ))}
             </div>
           </div>

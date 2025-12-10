@@ -14,7 +14,12 @@
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "sanity": "cd sanity && sanity dev",
-    "sanity:deploy": "cd sanity && sanity deploy"
+    "sanity:deploy": "cd sanity && sanity deploy",
+    "add-sample-events": "tsx scripts/add-sample-events.ts",
+    "add-sample-blog": "tsx scripts/add-sample-blog.ts",
+    "add-sample-vlogs": "tsx scripts/add-sample-vlogs.ts",
+    "cleanup-duplicates": "tsx scripts/cleanup-duplicates.ts",
+    "cleanup-all": "tsx scripts/cleanup-all-duplicates.ts"
   },
   "keywords": [
     "town-hall",

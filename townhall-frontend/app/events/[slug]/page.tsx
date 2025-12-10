@@ -4,10 +4,10 @@ import { ArrowLeft, Calendar, MapPin, Users, Clock, Share2, CheckCircle } from '
 import { Button } from '@/components/ui/Button';
 import { RegistrationForm } from '@/components/forms/RegistrationForm';
 import { ICalButton } from './ICalButton';
-import { getEvent, EventFull } from '@/lib/data';
+import { getEvent } from '@/lib/api';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const event = getEvent(params.slug);
+  const event = await getEvent(params.slug);
   if (!event) {
     return { title: 'Event Not Found' };
   }
@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function EventDetailPage({ params }: { params: { slug: string } }) {
-  const event = getEvent(params.slug);
+export default async function EventDetailPage({ params }: { params: { slug: string } }) {
+  const event = await getEvent(params.slug);
 
   if (!event) {
     return (
@@ -45,8 +45,9 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
   const isAlmostFull = spotsLeft <= 10;
 
   // Generate calendar links
-  const calendarDate = event.date.replace(/-/g, '');
-  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.address)}`;
+  const calendarDate = event.date?.replace(/-/g, '') || '';
+  const eventLocation = event.address || event.location || '';
+  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(eventLocation)}`;
 
   return (
     <div className="min-h-screen">
