@@ -37,45 +37,44 @@ const socialLinks = [
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative py-20 bg-black text-white overflow-hidden">
-        {/* Bauhaus decorations */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-bauhaus-blue" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-bauhaus-red" />
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-bauhaus-yellow rotate-45" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <p className="text-sm font-bold uppercase tracking-widest text-bauhaus-yellow mb-4">
-            Get in Touch
-          </p>
-          <h1 className="text-5xl md:text-6xl font-black uppercase mb-6">
-            Contact Us
-          </h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
-            Have questions? Want to partner with us? Or just want to say hello? 
-            We&apos;d love to hear from you.
-          </p>
+    <div className="min-h-screen bg-swiss-white">
+      {/* Hero - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-white border-b border-swiss-border">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h1 className="text-h1 font-bold text-swiss-black mb-6">
+                Contact Us
+              </h1>
+              <p className="text-body-lg text-swiss-gray max-w-2xl">
+                Have questions? Want to partner with us? Or just want to say hello? 
+                We&apos;d love to hear from you.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+      {/* Contact Section - Swiss Modern */}
+      <section className="py-24 lg:py-32">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-16">
             {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-black uppercase mb-6">
+            <div className="lg:col-span-7">
+              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <h2 className="text-h2 font-bold text-swiss-black mb-8">
                 Send a Message
               </h2>
-              <div className="border-2 border-black p-8">
+              <div className="border border-swiss-border p-8">
                 <ContactForm />
               </div>
             </div>
 
             {/* Contact Info */}
-            <div>
-              <h2 className="text-3xl font-black uppercase mb-6">
+            <div className="lg:col-span-5">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h2 className="text-h2 font-bold text-swiss-black mb-8">
                 Other Ways to Reach Us
               </h2>
               
@@ -84,26 +83,26 @@ export default function ContactPage() {
                 {contactInfo.map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-start gap-4 p-4 border border-gray-200 hover:border-bauhaus-blue transition-colors"
+                    className="flex items-start gap-4 p-4 border border-swiss-border hover:border-swiss-black transition-colors"
                   >
-                    <div className="w-12 h-12 bg-bauhaus-blue flex items-center justify-center flex-shrink-0">
-                      <item.icon className="w-6 h-6 text-white" aria-hidden="true" />
+                    <div className="w-12 h-12 bg-swiss-black flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-6 h-6 text-swiss-white" aria-hidden="true" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+                      <p className="text-caption font-medium text-swiss-gray">
                         {item.label}
                       </p>
                       {item.href ? (
                         <a
                           href={item.href}
-                          className="text-lg font-semibold text-gray-900 hover:text-bauhaus-blue transition-colors"
+                          className="text-body font-semibold text-swiss-black hover:text-swiss-red transition-colors"
                           target={item.href.startsWith('http') ? '_blank' : undefined}
                           rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                         >
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-lg font-semibold text-gray-900">{item.value}</p>
+                        <p className="text-body font-semibold text-swiss-black">{item.value}</p>
                       )}
                     </div>
                   </div>
@@ -111,8 +110,8 @@ export default function ContactPage() {
               </div>
 
               {/* Social Links */}
-              <div className="bg-gray-50 p-6">
-                <h3 className="font-bold uppercase tracking-wider mb-4">
+              <div className="bg-swiss-light p-6">
+                <h3 className="text-body font-semibold text-swiss-black mb-4">
                   Connect With Us
                 </h3>
                 <div className="flex flex-wrap gap-3">
@@ -122,7 +121,7 @@ export default function ContactPage() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 bg-black text-white font-semibold text-sm uppercase tracking-wider hover:bg-bauhaus-blue transition-colors"
+                      className="px-4 py-2 bg-swiss-black text-swiss-white font-medium text-body-sm hover:bg-swiss-red transition-colors"
                     >
                       {link.name}
                     </a>
@@ -131,18 +130,18 @@ export default function ContactPage() {
               </div>
 
               {/* FAQ teaser */}
-              <div className="mt-8 p-6 border-l-4 border-bauhaus-yellow bg-bauhaus-yellow/10">
-                <h3 className="font-bold uppercase tracking-wider mb-2">
+              <div className="mt-8 p-6 border-l-4 border-swiss-red bg-swiss-light">
+                <h3 className="text-body font-semibold text-swiss-black mb-2">
                   Have a Quick Question?
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Check our FAQ section or join our Discord community for faster responses.
+                <p className="text-body-sm text-swiss-gray mb-4">
+                  Join our Discord community for faster responses.
                 </p>
                 <a
                   href="https://discord.gg/townhall"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-semibold uppercase tracking-wider text-bauhaus-blue hover:text-bauhaus-red transition-colors"
+                  className="text-body-sm font-medium text-swiss-black hover:text-swiss-red transition-colors"
                 >
                   Join Discord →
                 </a>
@@ -152,32 +151,39 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="py-16 bg-bauhaus-blue text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black uppercase mb-4">
-            Stay in the Loop
-          </h2>
-          <p className="text-blue-100 mb-8">
-            Subscribe to our newsletter for event announcements, new articles, and community updates.
-          </p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 text-black border-2 border-white focus:outline-none focus:border-bauhaus-yellow"
-              aria-label="Email address"
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-bauhaus-yellow text-black font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors"
-            >
-              Subscribe
-            </button>
-          </form>
-          <p className="text-xs text-blue-200 mt-4">
-            We respect your privacy. Unsubscribe anytime.
-          </p>
+      {/* Newsletter Section - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-black">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-6">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h2 className="text-h2 font-bold text-swiss-white mb-4">
+                Stay in the Loop
+              </h2>
+              <p className="text-body-lg text-neutral-400">
+                Subscribe to our newsletter for event announcements, new articles, and community updates.
+              </p>
+            </div>
+            <div className="lg:col-span-6">
+              <form className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-4 text-swiss-black bg-swiss-white border border-swiss-border focus:outline-none focus:border-swiss-red"
+                  aria-label="Email address"
+                />
+                <button
+                  type="submit"
+                  className="px-8 py-4 bg-swiss-red text-swiss-white font-medium hover:bg-red-600 transition-colors"
+                >
+                  Subscribe
+                </button>
+              </form>
+              <p className="text-caption text-neutral-500 mt-4">
+                We respect your privacy. Unsubscribe anytime.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
