@@ -11,14 +11,14 @@ describe('Card', () => {
   it('renders with default variant', () => {
     render(<Card data-testid="card">Content</Card>);
     const card = screen.getByTestId('card');
-    expect(card).toHaveClass('bg-white');
+    expect(card).toHaveClass('bg-swiss-white');
     expect(card).toHaveClass('border');
   });
 
   it('renders elevated variant', () => {
     render(<Card variant="elevated" data-testid="card">Content</Card>);
     const card = screen.getByTestId('card');
-    expect(card).toHaveClass('shadow-md');
+    expect(card).toHaveClass('shadow-swiss-md');
   });
 
   it('renders outlined variant', () => {
@@ -27,22 +27,16 @@ describe('Card', () => {
     expect(card).toHaveClass('border-2');
   });
 
-  it('renders accent-blue variant', () => {
-    render(<Card variant="accent-blue" data-testid="card">Content</Card>);
-    const card = screen.getByTestId('card');
-    expect(card).toHaveClass('border-l-bauhaus-blue');
-  });
-
   it('renders accent-red variant', () => {
     render(<Card variant="accent-red" data-testid="card">Content</Card>);
     const card = screen.getByTestId('card');
-    expect(card).toHaveClass('border-l-bauhaus-red');
+    expect(card).toHaveClass('border-l-swiss-red');
   });
 
-  it('renders accent-yellow variant', () => {
-    render(<Card variant="accent-yellow" data-testid="card">Content</Card>);
+  it('renders accent-black variant', () => {
+    render(<Card variant="accent-black" data-testid="card">Content</Card>);
     const card = screen.getByTestId('card');
-    expect(card).toHaveClass('border-l-bauhaus-yellow');
+    expect(card).toHaveClass('border-l-swiss-black');
   });
 
   it('renders interactive variant with hover styles', () => {
@@ -84,10 +78,10 @@ describe('CardTitle', () => {
     expect(title).toHaveTextContent('Title');
   });
 
-  it('applies font-bold styling', () => {
+  it('applies font-semibold styling', () => {
     render(<CardTitle data-testid="title">Title</CardTitle>);
     const title = screen.getByTestId('title');
-    expect(title).toHaveClass('font-bold');
+    expect(title).toHaveClass('font-semibold');
   });
 });
 
@@ -100,7 +94,7 @@ describe('CardDescription', () => {
   it('has muted text color', () => {
     render(<CardDescription data-testid="desc">Description</CardDescription>);
     const desc = screen.getByTestId('desc');
-    expect(desc).toHaveClass('text-gray-600');
+    expect(desc).toHaveClass('text-swiss-gray');
   });
 });
 

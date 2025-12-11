@@ -2,7 +2,7 @@ import { HTMLAttributes, forwardRef } from 'react';
 import { clsx } from 'clsx';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'elevated' | 'outlined' | 'accent-blue' | 'accent-red' | 'accent-yellow';
+  variant?: 'default' | 'elevated' | 'outlined' | 'accent-red' | 'accent-black';
   interactive?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
@@ -19,15 +19,14 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const baseStyles = 'bg-white transition-all duration-300';
+    const baseStyles = 'bg-swiss-white transition-all duration-200 rounded-swiss';
 
     const variants = {
-      default: 'border border-gray-200',
-      elevated: 'shadow-md hover:shadow-lg',
-      outlined: 'border-2 border-black',
-      'accent-blue': 'border-l-4 border-l-bauhaus-blue border border-gray-200',
-      'accent-red': 'border-l-4 border-l-bauhaus-red border border-gray-200',
-      'accent-yellow': 'border-l-4 border-l-bauhaus-yellow border border-gray-200',
+      default: 'border border-swiss-border shadow-swiss',
+      elevated: 'shadow-swiss-md hover:shadow-swiss-lg',
+      outlined: 'border-2 border-swiss-black',
+      'accent-red': 'border-l-4 border-l-swiss-red border border-swiss-border',
+      'accent-black': 'border-l-4 border-l-swiss-black border border-swiss-border',
     };
 
     const paddings = {
@@ -38,7 +37,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     };
 
     const interactiveStyles = interactive
-      ? 'cursor-pointer hover:shadow-lg hover:-translate-y-1'
+      ? 'cursor-pointer hover:shadow-swiss-md hover:-translate-y-0.5'
       : '';
 
     return (
@@ -82,7 +81,7 @@ export function CardTitle({
   return (
     <h3
       className={clsx(
-        'text-xl font-bold text-gray-900 leading-tight',
+        'text-h3 font-semibold text-swiss-black leading-snug',
         className
       )}
       {...props}
@@ -99,7 +98,7 @@ export function CardDescription({
 }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={clsx('text-gray-600 mt-1', className)}
+      className={clsx('text-swiss-gray mt-1', className)}
       {...props}
     >
       {children}
@@ -113,7 +112,7 @@ export function CardContent({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={clsx('text-gray-700', className)} {...props}>
+    <div className={clsx('text-swiss-black', className)} {...props}>
       {children}
     </div>
   );
@@ -126,7 +125,7 @@ export function CardFooter({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={clsx('mt-6 pt-4 border-t border-gray-100', className)}
+      className={clsx('mt-6 pt-4 border-t border-swiss-border', className)}
       {...props}
     >
       {children}

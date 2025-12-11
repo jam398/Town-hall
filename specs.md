@@ -308,6 +308,76 @@ A nonprofit that hosts AI town halls, training sessions, and maintains a content
 
 ---
 
+## Design System: Swiss Modern Style
+
+Town Hall adopts the **Swiss Modern (International Typographic Style)** design philosophy, emphasizing clarity, precision, and accessibility. This design approach ensures the platform is professional, trustworthy, and easy to use for all community members regardless of technical literacy.
+
+### Core Design Principles
+
+1. **Minimalist Clarity** - Remove visual clutter; every element serves a purpose
+2. **Grid-Based Layouts** - Modular grid system for consistent, harmonious alignment
+3. **Sans-Serif Typography** - Clean, legible typefaces (Inter, Helvetica Neue)
+4. **Generous Whitespace** - Breathing room that emphasizes content and improves readability
+5. **Asymmetrical Balance** - Dynamic layouts that guide the eye naturally
+6. **Objective Communication** - Content-first approach; design supports the message
+
+### Swiss Design Color Palette
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| **Primary Black** | `#0A0A0A` | Headlines, primary text |
+| **Pure White** | `#FFFFFF` | Backgrounds, cards |
+| **Swiss Red** | `#E53935` | CTAs, important actions, accents |
+| **Neutral Gray** | `#6B7280` | Secondary text, borders |
+| **Light Gray** | `#F5F5F5` | Section backgrounds, dividers |
+| **Success Green** | `#10B981` | Success states, confirmations |
+
+### Typography System
+
+| Element | Font | Weight | Size | Line Height |
+|---------|------|--------|------|-------------|
+| **H1** | Inter | 700 (Bold) | 48-64px | 1.1 |
+| **H2** | Inter | 600 (Semibold) | 32-40px | 1.2 |
+| **H3** | Inter | 600 (Semibold) | 24-28px | 1.3 |
+| **Body** | Inter | 400 (Regular) | 16-18px | 1.6 |
+| **Caption** | Inter | 400 (Regular) | 14px | 1.5 |
+| **Button** | Inter | 500 (Medium) | 14-16px | 1.0 |
+
+### Grid System
+
+- **12-column grid** for desktop layouts
+- **4-column grid** for mobile layouts
+- **24px base spacing unit** (multiples: 8, 16, 24, 32, 48, 64, 96)
+- **Max content width**: 1280px
+- **Gutter width**: 24px
+
+### Component Design Guidelines
+
+**Cards:**
+- Clean white backgrounds with subtle shadows (`shadow-sm`)
+- No rounded corners or minimal (4px max)
+- Clear visual hierarchy with bold headlines
+- Generous internal padding (24-32px)
+
+**Buttons:**
+- High contrast (black on white, white on red)
+- Uppercase text with letter-spacing for CTAs
+- Minimal styling, focus on clarity
+- Clear hover/focus states
+
+**Forms:**
+- Large, accessible input fields (min 48px height)
+- Clear labels above inputs
+- Visible focus states with red accent
+- Inline validation with clear error messages
+
+**Navigation:**
+- Clean horizontal navigation
+- Clear active states
+- Mobile hamburger menu with full-screen overlay
+
+---
+
 ## Key features & workflows
 
 ### a. Events

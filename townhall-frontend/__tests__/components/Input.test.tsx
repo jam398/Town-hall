@@ -31,7 +31,7 @@ describe('Input', () => {
   it('applies error styles when error is present', () => {
     render(<Input label="Email" error="Invalid" data-testid="input" />);
     const input = screen.getByTestId('input');
-    expect(input).toHaveClass('border-bauhaus-red');
+    expect(input).toHaveClass('border-swiss-error');
   });
 
   it('handles onChange events', () => {

@@ -69,11 +69,10 @@ describe('Footer', () => {
     expect(discordLink.closest('a')).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('renders newsletter signup section', () => {
+  it('renders footer description', () => {
     render(<Footer />);
     
-    expect(screen.getByText(/stay updated/i)).toBeInTheDocument();
-    expect(screen.getByText(/subscribe/i)).toBeInTheDocument();
+    expect(screen.getByText(/empowering our community/i)).toBeInTheDocument();
   });
 
   it('renders copyright with current year', () => {
@@ -83,23 +82,21 @@ describe('Footer', () => {
     expect(screen.getByText(new RegExp(`© ${currentYear}`))).toBeInTheDocument();
   });
 
-  it('renders privacy policy and terms links', () => {
+  it('renders privacy and terms links', () => {
     render(<Footer />);
     
-    const privacyLink = screen.getByText(/privacy policy/i);
+    const privacyLink = screen.getByText(/privacy/i);
     expect(privacyLink.closest('a')).toHaveAttribute('href', '/privacy');
     
-    const termsLink = screen.getByText(/terms of service/i);
+    const termsLink = screen.getByText(/terms/i);
     expect(termsLink.closest('a')).toHaveAttribute('href', '/terms');
   });
 
-  it('renders Bauhaus color bar', () => {
+  it('renders Swiss Modern logo accent', () => {
     render(<Footer />);
     
     const footer = screen.getByRole('contentinfo');
-    expect(footer.querySelector('.bg-bauhaus-blue')).toBeInTheDocument();
-    expect(footer.querySelector('.bg-bauhaus-red')).toBeInTheDocument();
-    expect(footer.querySelector('.bg-bauhaus-yellow')).toBeInTheDocument();
+    expect(footer.querySelector('.bg-swiss-red')).toBeInTheDocument();
   });
 
   it('has accessible screen reader text for external links', () => {

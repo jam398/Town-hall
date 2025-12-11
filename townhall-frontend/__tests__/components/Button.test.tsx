@@ -11,19 +11,19 @@ describe('Button', () => {
   it('renders with primary variant by default', () => {
     render(<Button>Primary</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-bauhaus-blue');
+    expect(button).toHaveClass('bg-swiss-black');
   });
 
   it('renders secondary variant', () => {
     render(<Button variant="secondary">Secondary</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-bauhaus-red');
+    expect(button).toHaveClass('bg-swiss-red');
   });
 
   it('renders accent variant', () => {
     render(<Button variant="accent">Accent</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-bauhaus-yellow');
+    expect(button).toHaveClass('bg-swiss-red');
   });
 
   it('renders outline variant', () => {

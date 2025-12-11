@@ -27,39 +27,34 @@ export function BlogCard({ post }: BlogCardProps) {
 
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
-      <Card
-        variant="default"
-        padding="none"
-        interactive
-        className="overflow-hidden h-full"
+      <article
+        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-colors"
         data-testid="blog-card"
       >
-        {/* Image */}
+        {/* Image - Swiss Modern minimal */}
         {post.image ? (
-          <div className="relative aspect-video overflow-hidden bg-gray-100">
+          <div className="relative aspect-video overflow-hidden bg-swiss-light">
             <Image
               src={post.image}
               alt=""
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover"
             />
-            {/* Bauhaus overlay on hover */}
-            <div className="absolute inset-0 bg-bauhaus-blue/0 group-hover:bg-bauhaus-blue/10 transition-colors" />
           </div>
         ) : (
-          <div className="aspect-video bg-gradient-to-br from-bauhaus-blue to-bauhaus-red flex items-center justify-center">
-            <div className="w-16 h-16 bg-bauhaus-yellow" />
+          <div className="aspect-video bg-swiss-black flex items-center justify-center">
+            <div className="w-12 h-1 bg-swiss-red" />
           </div>
         )}
 
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-grow">
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-3">
+            <div className="flex flex-wrap gap-2 mb-4">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-1 text-xs font-semibold uppercase tracking-wider bg-bauhaus-yellow/20 text-gray-800"
+                  className="px-2 py-1 text-caption font-medium bg-swiss-light text-swiss-gray"
                 >
                   {tag}
                 </span>
@@ -69,46 +64,46 @@ export function BlogCard({ post }: BlogCardProps) {
 
           {/* Title */}
           <h3
-            className="text-xl font-bold text-gray-900 mb-2 group-hover:text-bauhaus-blue transition-colors line-clamp-2"
+            className="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors line-clamp-2"
             data-testid="blog-title"
           >
             {post.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+          <p className="text-body-sm text-swiss-gray mb-6 line-clamp-3 flex-grow">
             {post.excerpt}
           </p>
 
           {/* Meta */}
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" aria-hidden="true" />
+          <div className="flex items-center gap-4 text-body-sm text-swiss-gray">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-swiss-black" aria-hidden="true" />
               <time dateTime={post.date} data-testid="blog-date">
                 {formattedDate}
               </time>
             </div>
-            <div className="flex items-center gap-1">
-              <User className="w-4 h-4" aria-hidden="true" />
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-swiss-black" aria-hidden="true" />
               <span data-testid="blog-author">{post.author}</span>
             </div>
             {post.readTime && (
-              <span className="text-gray-400">{post.readTime}</span>
+              <span>{post.readTime}</span>
             )}
           </div>
 
           {/* CTA */}
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
-            <span className="text-sm font-semibold uppercase tracking-wider text-bauhaus-blue group-hover:text-bauhaus-red transition-colors">
+          <div className="mt-6 pt-4 border-t border-swiss-border flex items-center justify-between">
+            <span className="text-body-sm font-medium text-swiss-black group-hover:text-swiss-red transition-colors">
               Read Article
             </span>
             <ArrowRight
-              className="w-4 h-4 text-bauhaus-blue group-hover:text-bauhaus-red group-hover:translate-x-1 transition-all"
+              className="w-4 h-4 text-swiss-black group-hover:text-swiss-red group-hover:translate-x-1 transition-all"
               aria-hidden="true"
             />
           </div>
         </div>
-      </Card>
+      </article>
     </Link>
   );
 }

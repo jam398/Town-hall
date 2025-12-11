@@ -1,5 +1,6 @@
 /* ============================================
-   TOWN HALL - BAUHAUS NEO-MODERNISM DESIGN SYSTEM
+   TOWN HALL - SWISS MODERN DESIGN SYSTEM
+   International Typographic Style
    ============================================ */
 
 @tailwind base;
@@ -7,161 +8,181 @@
 @tailwind utilities;
 
 /* ============================================
-   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   CSS CUSTOM PROPERTIES (SWISS DESIGN TOKENS)
    ============================================ */
 
 :root {
-  /* Bauhaus Primary Colors */
-  --bauhaus-red: hsl(356, 100%, 44%);
-  --bauhaus-yellow: hsl(51, 100%, 50%);
-  --bauhaus-blue: hsl(206, 100%, 35%);
-  --bauhaus-black: hsl(0, 0%, 0%);
-  --bauhaus-white: hsl(0, 0%, 100%);
-
-  /* Primary System (Blue) */
-  --color-primary: var(--bauhaus-blue);
-  --color-primary-50: hsl(206, 100%, 95%);
-  --color-primary-100: hsl(206, 100%, 90%);
-  --color-primary-200: hsl(206, 100%, 80%);
-  --color-primary-300: hsl(206, 100%, 65%);
-  --color-primary-400: hsl(206, 100%, 50%);
-  --color-primary-500: hsl(206, 100%, 35%);
-  --color-primary-600: hsl(206, 100%, 30%);
-  --color-primary-700: hsl(206, 100%, 25%);
-  --color-primary-800: hsl(206, 100%, 20%);
-  --color-primary-900: hsl(206, 100%, 15%);
-  --color-on-primary: var(--bauhaus-white);
-
-  /* Secondary System (Red) */
-  --color-secondary: var(--bauhaus-red);
-  --color-secondary-50: hsl(356, 100%, 95%);
-  --color-secondary-500: hsl(356, 100%, 44%);
-  --color-secondary-600: hsl(356, 100%, 38%);
-  --color-secondary-700: hsl(356, 100%, 32%);
-  --color-on-secondary: var(--bauhaus-white);
-
-  /* Accent System (Yellow) */
-  --color-accent: var(--bauhaus-yellow);
-  --color-accent-50: hsl(51, 100%, 95%);
-  --color-accent-500: hsl(51, 100%, 50%);
-  --color-accent-600: hsl(51, 100%, 45%);
-  --color-on-accent: var(--bauhaus-black);
-
-  /* Surface & Background */
-  --color-surface: var(--bauhaus-white);
-  --color-surface-variant: hsl(0, 0%, 98%);
-  --color-background: var(--bauhaus-white);
-  --color-on-surface: var(--bauhaus-black);
-  --color-on-background: var(--bauhaus-black);
-
-  /* Gray Scale */
-  --color-gray-50: hsl(0, 0%, 98%);
-  --color-gray-100: hsl(0, 0%, 96%);
-  --color-gray-200: hsl(0, 0%, 92%);
-  --color-gray-300: hsl(0, 0%, 85%);
-  --color-gray-400: hsl(0, 0%, 70%);
-  --color-gray-500: hsl(0, 0%, 50%);
-  --color-gray-600: hsl(0, 0%, 40%);
-  --color-gray-700: hsl(0, 0%, 30%);
-  --color-gray-800: hsl(0, 0%, 15%);
-  --color-gray-900: hsl(0, 0%, 8%);
-
-  /* Outline */
-  --color-outline: hsl(0, 0%, 75%);
-  --color-outline-variant: hsl(0, 0%, 90%);
+  /* Swiss Modern Primary Colors */
+  --swiss-black: #0A0A0A;
+  --swiss-white: #FFFFFF;
+  --swiss-red: #E53935;
+  --swiss-gray: #6B7280;
+  --swiss-light: #F5F5F5;
+  --swiss-border: #E5E5E5;
 
   /* Semantic Colors */
-  --color-error: hsl(0, 84%, 60%);
-  --color-error-container: hsl(0, 84%, 95%);
-  --color-on-error: var(--bauhaus-white);
-  --color-on-error-container: hsl(0, 84%, 25%);
+  --swiss-success: #10B981;
+  --swiss-error: #EF4444;
+  --swiss-warning: #F59E0B;
 
-  --color-success: hsl(122, 39%, 49%);
-  --color-success-container: hsl(122, 39%, 95%);
-  --color-on-success: var(--bauhaus-white);
-  --color-on-success-container: hsl(122, 39%, 25%);
+  /* Primary System (Black - Swiss Modern) */
+  --color-primary: var(--swiss-black);
+  --color-primary-50: #fafafa;
+  --color-primary-100: #f5f5f5;
+  --color-primary-200: #e5e5e5;
+  --color-primary-300: #d4d4d4;
+  --color-primary-400: #a3a3a3;
+  --color-primary-500: var(--swiss-black);
+  --color-primary-600: #171717;
+  --color-primary-700: #0A0A0A;
+  --color-primary-800: #050505;
+  --color-primary-900: #000000;
+  --color-on-primary: var(--swiss-white);
 
-  --color-warning: hsl(36, 100%, 50%);
-  --color-warning-container: hsl(36, 100%, 95%);
-  --color-on-warning: var(--bauhaus-black);
+  /* Secondary System (Red - Accent) */
+  --color-secondary: var(--swiss-red);
+  --color-secondary-50: #fef2f2;
+  --color-secondary-100: #fee2e2;
+  --color-secondary-500: var(--swiss-red);
+  --color-secondary-600: #dc2626;
+  --color-secondary-700: #b91c1c;
+  --color-on-secondary: var(--swiss-white);
+
+  /* Accent System (Warning/Highlight) */
+  --color-accent: var(--swiss-warning);
+  --color-accent-50: #fffbeb;
+  --color-accent-500: var(--swiss-warning);
+  --color-accent-600: #d97706;
+  --color-on-accent: var(--swiss-black);
+
+  /* Surface & Background */
+  --color-surface: var(--swiss-white);
+  --color-surface-variant: var(--swiss-light);
+  --color-background: var(--swiss-white);
+  --color-on-surface: var(--swiss-black);
+  --color-on-background: var(--swiss-black);
+
+  /* Gray Scale */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+
+  /* Outline */
+  --color-outline: var(--swiss-border);
+  --color-outline-variant: #f0f0f0;
+
+  /* Semantic Colors */
+  --color-error: var(--swiss-error);
+  --color-error-container: #fef2f2;
+  --color-on-error: var(--swiss-white);
+  --color-on-error-container: #991b1b;
+
+  --color-success: var(--swiss-success);
+  --color-success-container: #ecfdf5;
+  --color-on-success: var(--swiss-white);
+  --color-on-success-container: #065f46;
+
+  --color-warning: var(--swiss-warning);
+  --color-warning-container: #fffbeb;
+  --color-on-warning: var(--swiss-black);
 
   /* Text Colors */
-  --text-primary: var(--bauhaus-black);
-  --text-secondary: hsl(0, 0%, 30%);
-  --text-tertiary: hsl(0, 0%, 50%);
-  --text-disabled: hsl(0, 0%, 70%);
+  --text-primary: var(--swiss-black);
+  --text-secondary: var(--swiss-gray);
+  --text-tertiary: #9ca3af;
+  --text-disabled: #d1d5db;
 
-  /* Typography Scale (Perfect Fifth 1.5) */
+  /* Swiss Modern Typography Scale */
+  --text-caption: 0.75rem;
+  --text-body-sm: 0.875rem;
+  --text-body: 1rem;
+  --text-body-lg: 1.125rem;
+  --text-h4: 1.25rem;
+  --text-h3: 1.5rem;
+  --text-h2: 2rem;
+  --text-h1: 3rem;
+  --text-display: 4rem;
+
+  /* Legacy sizes for compatibility */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
-  --text-3xl: 2.25rem;
-  --text-4xl: 3.375rem;
-  --text-5xl: 5.063rem;
+  --text-3xl: 2rem;
+  --text-4xl: 3rem;
+  --text-5xl: 4rem;
 
   /* Font Weights */
-  --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
-  --weight-black: 900;
 
   /* Line Heights */
   --leading-none: 1;
-  --leading-tight: 1.2;
-  --leading-snug: 1.375;
-  --leading-normal: 1.5;
+  --leading-tight: 1.1;
+  --leading-snug: 1.2;
+  --leading-normal: 1.6;
   --leading-relaxed: 1.75;
 
   /* Letter Spacing */
-  --tracking-tighter: -0.05em;
-  --tracking-tight: -0.025em;
+  --tracking-tighter: -0.02em;
+  --tracking-tight: -0.01em;
   --tracking-normal: 0;
-  --tracking-wide: 0.025em;
-  --tracking-wider: 0.05em;
-  --tracking-widest: 0.1em;
+  --tracking-wide: 0.01em;
+  --tracking-wider: 0.02em;
+  --tracking-widest: 0.05em;
 
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-24: 6rem;
+  /* Swiss Modern Spacing (8px base) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-24: 6rem;     /* 96px */
 
-  /* Shadows (Minimal for Bauhaus) */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.12);
+  /* Swiss Modern Shadows (Subtle, functional) */
+  --shadow-swiss: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-swiss-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-swiss-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* Swiss Modern Border Radius (Minimal) */
+  --radius-none: 0;
+  --radius-swiss: 0.25rem;  /* 4px max */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+
+  /* Grid */
+  --max-width-swiss: 1280px;
+  --gutter: 1.5rem;  /* 24px */
 
   /* Transitions */
   --duration-fast: 150ms;
-  --duration-normal: 250ms;
+  --duration-normal: 200ms;
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
-}
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: hsl(0, 0%, 12%);
-    --color-surface-variant: hsl(0, 0%, 18%);
-    --color-background: hsl(0, 0%, 8%);
-    --color-on-surface: hsl(0, 0%, 95%);
-    --color-on-background: hsl(0, 0%, 95%);
-    --text-primary: hsl(0, 0%, 95%);
-    --text-secondary: hsl(0, 0%, 70%);
-    --text-tertiary: hsl(0, 0%, 50%);
-    --color-outline: hsl(0, 0%, 35%);
-    --color-outline-variant: hsl(0, 0%, 25%);
-  }
+  /* Legacy Bauhaus colors (backward compatibility) */
+  --bauhaus-red: var(--swiss-red);
+  --bauhaus-yellow: var(--swiss-warning);
+  --bauhaus-blue: var(--swiss-black);
+  --bauhaus-black: var(--swiss-black);
+  --bauhaus-white: var(--swiss-white);
 }
 
 /* ============================================
@@ -185,59 +206,72 @@ body {
 }
 
 /* ============================================
-   TYPOGRAPHY
+   SWISS MODERN TYPOGRAPHY
    ============================================ */
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, var(--text-5xl));
-  font-weight: var(--weight-black);
+  font-size: clamp(2.5rem, 5vw, var(--text-h1));
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tighter);
-  text-transform: uppercase;
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, var(--text-4xl));
-  font-weight: var(--weight-bold);
+  font-size: clamp(1.75rem, 4vw, var(--text-h2));
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
 }
 
 h3 {
-  font-size: clamp(1.5rem, 3vw, var(--text-3xl));
+  font-size: clamp(1.25rem, 3vw, var(--text-h3));
   font-weight: var(--weight-semibold);
+  line-height: 1.3;
 }
 
 h4 {
-  font-size: var(--text-2xl);
+  font-size: var(--text-h4);
   font-weight: var(--weight-semibold);
+  line-height: 1.4;
 }
 
 h5 {
-  font-size: var(--text-xl);
+  font-size: var(--text-body-lg);
   font-weight: var(--weight-medium);
 }
 
 h6 {
-  font-size: var(--text-lg);
+  font-size: var(--text-body);
   font-weight: var(--weight-medium);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--tracking-wider);
 }
 
 p {
   margin-bottom: 1em;
   max-width: 65ch;
+  line-height: var(--leading-normal);
 }
 
 .lead {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-light);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* Swiss Modern Display Text */
+.text-display {
+  font-size: clamp(3rem, 8vw, var(--text-display));
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tighter);
 }
 
 /* ============================================

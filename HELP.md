@@ -1,6 +1,95 @@
-# HELP: EverydayAI CLI Tools (references/eai)
+# HELP: Town Hall Newark Project Guide
 
-This document summarizes the core capabilities and commands provided by the
+This document provides guidance for developers working on the Town Hall Newark project, including design system references, CLI tools, and development workflows.
+
+---
+
+## Swiss Modern Design System
+
+Town Hall uses the **Swiss Modern (International Typographic Style)** design system for a clean, professional, and accessible user experience.
+
+### Quick Reference
+
+#### Design Principles
+1. **Clarity over decoration** - Every element must serve a purpose
+2. **Grid-based layouts** - Use the 12-column grid system
+3. **Typography hierarchy** - Bold headlines, readable body text
+4. **Generous whitespace** - Let content breathe
+5. **High contrast** - Ensure accessibility (WCAG AA minimum)
+
+#### Color Palette
+```css
+/* Primary Colors */
+--color-black: #0A0A0A;      /* Headlines, primary text */
+--color-white: #FFFFFF;       /* Backgrounds */
+--color-red: #E53935;         /* CTAs, accents */
+
+/* Neutral Colors */
+--color-gray-600: #6B7280;    /* Secondary text */
+--color-gray-100: #F5F5F5;    /* Backgrounds */
+--color-gray-200: #E5E5E5;    /* Borders */
+
+/* Semantic Colors */
+--color-success: #10B981;     /* Success states */
+--color-error: #EF4444;       /* Error states */
+--color-warning: #F59E0B;     /* Warning states */
+```
+
+#### Typography (Inter Font Family)
+```css
+/* Headings */
+.h1 { font-size: 3rem; font-weight: 700; line-height: 1.1; }
+.h2 { font-size: 2rem; font-weight: 600; line-height: 1.2; }
+.h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }
+
+/* Body */
+.body { font-size: 1rem; font-weight: 400; line-height: 1.6; }
+.caption { font-size: 0.875rem; line-height: 1.5; }
+```
+
+#### Spacing Scale (8px base)
+```
+4px  (0.25rem) - xs
+8px  (0.5rem)  - sm
+16px (1rem)    - md
+24px (1.5rem)  - lg
+32px (2rem)    - xl
+48px (3rem)    - 2xl
+64px (4rem)    - 3xl
+96px (6rem)    - 4xl
+```
+
+#### Component Guidelines
+
+**Buttons:**
+- Primary: Black background, white text
+- Secondary: White background, black border
+- Accent: Red background, white text (for CTAs)
+- Use uppercase with letter-spacing for emphasis
+
+**Cards:**
+- White background with subtle shadow
+- No or minimal border-radius (0-4px)
+- 24-32px internal padding
+- Clear headline hierarchy
+
+**Forms:**
+- Minimum 48px input height for touch targets
+- Labels above inputs (not floating)
+- Red accent for focus states
+- Clear error messages below inputs
+
+**Grid:**
+- 12 columns on desktop (≥1024px)
+- 8 columns on tablet (768-1023px)
+- 4 columns on mobile (<768px)
+- 24px gutters
+
+---
+
+## EverydayAI CLI Tools (references/eai)
+
+This section summarizes the core capabilities and commands provided by the
 EverydayAI CLI located in `references/eai`.
 
 The main executable is the `eai` command (via `python -m ei_cli` or the

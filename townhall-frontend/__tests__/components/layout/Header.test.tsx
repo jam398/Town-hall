@@ -72,14 +72,12 @@ describe('Header', () => {
     expect(screen.getByLabelText(/mobile navigation/i)).toBeInTheDocument();
   });
 
-  it('renders Bauhaus-style logo colors', () => {
+  it('renders Swiss Modern logo accent', () => {
     render(<Header />);
     
-    // Check for the colored squares in the logo
+    // Check for the Swiss Modern red accent bar in the logo
     const header = screen.getByRole('banner');
-    expect(header.querySelector('.bg-bauhaus-blue')).toBeInTheDocument();
-    expect(header.querySelector('.bg-bauhaus-red')).toBeInTheDocument();
-    expect(header.querySelector('.bg-bauhaus-yellow')).toBeInTheDocument();
+    expect(header.querySelector('.bg-swiss-red')).toBeInTheDocument();
   });
 
   it('is sticky positioned', () => {

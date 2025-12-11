@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Calendar, Users, Lightbulb, Heart, Star, Shield, BookOpen } from 'lucide-react';
+import { ArrowRight, Calendar, Users, Lightbulb, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { EventCard, Event } from '@/components/ui/EventCard';
 import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
@@ -31,43 +31,30 @@ const latestPosts: BlogPost[] = blogPostsData.slice(0, 3).map(post => ({
 export default function HomePage() {
   return (
     <>
-      {/* Hero Section - Bauhaus Style */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-        {/* Bauhaus geometric background */}
-        <div className="absolute inset-0 -z-10">
-          {/* Large blue circle */}
-          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-bauhaus-blue/10" />
-          {/* Yellow square */}
-          <div className="absolute bottom-20 left-10 w-32 h-32 bg-bauhaus-yellow/20 rotate-12" />
-          {/* Red rectangle */}
-          <div className="absolute top-40 left-1/4 w-48 h-24 bg-bauhaus-red/10 -rotate-6" />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            {/* Content */}
-            <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <p className="text-sm font-bold uppercase tracking-widest text-bauhaus-red">
-                  Newark&apos;s AI Community Hub
-                </p>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-none tracking-tight">
-                  Learn AI.
-                  <br />
-                  <span className="text-bauhaus-blue">Build Together.</span>
-                </h1>
-              </div>
+      {/* Hero Section - Swiss Modern Style */}
+      <section className="bg-swiss-white">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 min-h-[85vh]">
+            {/* Left Column - Content */}
+            <div className="lg:col-span-7 flex flex-col justify-center py-16 lg:py-24 lg:pr-16">
+              <p className="text-swiss-red text-sm font-medium tracking-wide mb-6">
+                Newark&apos;s AI Community Hub
+              </p>
               
-              <p className="text-xl text-gray-600 max-w-xl leading-relaxed">
+              <h1 className="text-display text-swiss-black mb-8">
+                Learn AI.
+                <br />
+                Build Together.
+              </h1>
+              
+              <p className="text-body-lg text-swiss-gray max-w-lg mb-10 leading-relaxed">
                 Town Hall is Newark&apos;s nonprofit community space for AI education. 
                 Free workshops, events, and resources for everyone—no tech background required.
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 mb-16">
                 <Link href="/events">
-                  <Button size="lg" variant="primary">
+                  <Button size="lg" variant="secondary">
                     Upcoming Events
                     <ArrowRight className="ml-2 w-5 h-5" aria-hidden="true" />
                   </Button>
@@ -79,100 +66,117 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              {/* Stats */}
-              <div className="flex flex-wrap gap-8 pt-8 border-t-2 border-black">
+              {/* Stats - Swiss grid layout */}
+              <div className="grid grid-cols-3 gap-8 pt-10 border-t border-swiss-border">
                 <div>
-                  <p className="text-4xl font-black text-bauhaus-blue">500+</p>
-                  <p className="text-sm font-semibold uppercase tracking-wider text-gray-600">
+                  <p className="text-h1 font-bold text-swiss-black">500+</p>
+                  <p className="text-body-sm text-swiss-gray mt-1">
                     Community Members
                   </p>
                 </div>
                 <div>
-                  <p className="text-4xl font-black text-bauhaus-red">50+</p>
-                  <p className="text-sm font-semibold uppercase tracking-wider text-gray-600">
+                  <p className="text-h1 font-bold text-swiss-black">50+</p>
+                  <p className="text-body-sm text-swiss-gray mt-1">
                     Workshops Held
                   </p>
                 </div>
                 <div>
-                  <p className="text-4xl font-black text-bauhaus-yellow">100%</p>
-                  <p className="text-sm font-semibold uppercase tracking-wider text-gray-600">
+                  <p className="text-h1 font-bold text-swiss-black">100%</p>
+                  <p className="text-body-sm text-swiss-gray mt-1">
                     Free to Attend
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Bauhaus Visual */}
-            <div className="lg:col-span-5 hidden lg:block">
-              <div className="relative aspect-square">
-                {/* Geometric composition */}
-                <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-bauhaus-blue" />
-                <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-bauhaus-red" />
-                <div className="absolute top-1/4 left-1/4 w-1/3 h-1/3 bg-bauhaus-yellow" />
-                <div className="absolute bottom-1/4 right-1/4 w-24 h-24 rounded-full bg-black" />
+            {/* Right Column - Swiss Modern Visual Block */}
+            <div className="lg:col-span-5 bg-swiss-black hidden lg:flex items-center justify-center">
+              <div className="text-swiss-white p-12 text-center">
+                <div className="w-24 h-1 bg-swiss-red mx-auto mb-8" />
+                <p className="text-h2 font-semibold leading-tight">
+                  AI Education
+                  <br />
+                  For Everyone
+                </p>
+                <div className="w-24 h-1 bg-swiss-red mx-auto mt-8" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="py-20 bg-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">
+      {/* Mission Section - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-light">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-16 items-start">
+            {/* Left - Title */}
+            <div className="lg:col-span-4">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h2 className="text-h1 font-bold text-swiss-black">
                 Our Mission
               </h2>
-              <p className="text-xl text-gray-300 leading-relaxed mb-8">
+            </div>
+            
+            {/* Right - Content */}
+            <div className="lg:col-span-8">
+              <p className="text-h3 text-swiss-black leading-relaxed mb-12">
                 We believe everyone deserves access to AI education. Town Hall brings 
                 free, accessible workshops and resources to Newark, helping our community 
                 understand and benefit from artificial intelligence.
               </p>
+              
+              <div className="grid sm:grid-cols-2 gap-8 mb-12">
+                {[
+                  { icon: Lightbulb, title: 'Education', desc: 'Free workshops for all skill levels' },
+                  { icon: Users, title: 'Community', desc: 'Connect with fellow learners' },
+                  { icon: Calendar, title: 'Events', desc: 'Regular meetups and showcases' },
+                  { icon: Heart, title: 'Support', desc: 'Mentorship and resources' },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-swiss-black flex items-center justify-center">
+                      <item.icon className="w-6 h-6 text-swiss-white" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className="text-body font-semibold text-swiss-black mb-1">{item.title}</h3>
+                      <p className="text-body-sm text-swiss-gray">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
               <Link href="/about">
-                <Button variant="accent" size="lg">
+                <Button variant="primary" size="lg">
                   Learn About Us
                   <ArrowRight className="ml-2 w-5 h-5" aria-hidden="true" />
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { icon: Lightbulb, title: 'Education', desc: 'Free workshops for all skill levels' },
-                { icon: Users, title: 'Community', desc: 'Connect with fellow learners' },
-                { icon: Calendar, title: 'Events', desc: 'Regular meetups and showcases' },
-                { icon: Heart, title: 'Support', desc: 'Mentorship and resources' },
-              ].map((item) => (
-                <div key={item.title} className="p-6 border border-gray-800">
-                  <item.icon className="w-8 h-8 text-bauhaus-yellow mb-4" aria-hidden="true" />
-                  <h3 className="font-bold uppercase tracking-wider mb-2">{item.title}</h3>
-                  <p className="text-sm text-gray-400">{item.desc}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Upcoming Events Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-bauhaus-blue mb-2">
-                What&apos;s Happening
-              </p>
-              <h2 className="text-4xl md:text-5xl font-black uppercase">
+      {/* Upcoming Events Section - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-white">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-8 mb-16">
+            <div className="lg:col-span-8">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h2 className="text-h1 font-bold text-swiss-black">
                 Upcoming Events
               </h2>
             </div>
-            <Link href="/events" className="group inline-flex items-center gap-2 text-bauhaus-blue font-semibold uppercase tracking-wider hover:text-bauhaus-red transition-colors">
-              View All Events
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </Link>
+            <div className="lg:col-span-4 flex lg:justify-end lg:items-end">
+              <Link 
+                href="/events" 
+                className="group inline-flex items-center gap-2 text-swiss-black font-medium hover:text-swiss-red transition-colors"
+              >
+                View All Events
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {upcomingEvents.map((event) => (
               <EventCard key={event.slug} event={event} />
             ))}
@@ -180,25 +184,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Blog Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-bauhaus-red mb-2">
-                From Our Blog
-              </p>
-              <h2 className="text-4xl md:text-5xl font-black uppercase">
+      {/* Blog Section - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-light">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-8 mb-16">
+            <div className="lg:col-span-8">
+              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <h2 className="text-h1 font-bold text-swiss-black">
                 Latest Articles
               </h2>
             </div>
-            <Link href="/blog" className="group inline-flex items-center gap-2 text-bauhaus-blue font-semibold uppercase tracking-wider hover:text-bauhaus-red transition-colors">
-              View All Posts
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </Link>
+            <div className="lg:col-span-4 flex lg:justify-end lg:items-end">
+              <Link 
+                href="/blog" 
+                className="group inline-flex items-center gap-2 text-swiss-black font-medium hover:text-swiss-red transition-colors"
+              >
+                View All Posts
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {latestPosts.map((post) => (
               <BlogCard key={post.slug} post={post} />
             ))}
@@ -206,31 +213,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-bauhaus-blue text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">
-            Join Our Community
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Whether you&apos;re curious about AI or ready to dive deep, there&apos;s a place 
-            for you at Town Hall. Join our Discord to connect with fellow learners.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="https://discord.gg/townhall"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-bauhaus-blue font-bold uppercase tracking-wider hover:bg-bauhaus-yellow hover:text-black transition-colors"
-            >
-              Join Discord
-              <ArrowRight className="w-5 h-5" aria-hidden="true" />
-            </a>
-            <Link href="/volunteer">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-bauhaus-blue">
-                Become a Volunteer
-              </Button>
-            </Link>
+      {/* CTA Section - Swiss Modern */}
+      <section className="py-24 lg:py-32 bg-swiss-black">
+        <div className="max-w-swiss mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <h2 className="text-h1 font-bold text-swiss-white mb-6">
+                Join Our Community
+              </h2>
+              <p className="text-body-lg text-neutral-400 max-w-lg">
+                Whether you&apos;re curious about AI or ready to dive deep, there&apos;s a place 
+                for you at Town Hall. Join our Discord to connect with fellow learners.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="https://discord.gg/townhall"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-swiss-red text-swiss-white font-medium hover:bg-red-600 transition-colors"
+                >
+                  Join Discord
+                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                </a>
+                <Link href="/volunteer">
+                  <Button variant="outline" size="lg" className="border-swiss-white text-swiss-white hover:bg-swiss-white hover:text-swiss-black w-full sm:w-auto">
+                    Become a Volunteer
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
