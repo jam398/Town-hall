@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea, Select } from '@/components/ui/Input';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+
 const interestOptions = [
   { value: 'workshop-facilitator', label: 'Workshop Facilitator' },
   { value: 'event-support', label: 'Event Support' },
@@ -74,7 +76,7 @@ export function VolunteerForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/volunteer', {
+      const response = await fetch(`${API_URL}/volunteer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

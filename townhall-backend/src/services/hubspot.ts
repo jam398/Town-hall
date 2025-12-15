@@ -1,5 +1,12 @@
-const HUBSPOT_API_KEY = process.env.HUBSPOT_API_KEY;
 const HUBSPOT_API_URL = 'https://api.hubapi.com';
+
+function getApiKey(): string {
+  const key = process.env.HUBSPOT_API_KEY;
+  if (!key) {
+    console.error('⚠️ HUBSPOT_API_KEY is not set!');
+  }
+  return key || '';
+}
 
 interface HubSpotContact {
   properties: {
@@ -39,7 +46,7 @@ export const hubspotService = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${HUBSPOT_API_KEY}`,
+          Authorization: `Bearer ${getApiKey()}`,
         },
         body: JSON.stringify(contactData),
       });
@@ -72,7 +79,7 @@ export const hubspotService = {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${HUBSPOT_API_KEY}`,
+            Authorization: `Bearer ${getApiKey()}`,
           },
           body: JSON.stringify({
             filterGroups: [
@@ -102,7 +109,7 @@ export const hubspotService = {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${HUBSPOT_API_KEY}`,
+            Authorization: `Bearer ${getApiKey()}`,
           },
           body: JSON.stringify({ properties }),
         });
@@ -125,7 +132,7 @@ export const hubspotService = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${HUBSPOT_API_KEY}`,
+          Authorization: `Bearer ${getApiKey()}`,
         },
         body: JSON.stringify({
           vids: [contactId],

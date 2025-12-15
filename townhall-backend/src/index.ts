@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load .env from project root (parent directory)
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+// Load .env from backend directory
+const envPath = path.resolve(__dirname, '../.env');
+dotenv.config({ path: envPath });
+console.log('📝 Loaded .env from:', envPath);
+console.log('🗄️  SANITY_DATASET:', process.env.SANITY_DATASET);
+console.log('🔑 SANITY_TOKEN:', process.env.SANITY_TOKEN ? '✅ Set' : '❌ Not set');
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';

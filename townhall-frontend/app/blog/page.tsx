@@ -23,7 +23,7 @@ async function fetchBlogPosts() {
 function getAllTagsFromPosts(posts: BlogPost[]): string[] {
   const tagsSet = new Set<string>();
   posts.forEach(post => {
-    post.tags.forEach(tag => tagsSet.add(tag));
+    post.tags?.forEach(tag => tagsSet.add(tag));
   });
   return Array.from(tagsSet).sort();
 }

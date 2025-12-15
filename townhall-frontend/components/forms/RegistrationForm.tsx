@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+
 interface RegistrationFormProps {
   eventSlug: string;
   eventTitle: string;
@@ -51,7 +53,7 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/events/register', {
+      const response = await fetch(`${API_URL}/events/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, eventSlug }),

@@ -1,13 +1,22 @@
-import { createClient } from '@sanity/client';
+import { createClient, SanityClient } from '@sanity/client';
 import { Event, BlogPost, VlogPost, Registration, Volunteer } from '../types';
 
-const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID || 'pvm742xo',
-  dataset: process.env.SANITY_DATASET || 'production',
-  apiVersion: process.env.SANITY_API_VERSION || '2024-01-01',
-  token: process.env.SANITY_TOKEN,
-  useCdn: false, // Use false for write operations
-});
+// Create client lazily to ensure env vars are loaded first
+let client: SanityClient | null = null;
+
+function getClient(): SanityClient {
+  if (!client) {
+    console.log('🔧 Creating Sanity client with dataset:', process.env.SANITY_DATASET);
+    client = createClient({
+      projectId: process.env.SANITY_PROJECT_ID || 'pvm742xo',
+      dataset: process.env.SANITY_DATASET || 'production',
+      apiVersion: process.env.SANITY_API_VERSION || '2024-01-01',
+      token: process.env.SANITY_TOKEN,
+      useCdn: false, // Use false for write operations
+    });
+  }
+  return client;
+}
 
 // Helper to convert portable text to HTML (simple version)
 function portableTextToHtml(blocks: any[]): string {
@@ -40,7 +49,7 @@ export const sanityService = {
       featuredImage,
       instructor
     }`;
-    return client.fetch(query);
+    return getClient().fetch(query);
   },
 
   async getEventBySlug(slug: string): Promise<Event | null> {
@@ -63,12 +72,12 @@ export const sanityService = {
       instructor,
       instructorBio
     }`;
-    return client.fetch(query, { slug });
+    return getClient().fetch(query, { slug });
   },
 
   async getEventRegistrationCount(eventId: string): Promise<number> {
     const query = `count(*[_type == "registration" && references($eventId)])`;
-    return client.fetch(query, { eventId });
+    return getClient().fetch(query, { eventId });
   },
 
   // Blog Posts
@@ -84,7 +93,7 @@ export const sanityService = {
       readTime,
       "author": author->name
     }`;
-    return client.fetch(query);
+    return getClient().fetch(query);
   },
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
@@ -100,7 +109,7 @@ export const sanityService = {
       readTime,
       "author": author->{name, bio, avatar}
     }`;
-    return client.fetch(query, { slug });
+    return getClient().fetch(query, { slug });
   },
 
   async createBlogPost(data: Partial<BlogPost>): Promise<BlogPost> {
@@ -108,7 +117,7 @@ export const sanityService = {
       _type: 'blogPost' as const,
       ...data,
     };
-    return client.create(doc) as Promise<BlogPost>;
+    return getClient().create(doc) as Promise<BlogPost>;
   },
 
   // Vlog Posts
@@ -126,7 +135,7 @@ export const sanityService = {
       summary,
       tags
     }`;
-    return client.fetch(query);
+    return getClient().fetch(query);
   },
 
   // Registrations
@@ -151,16 +160,16 @@ export const sanityService = {
       attended: false,
       confirmationSent: false,
     };
-    return client.create(doc) as unknown as Promise<Registration>;
+    return getClient().create(doc) as unknown as Promise<Registration>;
   },
 
   async checkExistingRegistration(email: string, eventId: string): Promise<boolean> {
     const query = `count(*[_type == "registration" && email == $email && references($eventId)]) > 0`;
-    return client.fetch(query, { email, eventId });
+    return getClient().fetch(query, { email, eventId });
   },
 
   async updateRegistration(id: string, data: Partial<Registration>): Promise<Registration> {
-    return client.patch(id).set(data).commit();
+    return getClient().patch(id).set(data).commit();
   },
 
   // Volunteers
@@ -180,11 +189,11 @@ export const sanityService = {
       status: 'pending' as const,
       appliedAt: new Date().toISOString(),
     };
-    return client.create(doc) as Promise<Volunteer>;
+    return getClient().create(doc) as Promise<Volunteer>;
   },
 
   async updateVolunteer(id: string, data: Partial<Volunteer>): Promise<Volunteer> {
-    return client.patch(id).set(data).commit();
+    return getClient().patch(id).set(data).commit();
   },
 
   // Utility

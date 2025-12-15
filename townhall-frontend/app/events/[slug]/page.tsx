@@ -104,17 +104,17 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
             {/* Description */}
             <div
               className="prose prose-lg max-w-none mb-8"
-              dangerouslySetInnerHTML={{ __html: event.longDescription }}
+              dangerouslySetInnerHTML={{ __html: event.longDescription || '' }}
             />
 
             {/* What You'll Learn */}
-            {event.whatYoullLearn && event.whatYoullLearn.length > 0 && (
+            {event.whatYouWillLearn && event.whatYouWillLearn.length > 0 && (
               <div className="bg-gray-50 p-6 mb-8 border-l-4 border-bauhaus-blue">
                 <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
                   What You&apos;ll Learn
                 </h2>
                 <ul className="space-y-3">
-                  {event.whatYoullLearn.map((item: string, index: number) => (
+                  {event.whatYouWillLearn.map((item: string, index: number) => (
                     <li key={index} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-bauhaus-blue flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{item}</span>
