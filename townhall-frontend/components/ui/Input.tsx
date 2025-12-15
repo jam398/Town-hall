@@ -16,11 +16,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-semibold uppercase tracking-wider text-gray-900 mb-2"
+            className="block text-body-sm font-medium text-swiss-black mb-2"
           >
             {label}
             {props.required && (
-              <span className="text-bauhaus-red ml-1" aria-hidden="true">*</span>
+              <span className="text-swiss-red ml-1" aria-hidden="true">*</span>
             )}
           </label>
         )}
@@ -28,16 +28,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={clsx(
-            'w-full px-4 py-3',
-            'text-base text-gray-900',
-            'bg-white border-2',
+            'w-full px-4 py-3 min-h-[48px]',
+            'text-body text-swiss-black',
+            'bg-swiss-white border border-swiss-border',
             'transition-all duration-200',
-            'placeholder:text-gray-400',
-            'focus:outline-none focus:ring-0',
+            'placeholder:text-swiss-gray',
+            'focus:outline-none focus:ring-0 focus:border-swiss-red',
             error
-              ? 'border-bauhaus-red focus:border-bauhaus-red'
-              : 'border-gray-300 focus:border-bauhaus-blue',
-            'disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed',
+              ? 'border-swiss-error focus:border-swiss-error'
+              : 'border-swiss-border',
+            'disabled:bg-swiss-light disabled:text-swiss-gray disabled:cursor-not-allowed',
             className
           )}
           aria-invalid={error ? 'true' : 'false'}
@@ -49,7 +49,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <p
             id={`${inputId}-error`}
-            className="mt-2 text-sm text-bauhaus-red"
+            className="mt-2 text-body-sm text-swiss-error"
             role="alert"
           >
             {error}
@@ -58,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {helperText && !error && (
           <p
             id={`${inputId}-helper`}
-            className="mt-2 text-sm text-gray-500"
+            className="mt-2 text-body-sm text-swiss-gray"
           >
             {helperText}
           </p>
@@ -87,11 +87,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-semibold uppercase tracking-wider text-gray-900 mb-2"
+            className="block text-body-sm font-medium text-swiss-black mb-2"
           >
             {label}
             {props.required && (
-              <span className="text-bauhaus-red ml-1" aria-hidden="true">*</span>
+              <span className="text-swiss-red ml-1" aria-hidden="true">*</span>
             )}
           </label>
         )}
@@ -100,16 +100,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           className={clsx(
             'w-full px-4 py-3 min-h-[120px]',
-            'text-base text-gray-900',
-            'bg-white border-2',
+            'text-body text-swiss-black',
+            'bg-swiss-white border border-swiss-border',
             'transition-all duration-200',
-            'placeholder:text-gray-400',
-            'focus:outline-none focus:ring-0',
+            'placeholder:text-swiss-gray',
+            'focus:outline-none focus:ring-0 focus:border-swiss-red',
             'resize-y',
             error
-              ? 'border-bauhaus-red focus:border-bauhaus-red'
-              : 'border-gray-300 focus:border-bauhaus-blue',
-            'disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed',
+              ? 'border-swiss-error focus:border-swiss-error'
+              : 'border-swiss-border',
+            'disabled:bg-swiss-light disabled:text-swiss-gray disabled:cursor-not-allowed',
             className
           )}
           aria-invalid={error ? 'true' : 'false'}
@@ -121,7 +121,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {error && (
           <p
             id={`${inputId}-error`}
-            className="mt-2 text-sm text-bauhaus-red"
+            className="mt-2 text-body-sm text-swiss-error"
             role="alert"
           >
             {error}
@@ -130,7 +130,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {helperText && !error && (
           <p
             id={`${inputId}-helper`}
-            className="mt-2 text-sm text-gray-500"
+            className="mt-2 text-body-sm text-swiss-gray"
           >
             {helperText}
           </p>
@@ -160,11 +160,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-semibold uppercase tracking-wider text-gray-900 mb-2"
+            className="block text-body-sm font-medium text-swiss-black mb-2"
           >
             {label}
             {props.required && (
-              <span className="text-bauhaus-red ml-1" aria-hidden="true">*</span>
+              <span className="text-swiss-red ml-1" aria-hidden="true">*</span>
             )}
           </label>
         )}
@@ -172,17 +172,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={inputId}
           className={clsx(
-            'w-full px-4 py-3',
-            'text-base text-gray-900',
-            'bg-white border-2',
+            'w-full px-4 py-3 min-h-[48px]',
+            'text-body text-swiss-black',
+            'bg-swiss-white border border-swiss-border',
             'transition-all duration-200',
-            'focus:outline-none focus:ring-0',
+            'focus:outline-none focus:ring-0 focus:border-swiss-red',
             'appearance-none cursor-pointer',
             'bg-no-repeat bg-right',
             error
-              ? 'border-bauhaus-red focus:border-bauhaus-red'
-              : 'border-gray-300 focus:border-bauhaus-blue',
-            'disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed',
+              ? 'border-swiss-error focus:border-swiss-error'
+              : 'border-swiss-border',
+            'disabled:bg-swiss-light disabled:text-swiss-gray disabled:cursor-not-allowed',
             className
           )}
           style={{
@@ -205,7 +205,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {error && (
           <p
             id={`${inputId}-error`}
-            className="mt-2 text-sm text-bauhaus-red"
+            className="mt-2 text-body-sm text-swiss-error"
             role="alert"
           >
             {error}
@@ -214,7 +214,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {helperText && !error && (
           <p
             id={`${inputId}-helper`}
-            className="mt-2 text-sm text-gray-500"
+            className="mt-2 text-body-sm text-swiss-gray"
           >
             {helperText}
           </p>

@@ -6,16 +6,92 @@ This document provides a comprehensive reference of all data types, functions, u
 
 ## Table of Contents
 
-1. [TypeScript Interfaces](#1-typescript-interfaces)
-2. [API Functions](#2-api-functions)
-3. [Utility Functions](#3-utility-functions)
-4. [React Components](#4-react-components)
-5. [Backend Services](#5-backend-services)
-6. [Environment Variables](#6-environment-variables)
+1. [Design Tokens](#1-design-tokens)
+2. [TypeScript Interfaces](#2-typescript-interfaces)
+3. [API Functions](#3-api-functions)
+4. [Utility Functions](#4-utility-functions)
+5. [React Components](#5-react-components)
+6. [Backend Services](#6-backend-services)
+7. [Environment Variables](#7-environment-variables)
 
 ---
 
-## 1. TypeScript Interfaces
+## 1. Design Tokens
+
+The Town Hall design system uses Swiss Modern (International Typographic Style) design tokens for consistent styling across all components.
+
+### Color Tokens
+
+| Token | Value | Tailwind Class | Usage |
+|-------|-------|----------------|-------|
+| `swiss-black` | `#0A0A0A` | `text-swiss-black`, `bg-swiss-black` | Headlines, primary text, primary buttons |
+| `swiss-white` | `#FFFFFF` | `text-swiss-white`, `bg-swiss-white` | Backgrounds, cards, button text |
+| `swiss-red` | `#E53935` | `text-swiss-red`, `bg-swiss-red` | CTAs, accents, focus states |
+| `swiss-gray` | `#6B7280` | `text-swiss-gray`, `bg-swiss-gray` | Secondary text, icons |
+| `swiss-light` | `#F5F5F5` | `text-swiss-light`, `bg-swiss-light` | Section backgrounds |
+| `swiss-border` | `#E5E5E5` | `border-swiss-border` | Borders, dividers |
+| `swiss-success` | `#10B981` | `text-swiss-success`, `bg-swiss-success` | Success states |
+| `swiss-error` | `#EF4444` | `text-swiss-error`, `bg-swiss-error` | Error states |
+| `swiss-warning` | `#F59E0B` | `text-swiss-warning`, `bg-swiss-warning` | Warning states |
+
+### Typography Tokens
+
+| Token | Font | Size | Weight | Line Height | Tailwind Class |
+|-------|------|------|--------|-------------|----------------|
+| `display` | Inter | 64px | 700 | 1.0 | `text-display` |
+| `h1` | Inter | 48px | 700 | 1.1 | `text-h1` |
+| `h2` | Inter | 32px | 600 | 1.2 | `text-h2` |
+| `h3` | Inter | 24px | 600 | 1.3 | `text-h3` |
+| `h4` | Inter | 20px | 600 | 1.4 | `text-h4` |
+| `body` | Inter | 16px | 400 | 1.6 | `text-body` |
+| `body-sm` | Inter | 14px | 400 | 1.5 | `text-body-sm` |
+| `caption` | Inter | 12px | 400 | 1.5 | `text-caption` |
+| `button` | Inter | 14px | 500 | 1.0 | `text-button` |
+
+### Spacing Tokens
+
+| Token | Value | Tailwind Class | Usage |
+|-------|-------|----------------|-------|
+| `space-xs` | 4px | `p-1`, `m-1`, `gap-1` | Tight spacing |
+| `space-sm` | 8px | `p-2`, `m-2`, `gap-2` | Small gaps |
+| `space-md` | 16px | `p-4`, `m-4`, `gap-4` | Default spacing |
+| `space-lg` | 24px | `p-6`, `m-6`, `gap-6` | Section padding |
+| `space-xl` | 32px | `p-8`, `m-8`, `gap-8` | Large sections |
+| `space-2xl` | 48px | `p-12`, `m-12`, `gap-12` | Hero sections |
+| `space-3xl` | 64px | `p-16`, `m-16`, `gap-16` | Page sections |
+| `space-4xl` | 96px | `p-24`, `m-24`, `gap-24` | Major divisions |
+
+### Border Radius Tokens
+
+| Token | Value | Tailwind Class | Usage |
+|-------|-------|----------------|-------|
+| `radius-none` | 0px | `rounded-none` | Swiss Modern default |
+| `radius-sm` | 2px | `rounded-sm` | Subtle rounding |
+| `radius-md` | 4px | `rounded` | Cards, buttons |
+| `radius-lg` | 8px | `rounded-lg` | Modals (use sparingly) |
+
+### Shadow Tokens
+
+| Token | Value | Tailwind Class | Usage |
+|-------|-------|----------------|-------|
+| `shadow-none` | none | `shadow-none` | Flat elements |
+| `shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | `shadow-sm` | Cards |
+| `shadow-md` | `0 4px 6px rgba(0,0,0,0.1)` | `shadow-md` | Elevated cards |
+| `shadow-lg` | `0 10px 15px rgba(0,0,0,0.1)` | `shadow-lg` | Modals, dropdowns |
+
+### Grid Tokens
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `grid-cols-12` | 12 columns | Desktop layout |
+| `grid-cols-8` | 8 columns | Tablet layout |
+| `grid-cols-4` | 4 columns | Mobile layout |
+| `gutter` | 24px | Column gaps |
+| `max-width` | 1280px | Content container |
+
+---
+
+## 2. TypeScript Interfaces
 
 ### Frontend Types (`townhall-frontend/lib/api.ts`)
 

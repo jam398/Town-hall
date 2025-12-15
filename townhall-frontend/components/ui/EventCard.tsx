@@ -28,24 +28,21 @@ export function EventCard({ event }: EventCardProps) {
 
   return (
     <Link href={`/events/${event.slug}`} className="block group">
-      <Card
-        variant="outlined"
-        padding="none"
-        interactive
-        className="overflow-hidden h-full"
+      <article
+        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-colors"
         data-testid="event-card"
       >
-        {/* Color accent bar */}
-        <div className="h-2 bg-bauhaus-blue group-hover:bg-bauhaus-red transition-colors" />
+        {/* Swiss Modern accent line */}
+        <div className="h-1 bg-swiss-red" />
 
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-grow">
           {/* Tags */}
           {event.tags && event.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-3">
+            <div className="flex flex-wrap gap-2 mb-4">
               {event.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-1 text-xs font-semibold uppercase tracking-wider bg-gray-100 text-gray-700"
+                  className="px-2 py-1 text-caption font-medium bg-swiss-light text-swiss-gray"
                 >
                   {tag}
                 </span>
@@ -55,32 +52,32 @@ export function EventCard({ event }: EventCardProps) {
 
           {/* Title */}
           <h3
-            className="text-xl font-bold text-gray-900 mb-2 group-hover:text-bauhaus-blue transition-colors"
+            className="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors"
             data-testid="event-title"
           >
             {event.title}
           </h3>
 
           {/* Description */}
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          <p className="text-body-sm text-swiss-gray mb-6 line-clamp-2 flex-grow">
             {event.description}
           </p>
 
           {/* Meta info */}
-          <div className="space-y-2 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+          <div className="space-y-2 text-body-sm text-swiss-gray">
+            <div className="flex items-center gap-3">
+              <Calendar className="w-4 h-4 flex-shrink-0 text-swiss-black" aria-hidden="true" />
               <time dateTime={event.date} data-testid="event-date">
                 {formattedDate} at {event.time}
               </time>
             </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 flex-shrink-0 text-swiss-black" aria-hidden="true" />
               <span>{event.location}</span>
             </div>
             {event.capacity && (
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+              <div className="flex items-center gap-3">
+                <Users className="w-4 h-4 flex-shrink-0 text-swiss-black" aria-hidden="true" />
                 <span>
                   {event.registered || 0} / {event.capacity} registered
                 </span>
@@ -89,17 +86,17 @@ export function EventCard({ event }: EventCardProps) {
           </div>
 
           {/* CTA */}
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-sm font-semibold uppercase tracking-wider text-bauhaus-blue group-hover:text-bauhaus-red transition-colors">
+          <div className="mt-6 pt-4 border-t border-swiss-border flex items-center justify-between">
+            <span className="text-body-sm font-medium text-swiss-black group-hover:text-swiss-red transition-colors">
               Learn More
             </span>
             <ArrowRight
-              className="w-4 h-4 text-bauhaus-blue group-hover:text-bauhaus-red group-hover:translate-x-1 transition-all"
+              className="w-4 h-4 text-swiss-black group-hover:text-swiss-red group-hover:translate-x-1 transition-all"
               aria-hidden="true"
             />
           </div>
         </div>
-      </Card>
+      </article>
     </Link>
   );
 }

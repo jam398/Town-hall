@@ -24,46 +24,48 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseStyles = `
       inline-flex items-center justify-center
-      font-semibold uppercase tracking-wider
+      font-medium tracking-wide
       transition-all duration-200
+      rounded-swiss
       focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
       disabled:opacity-50 disabled:cursor-not-allowed
     `;
 
     const variants = {
       primary: `
-        bg-bauhaus-blue text-white
-        hover:bg-blue-800 
-        focus-visible:ring-bauhaus-blue
+        bg-swiss-black text-swiss-white
+        hover:bg-neutral-800
+        focus-visible:ring-swiss-black
         active:transform active:scale-[0.98]
       `,
       secondary: `
-        bg-bauhaus-red text-white
-        hover:bg-red-700
-        focus-visible:ring-bauhaus-red
+        bg-swiss-red text-swiss-white
+        hover:bg-red-600
+        focus-visible:ring-swiss-red
         active:transform active:scale-[0.98]
       `,
       accent: `
-        bg-bauhaus-yellow text-black
-        hover:bg-yellow-400
-        focus-visible:ring-bauhaus-yellow
+        bg-swiss-red text-swiss-white
+        hover:bg-red-600
+        focus-visible:ring-swiss-red
         active:transform active:scale-[0.98]
+        uppercase tracking-wider font-semibold
       `,
       outline: `
-        bg-transparent text-bauhaus-blue
-        border-2 border-bauhaus-blue
-        hover:bg-bauhaus-blue hover:text-white
-        focus-visible:ring-bauhaus-blue
+        bg-transparent text-swiss-black
+        border-2 border-swiss-black
+        hover:bg-swiss-black hover:text-swiss-white
+        focus-visible:ring-swiss-black
       `,
       ghost: `
-        bg-transparent text-gray-900
-        hover:bg-gray-100
-        focus-visible:ring-gray-500
+        bg-transparent text-swiss-black
+        hover:bg-swiss-light
+        focus-visible:ring-swiss-gray
       `,
     };
 
     const sizes = {
-      sm: 'px-4 py-2 text-xs',
+      sm: 'px-4 py-2 text-sm',
       md: 'px-6 py-3 text-sm',
       lg: 'px-8 py-4 text-base',
       xl: 'px-10 py-5 text-lg',

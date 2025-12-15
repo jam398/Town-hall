@@ -17,36 +17,30 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b-4 border-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+    <header className="sticky top-0 z-50 bg-swiss-white border-b border-swiss-border">
+      <div className="max-w-swiss mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo - Swiss Modern */}
           <Link 
             href="/" 
             className="flex items-center gap-3 group"
             aria-label="Town Hall - Home"
           >
-            {/* Bauhaus geometric logo */}
-            <div className="flex items-center gap-1">
-              <div className="w-8 h-8 bg-bauhaus-blue" aria-hidden="true" />
-              <div className="w-8 h-8 bg-bauhaus-red" aria-hidden="true" />
-              <div className="w-8 h-8 bg-bauhaus-yellow" aria-hidden="true" />
-            </div>
-            <span className="text-xl md:text-2xl font-black uppercase tracking-tight">
+            <div className="w-2 h-8 bg-swiss-red" aria-hidden="true" />
+            <span className="text-xl font-bold text-swiss-black tracking-tight">
               Town Hall
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
+          {/* Desktop Navigation - Swiss Modern */}
+          <nav className="hidden md:flex items-center gap-10" aria-label="Main navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-semibold uppercase tracking-wider text-gray-900 hover:text-bauhaus-blue transition-colors relative group"
+                className="text-sm font-medium text-swiss-black hover:text-swiss-red transition-colors"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-bauhaus-blue transition-all group-hover:w-full" />
               </Link>
             ))}
           </nav>
@@ -54,7 +48,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="md:hidden p-2 -mr-2"
+            className="md:hidden p-2 -mr-2 text-swiss-black"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -69,20 +63,20 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Swiss Modern Full Screen Overlay */}
       <nav
         id="mobile-menu"
-        className={`md:hidden border-t-2 border-black transition-all duration-300 ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        className={`md:hidden fixed inset-0 top-16 bg-swiss-white z-40 transition-all duration-200 ${
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         aria-label="Mobile navigation"
       >
-        <div className="px-4 py-4 space-y-1 bg-white">
+        <div className="px-6 py-8 space-y-2">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="block py-3 px-4 text-lg font-semibold uppercase tracking-wider text-gray-900 hover:bg-gray-100 hover:text-bauhaus-blue transition-colors"
+              className="block py-4 text-h3 font-semibold text-swiss-black hover:text-swiss-red transition-colors border-b border-swiss-border"
               onClick={() => setIsMenuOpen(false)}
             >
               {link.label}

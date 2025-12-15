@@ -57,6 +57,56 @@ Town Hall Newark follows a **decoupled architecture** with a Next.js frontend, E
 | React Hook Form | 7.49.x | Form management |
 | Zod | 3.22.x | Schema validation |
 | Lucide React | 0.300.x | Icon library |
+| Inter Font | Variable | Swiss Modern typography |
+
+### Design System: Swiss Modern Style
+
+The frontend implements the **Swiss Modern (International Typographic Style)** design system, characterized by:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         SWISS DESIGN PRINCIPLES                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐              │
+│  │   GRID SYSTEM   │  │   TYPOGRAPHY    │  │   WHITESPACE    │              │
+│  │  12-col layout  │  │  Inter font     │  │  Generous gaps  │              │
+│  │  24px gutters   │  │  Bold headlines │  │  Content focus  │              │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐              │
+│  │  MINIMALISM     │  │  HIGH CONTRAST  │  │  ASYMMETRY      │              │
+│  │  No decoration  │  │  Black/White    │  │  Dynamic layout │              │
+│  │  Purpose-driven │  │  Red accents    │  │  Visual flow    │              │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Color System
+
+| Token | Hex | CSS Variable | Usage |
+|-------|-----|--------------|-------|
+| Black | `#0A0A0A` | `--swiss-black` | Headlines, primary text |
+| White | `#FFFFFF` | `--swiss-white` | Backgrounds, cards |
+| Red | `#E53935` | `--swiss-red` | CTAs, accents |
+| Gray 600 | `#6B7280` | `--swiss-gray` | Secondary text |
+| Gray 100 | `#F5F5F5` | `--swiss-light` | Section backgrounds |
+
+#### Typography Scale
+
+| Element | Size | Weight | Line Height |
+|---------|------|--------|-------------|
+| Display | 64px | 700 | 1.0 |
+| H1 | 48px | 700 | 1.1 |
+| H2 | 32px | 600 | 1.2 |
+| H3 | 24px | 600 | 1.3 |
+| Body | 16px | 400 | 1.6 |
+| Caption | 14px | 400 | 1.5 |
+
+#### Spacing System (8px base unit)
+
+```
+xs:  4px  │  sm:  8px  │  md: 16px  │  lg: 24px
+xl: 32px  │ 2xl: 48px  │ 3xl: 64px  │ 4xl: 96px
+```
 
 ### Directory Structure
 

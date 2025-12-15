@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 
 const footerLinks = {
   explore: [
@@ -21,132 +21,113 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-black text-white mt-auto">
-      {/* Bauhaus color bar */}
-      <div className="flex h-2" aria-hidden="true">
-        <div className="flex-1 bg-bauhaus-blue" />
-        <div className="flex-1 bg-bauhaus-red" />
-        <div className="flex-1 bg-bauhaus-yellow" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <div className="flex gap-0.5" aria-hidden="true">
-                <div className="w-4 h-4 bg-bauhaus-blue" />
-                <div className="w-4 h-4 bg-bauhaus-red" />
-                <div className="w-4 h-4 bg-bauhaus-yellow" />
-              </div>
-              <span className="text-xl font-black uppercase tracking-tight">
+    <footer className="bg-swiss-white border-t border-swiss-border mt-auto">
+      <div className="max-w-swiss mx-auto px-6 lg:px-8 py-16 lg:py-20">
+        {/* Main Footer Grid - Swiss Modern asymmetric layout */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Brand Column */}
+          <div className="lg:col-span-4">
+            <Link href="/" className="inline-flex items-center gap-3 mb-6">
+              <div className="w-2 h-8 bg-swiss-red" aria-hidden="true" />
+              <span className="text-xl font-bold text-swiss-black tracking-tight">
                 Town Hall
               </span>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <p className="text-swiss-gray text-body leading-relaxed mb-8 max-w-sm">
               Newark&apos;s nonprofit community hub for AI education, workshops, and events. 
               Empowering our community through technology.
             </p>
-            <div className="space-y-2 text-sm text-gray-400">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+            <div className="space-y-3 text-body-sm text-swiss-gray">
+              <div className="flex items-center gap-3">
+                <MapPin className="w-4 h-4 flex-shrink-0 text-swiss-black" aria-hidden="true" />
                 <span>Newark, New Jersey</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                <a href="mailto:hello@townhallnewark.org" className="hover:text-white transition-colors">
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 flex-shrink-0 text-swiss-black" aria-hidden="true" />
+                <a href="mailto:hello@townhallnewark.org" className="hover:text-swiss-red transition-colors">
                   hello@townhallnewark.org
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Explore */}
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-4">
-              Explore
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.explore.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Links Columns */}
+          <div className="lg:col-span-8">
+            <div className="grid sm:grid-cols-3 gap-8">
+              {/* Explore */}
+              <div>
+                <h3 className="text-body-sm font-semibold text-swiss-black mb-4">
+                  Explore
+                </h3>
+                <ul className="space-y-3">
+                  {footerLinks.explore.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-body-sm text-swiss-gray hover:text-swiss-red transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          {/* Get Involved */}
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-4">
-              Get Involved
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.getInvolved.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+              {/* Get Involved */}
+              <div>
+                <h3 className="text-body-sm font-semibold text-swiss-black mb-4">
+                  Get Involved
+                </h3>
+                <ul className="space-y-3">
+                  {footerLinks.getInvolved.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-body-sm text-swiss-gray hover:text-swiss-red transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          {/* Connect */}
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-4">
-              Connect
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.connect.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                    <span className="sr-only"> (opens in new tab)</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            {/* Newsletter signup teaser */}
-            <div className="mt-8 p-4 bg-gray-900 border-l-4 border-bauhaus-yellow">
-              <p className="text-sm font-semibold mb-2">Stay Updated</p>
-              <p className="text-xs text-gray-400 mb-3">
-                Get the latest events and news delivered to your inbox.
-              </p>
-              <Link
-                href="/contact"
-                className="inline-block text-xs font-semibold uppercase tracking-wider text-bauhaus-yellow hover:text-yellow-300 transition-colors"
-              >
-                Subscribe →
-              </Link>
+              {/* Connect */}
+              <div>
+                <h3 className="text-body-sm font-semibold text-swiss-black mb-4">
+                  Connect
+                </h3>
+                <ul className="space-y-3">
+                  {footerLinks.connect.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-body-sm text-swiss-gray hover:text-swiss-red transition-colors"
+                      >
+                        {link.label}
+                        <span className="sr-only"> (opens in new tab)</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Town Hall Newark. All rights reserved.
+        {/* Bottom bar - Swiss Modern minimal */}
+        <div className="mt-16 pt-8 border-t border-swiss-border flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-body-sm text-swiss-gray">
+            © {new Date().getFullYear()} Town Hall Newark
           </p>
-          <div className="flex gap-6 text-sm text-gray-500">
-            <Link href="/privacy" className="hover:text-white transition-colors">
-              Privacy Policy
+          <div className="flex gap-8 text-body-sm text-swiss-gray">
+            <Link href="/privacy" className="hover:text-swiss-red transition-colors">
+              Privacy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
-              Terms of Service
+            <Link href="/terms" className="hover:text-swiss-red transition-colors">
+              Terms
             </Link>
           </div>
         </div>

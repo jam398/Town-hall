@@ -68,24 +68,45 @@
 
 ---
 
-## Phase 2: Design System & Branding
+## Phase 2: Design System & Branding (Swiss Modern Style)
 
-### 2.1 Brand Guide Implementation
-- [x] **Define brand tokens** in `tailwind.config.js` (Bauhaus colors):
+### 2.1 Swiss Modern Design Implementation
+- [x] **Define Swiss design tokens** in `tailwind.config.js`:
   ```js
-  // Colors: Trust + Accessibility focused
+  // Swiss Modern Color Palette
   colors: {
-    primary: { /* Blue - trust, stability */ },
-    secondary: { /* Green - community, growth */ },
-    accent: { /* Orange - energy, action */ },
-    neutral: { /* Grays for text/backgrounds */ },
+    swiss: {
+      black: '#0A0A0A',    // Headlines, primary text
+      white: '#FFFFFF',     // Backgrounds, cards
+      red: '#E53935',       // CTAs, accents
+      gray: '#6B7280',      // Secondary text
+      light: '#F5F5F5',     // Section backgrounds
+      border: '#E5E5E5',    // Borders, dividers
+      success: '#10B981',   // Success states
+      error: '#EF4444',     // Error states
+      warning: '#F59E0B',   // Warning states
+    }
   }
   ```
-- [x] **Typography system:**
-  - [x] Headings: Clear, bold, accessible (Bauhaus uppercase style)
-  - [x] Body: Readable at all sizes (min 16px)
+- [x] **Typography system (Inter font):**
+  - [x] Display: 64px, Bold (700), line-height 1.0
+  - [x] H1: 48px, Bold (700), line-height 1.1
+  - [x] H2: 32px, Semibold (600), line-height 1.2
+  - [x] H3: 24px, Semibold (600), line-height 1.3
+  - [x] Body: 16px, Regular (400), line-height 1.6
   - [x] Ensure contrast ratios meet WCAG AA (4.5:1 for text)
-- [x] **Create `docs/BRAND_GUIDE.md`** documenting all design decisions
+- [x] **Grid system:**
+  - [x] 12-column grid for desktop
+  - [x] 8-column grid for tablet
+  - [x] 4-column grid for mobile
+  - [x] 24px gutters
+  - [x] 1280px max content width
+- [x] **Swiss design principles:**
+  - [x] Minimal border-radius (0-4px max)
+  - [x] Generous whitespace
+  - [x] High contrast (black/white with red accents)
+  - [x] Clean, functional layouts
+- [x] **Create `docs/BRAND_GUIDE.md`** documenting Swiss Modern design decisions
 
 ### 2.2 Component Library
 - [x] **Layout components:**
