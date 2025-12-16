@@ -33,7 +33,7 @@ function getAllTagsFromEvents(events: Event[]): string[] {
 
 // Featured Event Card - Large format
 function FeaturedEvent({ event }: { event: Event }) {
-  const eventDate = new Date(event.date);
+  const eventDate = new Date(event.date + 'T00:00:00');
   const formattedDate = eventDate.toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',

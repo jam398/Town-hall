@@ -22,7 +22,7 @@ export function EventsPageClient({ events, allTags }: EventsPageClientProps) {
     const oneMonthFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
     return events.filter((event) => {
-      const eventDate = new Date(event.date);
+      const eventDate = new Date(event.date + 'T00:00:00');
 
       // Search filter
       const matchesSearch =

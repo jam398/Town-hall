@@ -4,6 +4,7 @@ import { validate, volunteerSchema } from '../middleware/validation';
 import { sanityService } from '../services/sanity';
 import { emailService } from '../services/email';
 import { hubspotService } from '../services/hubspot';
+import { n8nService } from '../services/n8n';
 import { VolunteerRequest } from '../types';
 
 const router = Router();
@@ -64,6 +65,20 @@ router.post(
       } catch (hubspotError) {
         console.error('Failed to sync with HubSpot:', hubspotError);
         // Don't fail the application if HubSpot fails
+      }
+
+      // Trigger n8n workflow for Discord notification
+      try {
+        await n8nService.notifyVolunteerSignup({
+          firstName,
+          lastName,
+          email,
+          interest,
+          motivation,
+        });
+      } catch (n8nError) {
+        console.error('Failed to trigger n8n workflow:', n8nError);
+        // Don't fail the application if n8n fails
       }
 
       res.json({

@@ -21,7 +21,7 @@ async function fetchVlogs(): Promise<Vlog[]> {
 
 // Featured VlogCard - Large format for hero
 function FeaturedVlogCard({ vlog }: { vlog: Vlog }) {
-  const formattedDate = new Date(vlog.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(vlog.date + 'T00:00:00').toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
@@ -88,7 +88,7 @@ function FeaturedVlogCard({ vlog }: { vlog: Vlog }) {
 
 // VlogCard component - Swiss Modern with enhanced visuals
 function VlogCard({ vlog, index }: { vlog: Vlog; index: number }) {
-  const formattedDate = new Date(vlog.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(vlog.date + 'T00:00:00').toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',

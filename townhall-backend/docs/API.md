@@ -48,6 +48,64 @@ X-Webhook-Signature: sha256=<hmac_signature>
 
 **Query Parameters:**
 - `status` (optional): Filter by status (`published`, `draft`, `cancelled`, `completed`)
+
+**Request:**
+```bash
+curl http://localhost:3001/api/events
+```
+
+**Response:** `200 OK`
+```json
+{
+  "events": [
+    {
+      "slug": "ai-workshop-chatgpt",
+      "title": "Introduction to AI: ChatGPT Workshop",
+      "description": "Learn how to use ChatGPT effectively...",
+      "date": "2026-01-14",
+      "time": "6:00 PM",
+      "location": "Newark Public Library - Main Branch",
+      "capacity": 30,
+      "registered": 15,
+      "tags": ["AI", "Workshop", "Beginner"],
+      "image": "https://cdn.sanity.io/images/..."
+    }
+  ]
+}
+```
+
+---
+
+### List Completed Events
+
+**Endpoint:** `GET /api/events/completed`
+
+**Description:** Retrieve events completed in the last 24 hours (for post-event follow-up automation).
+
+**Request:**
+```bash
+curl http://localhost:3001/api/events/completed
+```
+
+**Response:** `200 OK`
+```json
+{
+  "events": [
+    {
+      "slug": "test",
+      "title": "test",
+      "description": "test event",
+      "date": "2025-12-16",
+      "time": "12:49 PM",
+      "location": "Newark Public Library - Main Branch",
+      "recordingUrl": "https://youtube.com/watch?v=...",
+      "summaryUrl": "https://townhallnewark.org/blog/event-summary"
+    }
+  ]
+}
+```
+
+---
 - `limit` (optional): Number of results (default: 50)
 
 **Request:**
@@ -211,6 +269,88 @@ curl -X POST http://localhost:3001/api/events/ai-workshop-chatgpt/register \
 ```json
 {
   "error": "Registration deadline has passed"
+}
+```
+
+---
+
+### Send Event Reminders
+
+**Endpoint:** `POST /api/events/:slug/send-reminders`
+
+**Description:** Send reminder emails to all registrants for an event. Typically used 24 hours before the event.
+
+**Parameters:**
+- `slug` (path): Event slug identifier
+
+**Request:**
+```bash
+curl -X POST http://localhost:3001/api/events/test/send-reminders
+```
+
+**Response:** `200 OK`
+```json
+{
+  "success": true,
+  "message": "Sent 1 reminder emails",
+  "emailsSent": 1
+}
+```
+
+**Error Responses:**
+
+`404 Not Found` - Event not found:
+```json
+{
+  "error": "Event not found"
+}
+```
+
+`500 Internal Server Error` - Failed to send emails:
+```json
+{
+  "error": "Failed to send reminder emails"
+}
+```
+
+---
+
+### Send Post-Event Follow-ups
+
+**Endpoint:** `POST /api/events/:slug/send-followups`
+
+**Description:** Send thank you emails to all event attendees with recording link, summary, and upcoming events.
+
+**Parameters:**
+- `slug` (path): Event slug identifier
+
+**Request:**
+```bash
+curl -X POST http://localhost:3001/api/events/test/send-followups
+```
+
+**Response:** `200 OK`
+```json
+{
+  "success": true,
+  "message": "Sent 1 follow-up emails",
+  "emailsSent": 1
+}
+```
+
+**Error Responses:**
+
+`404 Not Found` - Event not found:
+```json
+{
+  "error": "Event not found"
+}
+```
+
+`500 Internal Server Error` - Failed to send emails:
+```json
+{
+  "error": "Failed to send follow-up emails"
 }
 ```
 

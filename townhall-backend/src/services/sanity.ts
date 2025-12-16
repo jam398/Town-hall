@@ -80,6 +80,36 @@ export const sanityService = {
     return getClient().fetch(query, { eventId });
   },
 
+  async getEventRegistrations(eventId: string): Promise<any[]> {
+    const query = `*[_type == "registration" && references($eventId)] {
+      _id,
+      firstName,
+      lastName,
+      email,
+      registeredAt
+    }`;
+    return getClient().fetch(query, { eventId });
+  },
+
+  async getCompletedEvents(): Promise<Event[]> {
+    const now = new Date();
+    // Look back 7 days for testing purposes (can be adjusted to 24h for production)
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    
+    const query = `*[_type == "event" && status == "completed" && dateTime >= $sevenDaysAgo] | order(dateTime desc) {
+      _id,
+      title,
+      slug,
+      description,
+      dateTime,
+      location,
+      "featuredImage": featuredImage.asset->url,
+      recordingUrl,
+      summaryUrl
+    }`;
+    return getClient().fetch(query, { sevenDaysAgo: sevenDaysAgo.toISOString() });
+  },
+
   // Blog Posts
   async getBlogPosts(): Promise<BlogPost[]> {
     const query = `*[_type == "blogPost" && status == "published"] | order(publishedAt desc) {

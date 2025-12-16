@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import crypto from 'crypto';
 import { emailService } from '../services/email';
 import { sanityService } from '../services/sanity';
+import { n8nService } from '../services/n8n';
 
 const router = Router();
 
@@ -76,7 +77,7 @@ router.post('/event-published', async (req: Request, res: Response) => {
       });
     }
 
-    const { _id, title, slug, dateTime, location } = req.body;
+    const { _id, title, slug, description, dateTime, location, featuredImage } = req.body;
 
     if (!_id || !title || !slug) {
       return res.status(400).json({
@@ -85,15 +86,33 @@ router.post('/event-published', async (req: Request, res: Response) => {
       });
     }
 
-    // TODO: Send Discord notification when Phase 2.2 is implemented
-    // const discordWebhookUrl = process.env.DISCORD_WEBHOOK_EVENTS;
-    // if (discordWebhookUrl) {
-    //   await sendDiscordNotification(discordWebhookUrl, {
-    //     title: `New Event: ${title}`,
-    //     url: `${process.env.FRONTEND_URL}/events/${slug.current}`,
-    //     description: `📅 ${dateTime} | 📍 ${location}`,
-    //   });
-    // }
+    // Get full event details from Sanity
+    const event = await sanityService.getEventBySlug(slug.current);
+    if (event) {
+      // Parse dateTime into date and time
+      const eventDate = new Date(event.dateTime);
+      const dateStr = eventDate.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      const timeStr = eventDate.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      });
+
+      // Trigger n8n workflow for Discord notification
+      await n8nService.notifyEventPublished({
+        title: event.title,
+        slug: event.slug.current,
+        description: event.description,
+        date: dateStr,
+        time: timeStr,
+        location: event.location,
+        featuredImage: event.featuredImage,
+      });
+    }
 
     console.log(`Event published: ${title} (${slug.current})`);
 
@@ -121,7 +140,7 @@ router.post('/content-published', async (req: Request, res: Response) => {
       });
     }
 
-    const { _id, _type, title, slug, excerpt } = req.body;
+    const { _id, _type, title, slug, excerpt, featuredImage, author } = req.body;
 
     if (!_id || !_type || !title || !slug) {
       return res.status(400).json({
@@ -132,15 +151,16 @@ router.post('/content-published', async (req: Request, res: Response) => {
 
     const contentType = _type === 'blogPost' ? 'Blog Post' : 'Vlog';
 
-    // TODO: Send Discord notification when Phase 2.2 is implemented
-    // const discordWebhookUrl = process.env.DISCORD_WEBHOOK_ANNOUNCEMENTS;
-    // if (discordWebhookUrl) {
-    //   await sendDiscordNotification(discordWebhookUrl, {
-    //     title: `New ${contentType}: ${title}`,
-    //     url: `${process.env.FRONTEND_URL}/${_type === 'blogPost' ? 'blog' : 'vlogs'}/${slug.current}`,
-    //     description: excerpt || 'Check it out!',
-    //   });
-    // }
+    // Trigger n8n workflow for Discord notification (blog posts only)
+    if (_type === 'blogPost') {
+      await n8nService.notifyBlogPublished({
+        title,
+        slug: slug.current,
+        excerpt: excerpt || 'Check out our latest blog post!',
+        featuredImage: featuredImage?.asset?.url,
+        author: author ? { name: author.name } : undefined,
+      });
+    }
 
     console.log(`Content published: ${contentType} - ${title} (${slug.current})`);
 

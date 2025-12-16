@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     );
   }
 
-  const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(post.date + 'T00:00:00').toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
