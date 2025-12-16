@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Event } from '@/components/ui/EventCard';
 import { EventsPageClient } from './EventsPageClient';
 import { getEvents } from '@/lib/api';
@@ -44,21 +45,33 @@ function FeaturedEvent({ event }: { event: Event }) {
   return (
     <Link href={`/events/${event.slug}`} className="group block">
       <article className="grid lg:grid-cols-12 gap-0 bg-swiss-black overflow-hidden">
-        {/* Date display area */}
+        {/* Featured image or date display area */}
         <div className="lg:col-span-4 relative aspect-video lg:aspect-auto lg:min-h-[400px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
-          {/* Large date display - Swiss Modern typographic element */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-            <span className="text-caption font-medium text-swiss-red tracking-widest mb-2">
-              {month}
-            </span>
-            <span className="text-[100px] lg:text-[140px] font-bold text-white leading-none">
-              {day}
-            </span>
-          </div>
+          {event.image ? (
+            <Image
+              src={event.image}
+              alt={event.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 33vw"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+              {/* Large date display - Swiss Modern typographic element */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
+                <span className="text-caption font-medium text-swiss-red tracking-widest mb-2">
+                  {month}
+                </span>
+                <span className="text-[100px] lg:text-[140px] font-bold text-white leading-none">
+                  {day}
+                </span>
+              </div>
+            </>
+          )}
           {/* Tags */}
           {event.tags && event.tags.length > 0 && (
-            <div className="absolute bottom-4 left-4 flex gap-2">
+            <div className="absolute bottom-4 left-4 flex gap-2 z-10">
               {event.tags.slice(0, 2).map((tag) => (
                 <span key={tag} className="px-3 py-1.5 bg-swiss-red text-swiss-white text-caption font-medium">
                   {tag}

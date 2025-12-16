@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar, MapPin, Users, Clock, Share2, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { RegistrationForm } from '@/components/forms/RegistrationForm';
@@ -63,6 +64,19 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           </Link>
         </div>
       </div>
+
+      {/* Featured Image */}
+      {event.image && (
+        <div className="w-full h-[400px] md:h-[500px] relative bg-gray-900">
+          <Image
+            src={event.image}
+            alt={event.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-3 gap-12">

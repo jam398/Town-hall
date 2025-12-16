@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, User, Clock, Share2, Twitter, Facebook, Linkedin } from 'lucide-react';
+import { PortableText } from '@portabletext/react';
 import { BlogCard } from '@/components/ui/BlogCard';
 import { getBlogPost, getBlogPosts, BlogPost } from '@/lib/api';
 
@@ -68,6 +69,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
       </div>
 
+      {/* Featured Image */}
+      {post.image && (
+        <div className="w-full h-[400px] md:h-[500px] relative bg-gray-900">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
+
       {/* Header */}
       <header className="py-12 border-b-4 border-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,7 +106,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="flex flex-wrap items-center gap-6 text-gray-600">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" aria-hidden="true" />
-              <span data-testid="blog-author">{post.author}</span>
+              <span data-testid="blog-author">{typeof post.author === 'string' ? post.author : post.author?.name || 'Town Hall Team'}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5" aria-hidden="true" />
@@ -115,11 +129,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             {/* Main content */}
             <div className="lg:col-span-8">
               <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-a:text-bauhaus-blue prose-a:no-underline hover:prose-a:underline">
-                {post.content && (
+                {post.content && typeof post.content === 'object' ? (
+                  <PortableText value={post.content} />
+                ) : post.content && typeof post.content === 'string' ? (
                   <div dangerouslySetInnerHTML={{ __html: post.content }} />
-                )}
-                {!post.content && (
-                  <p className="text-gray-600">{post.excerpt}</p>
+                ) : (
+                  <p className="text-gray-600">No content available. Excerpt: {post.excerpt}</p>
                 )}
               </div>
 
@@ -127,13 +142,24 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               {post.author && (
                 <div className="mt-12 pt-8 border-t-2 border-black">
                   <div className="flex items-start gap-4">
-                    <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                      {post.author.split(' ').map((n: string) => n[0]).join('')}
-                    </div>
+                    {typeof post.author !== 'string' && post.author.avatar ? (
+                      <div className="w-16 h-16 relative flex-shrink-0 rounded-full overflow-hidden">
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name || 'Author'}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                        {typeof post.author === 'string' ? post.author.split(' ').map((n: string) => n[0]).join('') : (post.author.name || 'THT').split(' ').map((n: string) => n[0]).join('')}
+                      </div>
+                    )}
                     <div>
-                      <p className="font-bold text-lg">About {post.author}</p>
-                      {post.authorBio && (
-                        <p className="text-gray-600">{post.authorBio}</p>
+                      <p className="font-bold text-lg">About {typeof post.author === 'string' ? post.author : post.author.name}</p>
+                      {(typeof post.author !== 'string' && post.author.bio) && (
+                        <p className="text-gray-600">{post.author.bio}</p>
                       )}
                     </div>
                   </div>

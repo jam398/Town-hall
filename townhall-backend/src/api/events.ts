@@ -26,7 +26,7 @@ router.get('/', async (req: Request, res: Response) => {
           capacity: event.maxAttendees,
           registered,
           tags: event.tags || [],
-          image: event.featuredImage?.asset?.url,
+          image: event.featuredImage,
         };
       })
     );
@@ -76,7 +76,7 @@ router.get('/:slug', async (req: Request, res: Response) => {
       capacity: event.maxAttendees,
       registered,
       tags: event.tags || [],
-      image: event.featuredImage?.asset?.url,
+      image: event.featuredImage,
       instructor: event.instructor,
       instructorBio: event.instructorBio,
     };

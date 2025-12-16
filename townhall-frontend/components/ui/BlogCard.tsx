@@ -8,7 +8,7 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   date: string;
-  author: string;
+  author: string | { name: string; bio?: string; avatar?: string };
   image?: string;
   tags?: string[];
   readTime?: string;
@@ -85,7 +85,7 @@ export function BlogCard({ post }: BlogCardProps) {
             </div>
             <div className="flex items-center gap-2">
               <User className="w-4 h-4 text-swiss-black" aria-hidden="true" />
-              <span data-testid="blog-author">{post.author}</span>
+              <span data-testid="blog-author">{typeof post.author === 'string' ? post.author : post.author?.name || 'Town Hall Team'}</span>
             </div>
             {post.readTime && (
               <span>{post.readTime}</span>

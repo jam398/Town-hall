@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost } from '@/components/ui/BlogCard';
 import { BlogPageClient } from './BlogPageClient';
 import { getBlogPosts } from '@/lib/api';
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Blog',
   description: 'Articles about AI, technology, and community from Town Hall Newark. Learn about artificial intelligence in plain language.',
 };
+
+// Revalidate every 10 seconds (or set to 0 for always fresh data)
+export const revalidate = 10;
 
 // Fetch blog posts from backend API
 async function fetchBlogPosts() {
@@ -43,16 +47,28 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
       <article className="grid lg:grid-cols-12 gap-0 bg-swiss-black overflow-hidden">
         {/* Image/Visual area */}
         <div className="lg:col-span-5 relative aspect-video lg:aspect-auto lg:min-h-[400px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
-          {/* Decorative typography */}
-          <div className="absolute inset-0 flex items-center justify-center p-8">
-            <span className="text-[120px] lg:text-[180px] font-bold text-white/5 leading-none select-none">
-              AI
-            </span>
-          </div>
+          {post.image ? (
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 42vw"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+              {/* Decorative typography */}
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <span className="text-[120px] lg:text-[180px] font-bold text-white/5 leading-none select-none">
+                  AI
+                </span>
+              </div>
+            </>
+          )}
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
-            <div className="absolute bottom-4 left-4 flex gap-2">
+            <div className="absolute bottom-4 left-4 flex gap-2 z-10">
               {post.tags.slice(0, 2).map((tag) => (
                 <span key={tag} className="px-3 py-1.5 bg-swiss-red text-swiss-white text-caption font-medium">
                   {tag}
@@ -78,7 +94,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
           <div className="flex items-center gap-6 text-body-sm text-neutral-500 mb-8">
             <div className="flex items-center gap-2">
               <User className="w-4 h-4" aria-hidden="true" />
-              <span>{post.author}</span>
+              <span>{typeof post.author === 'string' ? post.author : post.author?.name || 'Town Hall Team'}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" aria-hidden="true" />

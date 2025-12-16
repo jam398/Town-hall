@@ -8,7 +8,7 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'cdn.sanity.io'],
     formats: ['image/avif', 'image/webp'],
   },
   

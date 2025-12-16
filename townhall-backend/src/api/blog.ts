@@ -16,10 +16,10 @@ router.get('/', async (req: Request, res: Response) => {
       author: post.author && typeof post.author !== 'string'
         ? {
             name: post.author.name,
-            image: post.author.image?.asset?.url,
+            avatar: post.author.avatar,
           }
         : null,
-      mainImage: post.mainImage?.asset?.url,
+      mainImage: post.featuredImage,
       categories: post.categories || [],
       tags: post.tags || [],
       readTime: post.readTime,
@@ -51,11 +51,11 @@ router.get('/:slug', async (req: Request, res: Response) => {
         ? {
             name: post.author.name,
             bio: post.author.bio,
-            image: post.author.image?.asset?.url,
+            avatar: post.author.avatar,
           }
         : null,
-      mainImage: post.mainImage?.asset?.url,
-      body: post.body ? sanityService.portableTextToHtml(post.body) : null,
+      mainImage: post.featuredImage,
+      content: post.content ? sanityService.portableTextToHtml(post.content) : null,
       categories: post.categories || [],
       tags: post.tags || [],
       readTime: post.readTime,

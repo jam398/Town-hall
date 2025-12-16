@@ -46,7 +46,7 @@ export const sanityService = {
       address,
       maxAttendees,
       tags,
-      featuredImage,
+      "featuredImage": featuredImage.asset->url,
       instructor
     }`;
     return getClient().fetch(query);
@@ -68,7 +68,7 @@ export const sanityService = {
       registrationDeadline,
       status,
       tags,
-      featuredImage,
+      "featuredImage": featuredImage.asset->url,
       instructor,
       instructorBio
     }`;
@@ -89,9 +89,9 @@ export const sanityService = {
       excerpt,
       publishedAt,
       tags,
-      featuredImage,
+      "featuredImage": featuredImage.asset->url,
       readTime,
-      "author": author->name
+      "author": author->{name, "avatar": avatar.asset->url}
     }`;
     return getClient().fetch(query);
   },
@@ -105,9 +105,9 @@ export const sanityService = {
       content,
       publishedAt,
       tags,
-      featuredImage,
+      "featuredImage": featuredImage.asset->url,
       readTime,
-      "author": author->{name, bio, avatar}
+      "author": author->{name, bio, "avatar": avatar.asset->url}
     }`;
     return getClient().fetch(query, { slug });
   },

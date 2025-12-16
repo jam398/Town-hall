@@ -31,9 +31,9 @@ export interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
-  content?: string;
+  content?: any; // Portable Text blocks or HTML string
   date: string;
-  author: string;
+  author: string | { name: string; bio?: string; avatar?: string };
   authorBio?: string;
   tags: string[];
   image?: string;
@@ -48,10 +48,11 @@ interface SanityBlogPost {
   author: {
     name: string;
     bio?: string;
-    image?: string;
+    avatar?: string;
   } | null;
   mainImage?: string;
-  body?: string;
+  body?: any; // Portable Text blocks or HTML string
+  content?: any; // Alternative name for body
   categories?: string[];
   tags: string[];
   readTime?: string;
@@ -172,10 +173,9 @@ function mapSanityBlogPost(post: SanityBlogPost): BlogPost {
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt,
-    content: post.body,
+    content: post.content || post.body, // Try 'content' first (from backend), then 'body'
     date: post.publishedAt,
-    author: post.author?.name || 'Town Hall Team',
-    authorBio: post.author?.bio,
+    author: post.author || 'Town Hall Team', // Keep full author object or string fallback
     tags: post.tags || [],
     image: post.mainImage,
     readTime: post.readTime,
