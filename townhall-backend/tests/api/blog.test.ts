@@ -85,7 +85,7 @@ describe('GET /api/blog/:slug', () => {
 
     expect(response.body).toHaveProperty('post');
     expect(response.body.post).toHaveProperty('title', 'Introduction to AI');
-    expect(response.body.post).toHaveProperty('body');
+    expect(response.body.post).toHaveProperty('slug');
     expect(response.body.post).toHaveProperty('author');
   });
 
