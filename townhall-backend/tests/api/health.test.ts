@@ -1,6 +1,9 @@
 import request from 'supertest';
 import express from 'express';
 import healthRouter from '../../src/api/health';
+import { sanityService } from '../../src/services/sanity';
+
+jest.mock('../../src/services/sanity');
 
 // Create test app
 const app = express();
@@ -8,6 +11,11 @@ app.use(express.json());
 app.use('/api/health', healthRouter);
 
 describe('GET /api/health', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (sanityService.getEvents as unknown as jest.Mock).mockResolvedValue([]);
+  });
+
   it('should return 200 with healthy status', async () => {
     const response = await request(app)
       .get('/api/health')

@@ -36,8 +36,8 @@ export function TagFilter({
             className={cn(
               'px-3 py-1 text-sm font-semibold uppercase tracking-wider border-2 transition-colors',
               isSelected
-                ? 'bg-bauhaus-blue text-white border-bauhaus-blue'
-                : 'bg-white text-gray-700 border-gray-300 hover:border-bauhaus-blue'
+                ? 'bg-swiss-black text-swiss-white border-swiss-black'
+                : 'bg-swiss-white text-swiss-gray border-swiss-border hover:border-swiss-black'
             )}
             aria-pressed={isSelected}
           >

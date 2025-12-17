@@ -1,19 +1,9 @@
 import Link from 'next/link';
 import { Calendar, MapPin, Users, ArrowRight } from 'lucide-react';
-import { Card } from './Card';
+import { Event } from '@/lib/api';
 
-export interface Event {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  capacity?: number;
-  registered?: number;
-  image?: string;
-  tags?: string[];
-}
+// Re-export Event type for convenience
+export type { Event } from '@/lib/api';
 
 interface EventCardProps {
   event: Event;

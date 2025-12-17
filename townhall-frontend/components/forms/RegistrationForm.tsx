@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+import { registerForEvent, ApiError } from '@/lib/api';
+import { validators } from '@/lib/validation';
 
 interface RegistrationFormProps {
   eventSlug: string;
@@ -25,19 +25,14 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
+    const firstNameError = validators.required(formData.firstName, 'First name');
+    if (firstNameError) newErrors.firstName = firstNameError;
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
+    const lastNameError = validators.required(formData.lastName, 'Last name');
+    if (lastNameError) newErrors.lastName = lastNameError;
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
+    const emailError = validators.email(formData.email);
+    if (emailError) newErrors.email = emailError;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -53,21 +48,20 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/events/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, eventSlug }),
+      await registerForEvent({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        eventSlug,
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Registration failed');
-      }
-
       setIsSuccess(true);
     } catch (error) {
-      setErrors({ submit: 'Something went wrong. Please try again.' });
+      if (error instanceof ApiError) {
+        setErrors({ submit: error.message });
+      } else {
+        setErrors({ submit: 'Something went wrong. Please try again.' });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -76,7 +70,7 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
   if (isSuccess) {
     return (
       <div className="text-center py-6" role="alert" aria-live="polite">
-        <div className="w-16 h-16 mx-auto mb-4 bg-bauhaus-yellow flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-swiss-light border border-swiss-border flex items-center justify-center">
           <svg
             className="w-8 h-8 text-black"
             fill="none"
@@ -155,7 +149,7 @@ export function RegistrationForm({ eventSlug, eventTitle }: RegistrationFormProp
         />
 
         {errors.submit && (
-          <p className="text-sm text-bauhaus-red" role="alert">
+          <p className="text-sm text-swiss-red" role="alert">
             {errors.submit}
           </p>
         )}

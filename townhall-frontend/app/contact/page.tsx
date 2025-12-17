@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
-import { Mail, MapPin, Phone, Clock } from 'lucide-react';
+import { Mail, MapPin, Clock } from 'lucide-react';
 import { ContactForm } from '@/components/forms/ContactForm';
+import { NewsletterForm } from '@/components/forms/NewsletterForm';
+import { AccentBar } from '@/components/ui/AccentBar';
+import { SITE_CONFIG, SOCIAL_LINKS } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -11,13 +14,13 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@townhallnewark.org',
-    href: 'mailto:hello@townhallnewark.org',
+    value: SITE_CONFIG.email,
+    href: `mailto:${SITE_CONFIG.email}`,
   },
   {
     icon: MapPin,
     label: 'Location',
-    value: 'Newark, New Jersey',
+    value: SITE_CONFIG.location,
     href: 'https://maps.google.com/?q=Newark,NJ',
   },
   {
@@ -28,13 +31,6 @@ const contactInfo = [
   },
 ];
 
-const socialLinks = [
-  { name: 'Discord', href: 'https://discord.gg/townhall' },
-  { name: 'Twitter', href: 'https://twitter.com/townhallnewark' },
-  { name: 'LinkedIn', href: 'https://linkedin.com/company/townhallnewark' },
-  { name: 'YouTube', href: 'https://youtube.com/@townhallnewark' },
-];
-
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-swiss-white">
@@ -43,7 +39,7 @@ export default function ContactPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-h1 font-bold text-swiss-black mb-6">
                 Contact Us
               </h1>
@@ -62,7 +58,7 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-12 gap-16">
             {/* Contact Form */}
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <AccentBar color="black" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black mb-8">
                 Send a Message
               </h2>
@@ -73,7 +69,7 @@ export default function ContactPage() {
 
             {/* Contact Info */}
             <div className="lg:col-span-5">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black mb-8">
                 Other Ways to Reach Us
               </h2>
@@ -115,7 +111,7 @@ export default function ContactPage() {
                   Connect With Us
                 </h3>
                 <div className="flex flex-wrap gap-3">
-                  {socialLinks.map((link) => (
+                  {SOCIAL_LINKS.map((link) => (
                     <a
                       key={link.name}
                       href={link.href}
@@ -138,7 +134,7 @@ export default function ContactPage() {
                   Join our Discord community for faster responses.
                 </p>
                 <a
-                  href="https://discord.gg/townhall"
+                  href={SITE_CONFIG.discord}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-body-sm font-medium text-swiss-black hover:text-swiss-red transition-colors"
@@ -156,7 +152,7 @@ export default function ContactPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-white mb-4">
                 Stay in the Loop
               </h2>
@@ -165,23 +161,7 @@ export default function ContactPage() {
               </p>
             </div>
             <div className="lg:col-span-6">
-              <form className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-4 text-swiss-black bg-swiss-white border border-swiss-border focus:outline-none focus:border-swiss-red"
-                  aria-label="Email address"
-                />
-                <button
-                  type="submit"
-                  className="px-8 py-4 bg-swiss-red text-swiss-white font-medium hover:bg-red-600 transition-colors"
-                >
-                  Subscribe
-                </button>
-              </form>
-              <p className="text-caption text-neutral-500 mt-4">
-                We respect your privacy. Unsubscribe anytime.
-              </p>
+              <NewsletterForm variant="dark" />
             </div>
           </div>
         </div>

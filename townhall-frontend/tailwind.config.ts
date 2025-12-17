@@ -105,6 +105,10 @@ const config: Config = {
         'h2': ['2rem', { lineHeight: '1.2', fontWeight: '600' }],
         'h1': ['3rem', { lineHeight: '1.1', fontWeight: '700' }],
         'display': ['4rem', { lineHeight: '1.0', fontWeight: '700', letterSpacing: '-0.02em' }],
+        // Hero typography - extracted magic numbers
+        'hero': ['4rem', { lineHeight: '0.95', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'hero-lg': ['5.5rem', { lineHeight: '0.95', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'hero-subtitle': ['2.5rem', { lineHeight: '1.1', fontWeight: '700' }],
         // Legacy sizes for compatibility
         'xs': ['0.75rem', { lineHeight: '1rem' }],
         'sm': ['0.875rem', { lineHeight: '1.25rem' }],
@@ -122,6 +126,10 @@ const config: Config = {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
+      },
+      minHeight: {
+        // Hero section heights
+        'hero': '90vh',
       },
       maxWidth: {
         'swiss': '1280px',  // Swiss Modern max content width

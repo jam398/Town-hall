@@ -51,9 +51,9 @@ describe('TagFilter', () => {
     const workshopButton = screen.getByText('Workshop');
     const beginnerButton = screen.getByText('Beginner');
     
-    expect(aiButton).toHaveClass('bg-bauhaus-blue');
-    expect(workshopButton).toHaveClass('bg-bauhaus-blue');
-    expect(beginnerButton).not.toHaveClass('bg-bauhaus-blue');
+    expect(aiButton).toHaveClass('bg-swiss-black');
+    expect(workshopButton).toHaveClass('bg-swiss-black');
+    expect(beginnerButton).not.toHaveClass('bg-swiss-black');
   });
 
   it('sets aria-pressed correctly for selected tags', () => {

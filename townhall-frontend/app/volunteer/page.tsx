@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { Heart, Users, Calendar, Lightbulb, CheckCircle } from 'lucide-react';
 import { VolunteerForm } from '@/components/forms/VolunteerForm';
+import { AccentBar } from '@/components/ui/AccentBar';
+import { Accordion } from '@/components/ui/Accordion';
 
 export const metadata: Metadata = {
   title: 'Volunteer',
@@ -51,7 +53,7 @@ export default function VolunteerPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-h1 font-bold text-swiss-black mb-6">
                 Volunteer With Us
               </h1>
@@ -69,7 +71,7 @@ export default function VolunteerPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 mb-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <AccentBar color="black" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black">
                 Volunteer Opportunities
               </h2>
@@ -110,7 +112,7 @@ export default function VolunteerPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 items-start">
             <div className="lg:col-span-5">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black mb-8">
                 Why Volunteer?
               </h2>
@@ -126,7 +128,7 @@ export default function VolunteerPage() {
             
             {/* Swiss Modern visual block */}
             <div className="lg:col-span-7 bg-swiss-black p-12 lg:p-16">
-              <div className="w-16 h-1 bg-swiss-red mb-8" />
+              <AccentBar color="red" size="lg" className="mb-8" />
               <p className="text-h2 font-semibold text-swiss-white leading-tight">
                 Join a community of passionate volunteers making a real difference in Newark.
               </p>
@@ -140,7 +142,7 @@ export default function VolunteerPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black mb-4">
                 Sign Up to Volunteer
               </h2>
@@ -162,35 +164,32 @@ export default function VolunteerPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-white">
                 Common Questions
               </h2>
             </div>
-            <div className="lg:col-span-8 space-y-8">
-              {[
-                {
-                  q: 'Do I need technical experience?',
-                  a: 'Not at all! We have roles for all skill levels. If you can use a smartphone, you can help.',
-                },
-                {
-                  q: 'How much time do I need to commit?',
-                  a: 'It varies by role, but most volunteers contribute 2-6 hours per month. We work around your schedule.',
-                },
-                {
-                  q: 'Is there training provided?',
-                  a: 'Yes! All volunteers receive orientation and ongoing support. We set you up for success.',
-                },
-                {
-                  q: 'Can I volunteer remotely?',
-                  a: 'Some roles like content creation can be done remotely. Event support requires in-person attendance.',
-                },
-              ].map((faq, index) => (
-                <div key={index} className="border-b border-neutral-700 pb-6">
-                  <h3 className="text-body font-semibold text-swiss-white mb-2">{faq.q}</h3>
-                  <p className="text-body-sm text-neutral-400">{faq.a}</p>
-                </div>
-              ))}
+            <div className="lg:col-span-8">
+              <Accordion
+                items={[
+                  {
+                    question: 'Do I need technical experience?',
+                    answer: 'Not at all! We have roles for all skill levels. If you can use a smartphone, you can help.',
+                  },
+                  {
+                    question: 'How much time do I need to commit?',
+                    answer: 'It varies by role, but most volunteers contribute 2-6 hours per month. We work around your schedule.',
+                  },
+                  {
+                    question: 'Is there training provided?',
+                    answer: 'Yes! All volunteers receive orientation and ongoing support. We set you up for success.',
+                  },
+                  {
+                    question: 'Can I volunteer remotely?',
+                    answer: 'Some roles like content creation can be done remotely. Event support requires in-person attendance.',
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>

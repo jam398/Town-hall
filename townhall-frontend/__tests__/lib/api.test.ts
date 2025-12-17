@@ -153,7 +153,7 @@ describe('API Client', () => {
       
       expect(posts).toHaveLength(2);
       expect(posts[0].slug).toBe('post-1');
-      expect(posts[0].author).toBe('Author 1');
+      expect(posts[0].author).toEqual({ name: 'Author 1' });
     });
   });
 
@@ -169,7 +169,7 @@ describe('API Client', () => {
       const post = await getBlogPost('test-post');
       
       expect(post?.slug).toBe('test-post');
-      expect(post?.author).toBe('Author');
+      expect(post?.author).toEqual({ name: 'Author' });
     });
 
     it('returns null for 404', async () => {

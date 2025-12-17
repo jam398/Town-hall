@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Target, Eye, Heart, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { AccentBar } from '@/components/ui/AccentBar';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -104,7 +105,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             <div className="lg:col-span-5">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-h1 font-bold text-swiss-black mb-6">
                 About Town Hall
               </h1>
@@ -125,7 +126,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 items-start">
             <div className="lg:col-span-5">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-white">
                 Our Mission
               </h2>
@@ -151,7 +152,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 mb-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <AccentBar color="black" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black">
                 Our Values
               </h2>
@@ -189,7 +190,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 mb-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black">
                 Our Team
               </h2>
@@ -228,7 +229,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black mb-4">
                 Our Journey
               </h2>
@@ -257,7 +258,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16 mb-16">
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <AccentBar color="black" size="md" className="mb-6" />
               <h2 className="text-h2 font-bold text-swiss-black">
                 Our Partners
               </h2>
@@ -304,7 +305,7 @@ export default function AboutPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-white mb-6">
                 Join Our Community
               </h2>

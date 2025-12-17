@@ -26,7 +26,7 @@ describe('BlogCard', () => {
   it('renders post date', () => {
     render(<BlogCard post={mockPost} />);
     // Date should be formatted (may vary by timezone)
-    expect(screen.getByText(/december 1\d/i)).toBeInTheDocument();
+    expect(screen.getByText(/december (1\d|20)/i)).toBeInTheDocument();
   });
 
   it('renders author name', () => {

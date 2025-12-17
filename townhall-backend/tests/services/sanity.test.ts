@@ -269,4 +269,109 @@ describe('Sanity Service', () => {
       expect(result).toBe('');
     });
   });
+
+  describe('getCompletedEvents', () => {
+    it('should return list of completed events', async () => {
+      const mockCompletedEvents = [
+        {
+          _id: '1',
+          title: 'Past Workshop',
+          slug: { current: 'past-workshop' },
+          dateTime: '2025-12-10T18:00:00Z',
+          recordingUrl: 'https://youtube.com/123',
+        },
+      ];
+
+      mockFetch.mockResolvedValue(mockCompletedEvents);
+
+      const result = await sanityService.getCompletedEvents();
+
+      expect(result).toEqual(mockCompletedEvents);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('completed'),
+        expect.any(Object)
+      );
+    });
+
+    it('should return empty array when no completed events', async () => {
+      mockFetch.mockResolvedValue([]);
+
+      const result = await sanityService.getCompletedEvents();
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('getEventRegistrations', () => {
+    it('should return registrations for an event', async () => {
+      const mockRegistrations = [
+        { _id: 'reg1', firstName: 'John', email: 'john@example.com' },
+        { _id: 'reg2', firstName: 'Jane', email: 'jane@example.com' },
+      ];
+
+      mockFetch.mockResolvedValue(mockRegistrations);
+
+      const result = await sanityService.getEventRegistrations('event-123');
+
+      expect(result).toEqual(mockRegistrations);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('registration'),
+        expect.objectContaining({ eventId: 'event-123' })
+      );
+    });
+
+    it('should return empty array when no registrations', async () => {
+      mockFetch.mockResolvedValue([]);
+
+      const result = await sanityService.getEventRegistrations('event-456');
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('getEventRegistrationCount', () => {
+    it('should return count of registrations', async () => {
+      mockFetch.mockResolvedValue(25);
+
+      const result = await sanityService.getEventRegistrationCount('event-123');
+
+      expect(result).toBe(25);
+    });
+
+    it('should return 0 when no registrations', async () => {
+      mockFetch.mockResolvedValue(0);
+
+      const result = await sanityService.getEventRegistrationCount('event-456');
+
+      expect(result).toBe(0);
+    });
+  });
+
+  describe('createBlogPost', () => {
+    it('should create a new blog post', async () => {
+      const mockPost = {
+        _id: 'post-123',
+        title: 'New Blog Post',
+        slug: { current: 'new-blog-post' },
+      };
+
+      mockCreate.mockResolvedValue(mockPost);
+
+      const data = {
+        title: 'New Blog Post',
+        slug: { current: 'new-blog-post' },
+        excerpt: 'This is a test post',
+      };
+
+      const result = await sanityService.createBlogPost(data);
+
+      expect(result).toEqual(mockPost);
+      expect(mockCreate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          _type: 'blogPost',
+          title: 'New Blog Post',
+        })
+      );
+    });
+  });
 });

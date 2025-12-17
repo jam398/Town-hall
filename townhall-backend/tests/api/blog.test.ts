@@ -77,6 +77,7 @@ describe('GET /api/blog/:slug', () => {
     };
 
     (sanityService.getBlogPostBySlug as jest.Mock).mockResolvedValue(mockPost);
+    (sanityService.portableTextToHtml as jest.Mock).mockReturnValue('<p>AI is amazing...</p>');
 
     const response = await request(app)
       .get('/api/blog/introduction-to-ai')
@@ -85,7 +86,7 @@ describe('GET /api/blog/:slug', () => {
 
     expect(response.body).toHaveProperty('post');
     expect(response.body.post).toHaveProperty('title', 'Introduction to AI');
-    expect(response.body.post).toHaveProperty('body');
+    expect(response.body.post).toHaveProperty('content');
     expect(response.body.post).toHaveProperty('author');
   });
 

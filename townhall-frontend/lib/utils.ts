@@ -10,16 +10,51 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Format date for display
+ * Predefined date format presets for consistent formatting across the app
  */
-export function formatDate(date: string | Date, options?: Intl.DateTimeFormatOptions): string {
+export const DATE_FORMATS = {
+  // "February 15, 2024"
+  full: { year: 'numeric', month: 'long', day: 'numeric' } as const,
+  // "Feb 15, 2024"
+  short: { year: 'numeric', month: 'short', day: 'numeric' } as const,
+  // "Thursday, February 15"
+  weekday: { weekday: 'long', month: 'long', day: 'numeric' } as const,
+  // "FEB"
+  monthShort: { month: 'short' } as const,
+  // "15"
+  dayOnly: { day: 'numeric' } as const,
+  // "February 2024"
+  monthYear: { year: 'numeric', month: 'long' } as const,
+};
+
+type DateFormatPreset = keyof typeof DATE_FORMATS;
+
+/**
+ * Format date for display
+ * @param date - Date string or Date object
+ * @param format - Preset format name or custom Intl.DateTimeFormatOptions
+ */
+export function formatDate(
+  date: string | Date, 
+  format: DateFormatPreset | Intl.DateTimeFormatOptions = 'full'
+): string {
   const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    ...options,
-  });
+  const options = typeof format === 'string' ? DATE_FORMATS[format] : format;
+  return d.toLocaleDateString('en-US', options);
+}
+
+/**
+ * Get date parts for custom display (e.g., large day number with month label)
+ */
+export function getDateParts(date: string | Date) {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return {
+    day: d.getDate(),
+    month: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    monthLong: d.toLocaleDateString('en-US', { month: 'long' }),
+    year: d.getFullYear(),
+    weekday: d.toLocaleDateString('en-US', { weekday: 'long' }),
+  };
 }
 
 /**

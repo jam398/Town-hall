@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, MapPin, Users, Clock, Share2, CheckCircle } from 'lucide-react';
@@ -6,6 +7,38 @@ import { Button } from '@/components/ui/Button';
 import { RegistrationForm } from '@/components/forms/RegistrationForm';
 import { ICalButton } from './ICalButton';
 import { getEvent } from '@/lib/api';
+import { createSafeHtml } from '@/lib/sanitize';
+import { JsonLd, generateEventJsonLd } from '@/components/seo/JsonLd';
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://townhallnewark.org';
+
+/**
+ * Convert time string (e.g., "6:00 PM") to 24-hour format for calendar
+ */
+function parseTime(timeStr: string): { hours: number; minutes: number } {
+  const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return { hours: 0, minutes: 0 };
+  
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3].toUpperCase();
+  
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  
+  return { hours, minutes };
+}
+
+/**
+ * Format date and time for Google Calendar (YYYYMMDDTHHMMSS format)
+ */
+function formatCalendarDateTime(date: string, time: string): string {
+  const { hours, minutes } = parseTime(time);
+  const dateStr = date.replace(/-/g, '');
+  const hoursStr = hours.toString().padStart(2, '0');
+  const minutesStr = minutes.toString().padStart(2, '0');
+  return `${dateStr}T${hoursStr}${minutesStr}00`;
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const event = await getEvent(params.slug);
@@ -22,17 +55,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
   const event = await getEvent(params.slug);
 
   if (!event) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-black uppercase mb-4">Event Not Found</h1>
-          <p className="text-gray-600 mb-6">This event doesn&apos;t exist or has been removed.</p>
-          <Link href="/events">
-            <Button variant="primary">View All Events</Button>
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
@@ -45,19 +68,29 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
   const spotsLeft = event.capacity - event.registered;
   const isAlmostFull = spotsLeft <= 10;
 
-  // Generate calendar links
+  // Generate calendar links with proper date/time format
+  const startDateTime = formatCalendarDateTime(event.date, event.time || '12:00 PM');
+  const endDateTime = formatCalendarDateTime(event.date, event.endTime || '2:00 PM');
   const calendarDate = event.date?.replace(/-/g, '') || '';
   const eventLocation = event.address || event.location || '';
-  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(eventLocation)}`;
+  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${startDateTime}/${endDateTime}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(eventLocation)}`;
+  
+  // Share URL using environment variable
+  const shareUrl = `${BASE_URL}/events/${event.slug}`;
+
+  // Generate JSON-LD structured data for SEO
+  const jsonLd = generateEventJsonLd(event, BASE_URL);
 
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLd data={jsonLd} />
+      <div className="min-h-screen">
       {/* Back link */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link
             href="/events"
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-600 hover:text-bauhaus-blue transition-colors"
+            className="inline-flex items-center gap-2 text-body-sm font-semibold text-swiss-gray hover:text-swiss-red transition-colors"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Events
@@ -83,16 +116,18 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Tags */}
+            {event.tags && event.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {event.tags.map((tag: string) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-bauhaus-yellow text-black"
+                  className="px-3 py-1 text-caption font-semibold uppercase tracking-wider bg-swiss-light text-swiss-black"
                 >
                   {tag}
                 </span>
               ))}
             </div>
+            )}
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-black uppercase mb-6" data-testid="event-title">
@@ -102,15 +137,15 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
             {/* Meta */}
             <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
               <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-bauhaus-blue" aria-hidden="true" />
+                <Calendar className="w-5 h-5 text-swiss-black" aria-hidden="true" />
                 <time dateTime={event.date}>{formattedDate}</time>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-bauhaus-blue" aria-hidden="true" />
+                <Clock className="w-5 h-5 text-swiss-black" aria-hidden="true" />
                 <span>{event.time} - {event.endTime}</span>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-bauhaus-blue" aria-hidden="true" />
+                <MapPin className="w-5 h-5 text-swiss-black" aria-hidden="true" />
                 <span>{event.location}</span>
               </div>
             </div>
@@ -118,19 +153,19 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
             {/* Description */}
             <div
               className="prose prose-lg max-w-none mb-8"
-              dangerouslySetInnerHTML={{ __html: event.longDescription || '' }}
+              dangerouslySetInnerHTML={createSafeHtml(event.longDescription)}
             />
 
             {/* What You'll Learn */}
             {event.whatYouWillLearn && event.whatYouWillLearn.length > 0 && (
-              <div className="bg-gray-50 p-6 mb-8 border-l-4 border-bauhaus-blue">
+              <div className="bg-swiss-light p-6 mb-8 border-l-4 border-swiss-black">
                 <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
                   What You&apos;ll Learn
                 </h2>
                 <ul className="space-y-3">
                   {event.whatYouWillLearn.map((item: string, index: number) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-bauhaus-blue flex-shrink-0 mt-0.5" aria-hidden="true" />
+                      <CheckCircle className="w-5 h-5 text-swiss-red flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -150,14 +185,14 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
 
             {/* What to Bring */}
             {event.whatToBring && event.whatToBring.length > 0 && (
-              <div className="bg-bauhaus-yellow/10 p-6 mb-8 border-l-4 border-bauhaus-yellow">
+              <div className="bg-swiss-light p-6 mb-8 border-l-4 border-swiss-red">
                 <h2 className="text-xl font-bold uppercase tracking-wider mb-4">
                   What to Bring
                 </h2>
                 <ul className="space-y-2">
                   {event.whatToBring.map((item: string, index: number) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="text-bauhaus-yellow">•</span>
+                      <span className="text-swiss-red">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -172,7 +207,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   Your Instructor
                 </h2>
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-16 h-16 bg-swiss-black flex items-center justify-center text-swiss-white font-bold text-xl">
                     {event.instructor.split(' ').map((n: string) => n[0]).join('')}
                   </div>
                   <div>
@@ -191,7 +226,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
               </h2>
               <div className="flex gap-4">
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(event.title)}&url=${encodeURIComponent(`https://townhallnewark.org/events/${event.slug}`)}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(event.title)}&url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold text-sm uppercase tracking-wider hover:bg-gray-200 transition-colors"
@@ -200,7 +235,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   Twitter
                 </a>
                 <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://townhallnewark.org/events/${event.slug}`)}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold text-sm uppercase tracking-wider hover:bg-gray-200 transition-colors"
@@ -209,7 +244,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   Facebook
                 </a>
                 <a
-                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://townhallnewark.org/events/${event.slug}`)}&title=${encodeURIComponent(event.title)}`}
+                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(event.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold text-sm uppercase tracking-wider hover:bg-gray-200 transition-colors"
@@ -230,19 +265,19 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
                     Registration
                   </span>
-                  <span className="text-2xl font-black text-bauhaus-blue">FREE</span>
+                  <span className="text-h2 font-bold text-swiss-red">FREE</span>
                 </div>
 
                 <div className="flex items-center gap-2 mb-4">
                   <Users className="w-5 h-5 text-gray-500" aria-hidden="true" />
-                  <span className={isAlmostFull ? 'text-bauhaus-red font-semibold' : 'text-gray-600'}>
+                  <span className={isAlmostFull ? 'text-swiss-red font-semibold' : 'text-swiss-gray'}>
                     {spotsLeft} spots remaining
                   </span>
                 </div>
 
                 <div className="w-full bg-gray-200 h-2 mb-6">
                   <div
-                    className="bg-bauhaus-blue h-2 transition-all"
+                    className="bg-swiss-black h-2 transition-all"
                     style={{ width: `${(event.registered / event.capacity) * 100}%` }}
                   />
                 </div>
@@ -268,7 +303,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                     eventSlug={event.slug}
                     eventTitle={event.title}
                     eventDescription={event.description}
-                    eventAddress={event.address}
+                    eventAddress={event.address || ''}
                     calendarDate={calendarDate}
                   />
                 </div>
@@ -282,10 +317,10 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                 <p className="font-semibold">{event.location}</p>
                 <p className="text-gray-600 text-sm">{event.address}</p>
                 <a
-                  href={`https://maps.google.com/?q=${encodeURIComponent(event.address)}`}
+                  href={`https://maps.google.com/?q=${encodeURIComponent(event.address || event.location)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 text-sm font-semibold uppercase tracking-wider text-bauhaus-blue hover:text-bauhaus-red transition-colors"
+                  className="inline-block mt-4 text-body-sm font-semibold text-swiss-black hover:text-swiss-red transition-colors"
                 >
                   Get Directions →
                 </a>
@@ -294,6 +329,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

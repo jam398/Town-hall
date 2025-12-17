@@ -14,6 +14,8 @@ export interface Event {
   description: string;
   longDescription?: string;
   whatYouWillLearn?: string[];
+  whoShouldAttend?: string;
+  whatToBring?: string[];
   date: string;
   time: string;
   endTime?: string;
@@ -21,7 +23,7 @@ export interface Event {
   address?: string;
   capacity: number;
   registered: number;
-  tags: string[];
+  tags?: string[];
   image?: string;
   instructor?: string;
   instructorBio?: string;
@@ -35,7 +37,7 @@ export interface BlogPost {
   date: string;
   author: string | { name: string; bio?: string; avatar?: string };
   authorBio?: string;
-  tags: string[];
+  tags?: string[];
   image?: string;
   readTime?: string;
 }
@@ -99,22 +101,81 @@ export interface NewsletterData {
   email: string;
 }
 
-// API Error class
+// Validation error detail from backend
+export interface ValidationErrorDetail {
+  field: string;
+  message: string;
+}
+
+// API Error class with enhanced error handling
 export class ApiError extends Error {
+  public details?: ValidationErrorDetail[];
+  
   constructor(
     message: string,
     public status: number,
-    public code?: string
+    public code?: string,
+    details?: ValidationErrorDetail[]
   ) {
     super(message);
     this.name = 'ApiError';
+    this.details = details;
+  }
+
+  /**
+   * Get a user-friendly error message based on error code/status
+   */
+  getUserMessage(): string {
+    // Rate limiting
+    if (this.status === 429 || this.code === 'RATE_LIMITED') {
+      return 'Too many attempts. Please wait a minute and try again.';
+    }
+    
+    // Validation errors - show first field error or generic
+    if (this.status === 400 || this.code === 'VALIDATION_ERROR') {
+      if (this.details && this.details.length > 0) {
+        return this.details[0].message;
+      }
+      return 'Please check your input and try again.';
+    }
+    
+    // Auth errors
+    if (this.status === 401 || this.status === 403) {
+      return 'You are not authorized to perform this action.';
+    }
+    
+    // Not found
+    if (this.status === 404) {
+      return 'The requested resource was not found.';
+    }
+    
+    // Server errors
+    if (this.status >= 500) {
+      return 'Our server is having issues. Please try again later.';
+    }
+    
+    // Default to the message from backend or generic
+    return this.message || 'Something went wrong. Please try again.';
   }
 }
+
+// Cache configuration for different request types
+const CACHE_CONFIG = {
+  // Static content - cache for 5 minutes, revalidate in background
+  static: { next: { revalidate: 300 } } as RequestInit,
+  // Dynamic content - cache for 1 minute
+  dynamic: { next: { revalidate: 60 } } as RequestInit,
+  // No cache for mutations
+  mutation: { cache: 'no-store' } as RequestInit,
+} as const;
+
+type CacheStrategy = keyof typeof CACHE_CONFIG;
 
 // Helper function for API requests
 async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  cacheStrategy: CacheStrategy = 'dynamic'
 ): Promise<T> {
   const url = `${API_URL}${endpoint}`;
   
@@ -122,7 +183,13 @@ async function apiRequest<T>(
     'Content-Type': 'application/json',
   };
 
+  // Apply cache strategy for GET requests, no-store for mutations
+  const cacheConfig = options.method && options.method !== 'GET' 
+    ? CACHE_CONFIG.mutation 
+    : CACHE_CONFIG[cacheStrategy];
+
   const response = await fetch(url, {
+    ...cacheConfig,
     ...options,
     headers: {
       ...defaultHeaders,
@@ -133,9 +200,10 @@ async function apiRequest<T>(
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new ApiError(
-      errorData.message || 'An error occurred',
+      errorData.error || errorData.message || 'An error occurred',
       response.status,
-      errorData.code
+      errorData.code,
+      errorData.details
     );
   }
 
@@ -144,7 +212,7 @@ async function apiRequest<T>(
 
 // Events API
 export async function getEvents(): Promise<Event[]> {
-  const response = await apiRequest<{ events: Event[] }>('/events');
+  const response = await apiRequest<{ events: Event[] }>('/events', {}, 'dynamic');
   return response.events;
 }
 
@@ -184,7 +252,7 @@ function mapSanityBlogPost(post: SanityBlogPost): BlogPost {
 
 // Blog API
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const response = await apiRequest<{ posts: SanityBlogPost[] }>('/blog');
+  const response = await apiRequest<{ posts: SanityBlogPost[] }>('/blog', {}, 'static');
   return response.posts.map(mapSanityBlogPost);
 }
 
@@ -202,7 +270,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
 // Vlogs API
 export async function getVlogs(): Promise<Vlog[]> {
-  const response = await apiRequest<{ vlogs: Vlog[] }>('/vlogs');
+  const response = await apiRequest<{ vlogs: Vlog[] }>('/vlogs', {}, 'static');
   return response.vlogs;
 }
 

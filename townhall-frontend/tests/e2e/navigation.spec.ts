@@ -38,28 +38,28 @@ test.describe('Navigation', () => {
   });
 
   test('main navigation links work', async ({ page }) => {
-    // Test Events link
-    await page.locator('nav a[href="/events"]').click();
+    // Test Events link - use first() to avoid strict mode violation with mobile nav
+    await page.locator('nav a[href="/events"]').first().click();
     await expect(page).toHaveURL('/events');
     await expect(page.locator('h1')).toContainText(/events/i);
 
     // Test Blog link
-    await page.locator('nav a[href="/blog"]').click();
+    await page.locator('nav a[href="/blog"]').first().click();
     await expect(page).toHaveURL('/blog');
     await expect(page.locator('h1')).toContainText(/blog/i);
 
     // Test Volunteer link
-    await page.locator('nav a[href="/volunteer"]').click();
+    await page.locator('nav a[href="/volunteer"]').first().click();
     await expect(page).toHaveURL('/volunteer');
     await expect(page.locator('h1')).toContainText(/volunteer/i);
 
     // Test About link
-    await page.locator('nav a[href="/about"]').click();
+    await page.locator('nav a[href="/about"]').first().click();
     await expect(page).toHaveURL('/about');
     await expect(page.locator('h1')).toContainText(/about/i);
 
     // Test Contact link
-    await page.locator('nav a[href="/contact"]').click();
+    await page.locator('nav a[href="/contact"]').first().click();
     await expect(page).toHaveURL('/contact');
     await expect(page.locator('h1')).toContainText(/contact/i);
   });
@@ -87,7 +87,7 @@ test.describe('Mobile Navigation', () => {
     await page.goto('/');
     
     // Find mobile menu button (hamburger)
-    const menuButton = page.locator('button[aria-label*="menu" i], button[aria-expanded]');
+    const menuButton = page.locator('button[aria-label*="menu" i]');
     
     // Menu should be closed initially
     await expect(menuButton).toBeVisible();
@@ -95,27 +95,28 @@ test.describe('Mobile Navigation', () => {
     // Open menu
     await menuButton.click();
     
-    // Navigation should now be visible
-    const mobileNav = page.locator('nav[aria-label*="mobile" i], nav.mobile-nav, [data-mobile-nav]');
-    // Or check that nav links are now visible
-    await expect(page.locator('nav a[href="/events"]')).toBeVisible();
+    // Mobile navigation should now be visible - use specific aria-label
+    const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+    await expect(mobileNav).toBeVisible();
+    await expect(mobileNav.locator('a[href="/events"]')).toBeVisible();
     
     // Close menu
     await menuButton.click();
     
-    // Verify menu is closed (nav links hidden on mobile)
-    // This depends on implementation - adjust as needed
+    // Verify menu is closed
+    await expect(mobileNav).not.toBeVisible();
   });
 
   test('mobile navigation links work', async ({ page }) => {
     await page.goto('/');
     
     // Open mobile menu
-    const menuButton = page.locator('button[aria-label*="menu" i], button[aria-expanded]');
+    const menuButton = page.locator('button[aria-label*="menu" i]');
     await menuButton.click();
     
-    // Click Events link
-    await page.locator('nav a[href="/events"]').click();
+    // Click Events link in mobile nav specifically
+    const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+    await mobileNav.locator('a[href="/events"]').click();
     
     // Verify navigation occurred
     await expect(page).toHaveURL('/events');
@@ -167,6 +168,6 @@ test.describe('Error Handling', () => {
     await expect(page.locator('body')).toContainText(/not found|404|page doesn't exist/i);
     
     // Should have link back to homepage
-    await expect(page.locator('a[href="/"]')).toBeVisible();
+    await expect(page.locator('a[href="/"]').first()).toBeVisible();
   });
 });

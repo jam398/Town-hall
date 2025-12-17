@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Play, Clock, Eye, ArrowRight } from 'lucide-react';
+import { Play, Eye, ArrowRight } from 'lucide-react';
 import { getVlogs, Vlog } from '@/lib/api';
+import { SITE_CONFIG } from '@/lib/constants';
+import { FeaturedVlog } from '@/components/ui/FeaturedVlog';
+import { ContentStats } from '@/components/ui/ContentStats';
 
 export const metadata: Metadata = {
   title: 'Vlogs',
@@ -19,71 +22,17 @@ async function fetchVlogs(): Promise<Vlog[]> {
   }
 }
 
-// Featured VlogCard - Large format for hero
-function FeaturedVlogCard({ vlog }: { vlog: Vlog }) {
-  const formattedDate = new Date(vlog.date + 'T00:00:00').toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  return (
-    <Link
-      href={`https://youtube.com/watch?v=${vlog.youtubeId}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-      data-testid="featured-vlog-card"
-    >
-      <article className="grid lg:grid-cols-12 gap-0 bg-swiss-black overflow-hidden">
-        {/* Video thumbnail area */}
-        <div className="lg:col-span-7 relative aspect-video lg:aspect-auto lg:min-h-[400px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 to-neutral-800" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 lg:w-24 lg:h-24 bg-swiss-white flex items-center justify-center group-hover:bg-swiss-red transition-all duration-300 group-hover:scale-110">
-              <Play className="w-10 h-10 lg:w-12 lg:h-12 text-swiss-black group-hover:text-swiss-white ml-1" fill="currentColor" />
-            </div>
-          </div>
-          {vlog.duration && (
-            <div className="absolute bottom-4 left-4 px-3 py-1.5 bg-swiss-red text-swiss-white text-body-sm font-medium">
-              {vlog.duration}
-            </div>
-          )}
-          {/* Decorative grid lines */}
-          <div className="absolute top-0 right-0 w-px h-full bg-neutral-700 hidden lg:block" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-neutral-700 lg:hidden" />
-        </div>
-        
-        {/* Content area */}
-        <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-center">
-          <div className="w-12 h-1 bg-swiss-red mb-6" />
-          <p className="text-caption font-medium text-swiss-red mb-4 tracking-wide">
-            FEATURED VIDEO
-          </p>
-          <h2 className="text-h2 lg:text-h1 font-bold text-swiss-white mb-4 group-hover:text-swiss-red transition-colors">
-            {vlog.title}
-          </h2>
-          <p className="text-body text-neutral-400 mb-6 line-clamp-3">
-            {vlog.description}
-          </p>
-          <div className="flex items-center gap-6 text-body-sm text-neutral-500 mb-8">
-            <div className="flex items-center gap-2">
-              <Eye className="w-4 h-4" aria-hidden="true" />
-              <span>{vlog.views?.toLocaleString() || 0} views</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" aria-hidden="true" />
-              <span>{formattedDate}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-swiss-white group-hover:text-swiss-red transition-colors">
-            <span className="font-medium">Watch Now</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </div>
-        </div>
-      </article>
-    </Link>
-  );
+// Generate stats for vlogs
+function getVlogStats(vlogs: Vlog[]) {
+  const totalViews = vlogs.reduce((sum, vlog) => sum + (vlog.views || 0), 0);
+  const totalVideos = vlogs.length;
+  
+  return [
+    { value: totalVideos, label: 'Videos' },
+    { value: totalViews.toLocaleString(), label: 'Total Views' },
+    { value: '100%', label: 'Free Content' },
+    { value: 'Weekly', label: 'New Uploads' },
+  ];
 }
 
 // VlogCard component - Swiss Modern with enhanced visuals
@@ -152,27 +101,6 @@ function VlogCard({ vlog, index }: { vlog: Vlog; index: number }) {
   );
 }
 
-// Stats component - Swiss Modern bold typography
-function VlogStats({ vlogs }: { vlogs: Vlog[] }) {
-  const totalViews = vlogs.reduce((sum, vlog) => sum + (vlog.views || 0), 0);
-  const totalVideos = vlogs.length;
-  
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-swiss-border">
-      {[
-        { value: totalVideos, label: 'Videos' },
-        { value: totalViews.toLocaleString(), label: 'Total Views' },
-        { value: '100%', label: 'Free Content' },
-        { value: 'Weekly', label: 'New Uploads' },
-      ].map((stat, index) => (
-        <div key={index} className="bg-swiss-white p-6 lg:p-8 text-center">
-          <p className="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">{stat.value}</p>
-          <p className="text-body-sm text-swiss-gray">{stat.label}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // Main page content - Swiss Modern with visual enhancements
 function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
@@ -203,7 +131,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
         {/* Featured Video */}
         {featuredVlog && (
           <div className="max-w-swiss mx-auto px-6 lg:px-8 pb-16 lg:pb-24">
-            <FeaturedVlogCard vlog={featuredVlog} />
+            <FeaturedVlog vlog={featuredVlog} />
           </div>
         )}
       </section>
@@ -212,7 +140,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
       {vlogs.length > 0 && (
         <section className="border-y border-swiss-border">
           <div className="max-w-swiss mx-auto">
-            <VlogStats vlogs={vlogs} />
+            <ContentStats stats={getVlogStats(vlogs)} />
           </div>
         </section>
       )}
@@ -270,14 +198,14 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
                 Get notified when we post new workshops, tutorials, and community stories.
               </p>
               <a
-                href="https://youtube.com/@townhallnewark"
+                href={SITE_CONFIG.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-swiss-red text-swiss-white font-medium hover:bg-red-600 transition-colors group"
               >
-                <Play className="w-5 h-5" fill="currentColor" />
+                <Play className="w-5 h-5" fill="currentColor" aria-hidden="true" />
                 Subscribe on YouTube
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </a>
             </div>
             <div className="lg:col-span-5 hidden lg:flex justify-end">
