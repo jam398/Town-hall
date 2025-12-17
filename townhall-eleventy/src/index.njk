@@ -1,0 +1,186 @@
+---
+layout: base.njk
+title: Home
+description: Newark's community hub for free AI education. Learn artificial intelligence with your neighbors.
+---
+
+<!-- Hero Section -->
+<section class="py-24 lg:py-32 bg-swiss-white border-b border-swiss-border">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-7">
+        {% accentBar "red" %}
+        <h1 class="text-h1 lg:text-display font-bold text-swiss-black mb-6">
+          Newark's Free<br>AI Education Hub
+        </h1>
+        <p class="text-body-lg text-swiss-gray mb-8 max-w-xl">
+          Learn artificial intelligence with your neighbors. No experience needed. 
+          No cost. Just curiosity.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/events/" class="btn btn-primary">
+            Browse Events
+          </a>
+          <a href="{{ site.discord }}" target="_blank" rel="noopener" class="btn btn-outline">
+            Join Discord
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="border-b border-swiss-border">
+  <div class="max-w-swiss mx-auto">
+    <div class="grid grid-cols-2 lg:grid-cols-4">
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">500+</p>
+        <p class="text-body-sm text-swiss-gray">Attendees</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">50+</p>
+        <p class="text-body-sm text-swiss-gray">Workshops</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">100%</p>
+        <p class="text-body-sm text-swiss-gray">Free</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">Weekly</p>
+        <p class="text-body-sm text-swiss-gray">Events</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        {% accentBar "black" %}
+        <h2 class="text-h2 font-bold text-swiss-black">Upcoming Events</h2>
+      </div>
+      <a href="/events/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors">
+        View All Events →
+      </a>
+    </div>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for event in collections.events | limit(3) %}
+      <a href="/events/{{ event.data.slug }}/" class="card block group">
+        <div class="h-1 bg-swiss-red"></div>
+        <div class="p-6">
+          {% if event.data.tags %}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {% for tag in event.data.tags %}
+            <span class="px-2 py-1 text-caption font-medium bg-swiss-light text-swiss-gray">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <h3 class="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors">
+            {{ event.data.title }}
+          </h3>
+          <p class="text-body-sm text-swiss-gray mb-6 line-clamp-2">
+            {{ event.data.description }}
+          </p>
+          <div class="text-body-sm text-swiss-gray">
+            <p>📅 {{ event.data.date | dateFormat }}</p>
+            <p>📍 {{ event.data.location }}</p>
+          </div>
+        </div>
+      </a>
+      {% else %}
+      <p class="text-swiss-gray">No upcoming events. Check back soon!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="py-24 lg:py-32 bg-swiss-black">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-5">
+        {% accentBar "red" %}
+        <h2 class="text-h1 font-bold text-white">What is Town Hall?</h2>
+      </div>
+      <div class="lg:col-span-7">
+        <p class="text-body-lg text-neutral-400 mb-8">
+          AI education shouldn't be exclusive. We bring free workshops to Newark, 
+          teaching practical AI skills to anyone who wants to learn—no tech 
+          background required.
+        </p>
+        <a href="/about/" class="text-body font-medium text-white hover:text-swiss-red transition-colors">
+          Learn About Us →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Latest Blog Posts -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        {% accentBar "red" %}
+        <h2 class="text-h2 font-bold text-swiss-black">Latest from Town Hall</h2>
+      </div>
+      <a href="/blog/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors">
+        View All Articles →
+      </a>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      {% for post in collections.posts | limit(2) %}
+      <a href="/blog/{{ post.data.slug }}/" class="card block group">
+        <div class="aspect-video bg-swiss-black flex items-center justify-center">
+          <div class="w-12 h-1 bg-swiss-red"></div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors">
+            {{ post.data.title }}
+          </h3>
+          <p class="text-body-sm text-swiss-gray mb-4 line-clamp-2">
+            {{ post.data.excerpt }}
+          </p>
+          <p class="text-body-sm text-swiss-gray">
+            {{ post.data.date | shortDate }} • {{ post.data.author }}
+          </p>
+        </div>
+      </a>
+      {% else %}
+      <p class="text-swiss-gray">No blog posts yet. Check back soon!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 lg:py-32 bg-swiss-black">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        {% accentBar "red" %}
+        <h2 class="text-h1 font-bold text-white mb-6">
+          Ready to Start Learning?
+        </h2>
+        <p class="text-body-lg text-neutral-400 max-w-lg">
+          Join our next workshop or connect with the community on Discord.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/events/" class="btn btn-primary">
+            Browse Events
+          </a>
+          <a href="{{ site.discord }}" target="_blank" rel="noopener" class="btn btn-outline" style="border-color: white; color: white;">
+            Join Discord
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

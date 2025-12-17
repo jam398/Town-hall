@@ -1,0 +1,29 @@
+{
+  "name": "townhall-eleventy",
+  "version": "1.0.0",
+  "description": "Town Hall Newark - Eleventy Static Site",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "debug": "DEBUG=Eleventy* eleventy",
+    "clean": "rimraf _site"
+  },
+  "keywords": [
+    "eleventy",
+    "11ty",
+    "static-site",
+    "newark",
+    "ai-education"
+  ],
+  "author": "Town Hall Newark",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-fetch": "^4.0.0",
+    "rimraf": "^5.0.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

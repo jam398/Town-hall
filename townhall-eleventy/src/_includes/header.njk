@@ -1,0 +1,46 @@
+<header class="sticky top-0 z-40 bg-swiss-white border-b border-swiss-border">
+  <nav class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 font-bold text-lg text-swiss-black hover:text-swiss-red transition-colors">
+        <span class="w-8 h-8 bg-swiss-red"></span>
+        Town Hall
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors{% if page.url == '/' %} text-swiss-red{% endif %}">Home</a>
+        <a href="/events/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors{% if '/events' in page.url %} text-swiss-red{% endif %}">Events</a>
+        <a href="/blog/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors{% if '/blog' in page.url %} text-swiss-red{% endif %}">Blog</a>
+        <a href="/vlogs/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors{% if '/vlogs' in page.url %} text-swiss-red{% endif %}">Vlogs</a>
+        <a href="/about/" class="text-body font-medium text-swiss-black hover:text-swiss-red transition-colors{% if '/about' in page.url %} text-swiss-red{% endif %}">About</a>
+      </div>
+      
+      <!-- CTA Button -->
+      <div class="hidden lg:block">
+        <a href="/volunteer/" class="inline-flex items-center px-6 py-2 bg-swiss-red text-white font-medium hover:bg-red-700 transition-colors">
+          Get Involved
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="lg:hidden p-2" aria-label="Toggle menu" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden pb-4">
+      <div class="flex flex-col gap-4">
+        <a href="/" class="text-body font-medium text-swiss-black hover:text-swiss-red">Home</a>
+        <a href="/events/" class="text-body font-medium text-swiss-black hover:text-swiss-red">Events</a>
+        <a href="/blog/" class="text-body font-medium text-swiss-black hover:text-swiss-red">Blog</a>
+        <a href="/vlogs/" class="text-body font-medium text-swiss-black hover:text-swiss-red">Vlogs</a>
+        <a href="/about/" class="text-body font-medium text-swiss-black hover:text-swiss-red">About</a>
+        <a href="/volunteer/" class="inline-flex items-center justify-center px-6 py-3 bg-swiss-red text-white font-medium">Get Involved</a>
+      </div>
+    </div>
+  </nav>
+</header>

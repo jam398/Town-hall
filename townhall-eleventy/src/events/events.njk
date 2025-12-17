@@ -1,0 +1,124 @@
+---
+layout: base.njk
+title: Events
+description: Upcoming AI workshops, meetups, and community events at Town Hall Newark. Free and open to everyone.
+permalink: /events/
+---
+
+<!-- Hero Section -->
+<section class="py-16 lg:py-24 bg-swiss-white border-b border-swiss-border">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-6">
+        {% accentBar "red" %}
+        <h1 class="text-display font-bold text-swiss-black mb-6">Events</h1>
+      </div>
+      <div class="lg:col-span-6 flex items-end">
+        <p class="text-body-lg text-swiss-gray">
+          Free workshops, meetups, and community events. No registration fees, 
+          no prerequisites—just bring your curiosity.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="border-b border-swiss-border">
+  <div class="max-w-swiss mx-auto">
+    <div class="grid grid-cols-2 lg:grid-cols-4">
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">{{ collections.events.length }}</p>
+        <p class="text-body-sm text-swiss-gray">Upcoming Events</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">∞</p>
+        <p class="text-body-sm text-swiss-gray">Available Spots</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center border-r border-swiss-border">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">100%</p>
+        <p class="text-body-sm text-swiss-gray">Free to Attend</p>
+      </div>
+      <div class="p-6 lg:p-8 text-center">
+        <p class="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">Weekly</p>
+        <p class="text-body-sm text-swiss-gray">New Events</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Events Grid -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="mb-12">
+      {% accentBar "black" %}
+      <h2 class="text-h2 font-bold text-swiss-black">All Events</h2>
+    </div>
+    
+    {% if collections.events.length > 0 %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for event in collections.events %}
+      <a href="/events/{{ event.data.slug }}/" class="card block group">
+        <div class="h-1 bg-swiss-red"></div>
+        <div class="p-6">
+          {% if event.data.tags %}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {% for tag in event.data.tags %}
+            <span class="px-2 py-1 text-caption font-medium bg-swiss-light text-swiss-gray">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <h3 class="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors">
+            {{ event.data.title }}
+          </h3>
+          <p class="text-body-sm text-swiss-gray mb-6 line-clamp-2">
+            {{ event.data.description }}
+          </p>
+          <div class="space-y-2 text-body-sm text-swiss-gray">
+            <p>📅 {{ event.data.date | dateFormat }} at {{ event.data.time }}</p>
+            <p>📍 {{ event.data.location }}</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-swiss-border flex items-center justify-between">
+            <span class="text-body-sm font-medium text-swiss-black group-hover:text-swiss-red transition-colors">
+              Learn More
+            </span>
+            <span class="text-swiss-black group-hover:text-swiss-red">→</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+      <div class="w-24 h-24 mx-auto mb-6 bg-swiss-light flex items-center justify-center">
+        <span class="text-4xl">📅</span>
+      </div>
+      <h2 class="text-h2 font-bold text-swiss-black mb-2">No Events Yet</h2>
+      <p class="text-body text-swiss-gray mb-6">Check back soon for upcoming workshops!</p>
+      <a href="{{ site.discord }}" target="_blank" rel="noopener" class="btn btn-primary">
+        Join Discord for Updates
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 lg:py-32 bg-swiss-light">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        {% accentBar "red" %}
+        <h2 class="text-h1 font-bold text-swiss-black mb-4">Can't Make It?</h2>
+        <p class="text-body-lg text-swiss-gray max-w-lg mb-8">
+          Many of our workshops are recorded. Check out our vlogs for past content, 
+          or join our Discord to stay updated.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/vlogs/" class="btn btn-primary">Watch Recordings</a>
+          <a href="{{ site.discord }}" target="_blank" rel="noopener" class="btn btn-outline">Join Discord</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
