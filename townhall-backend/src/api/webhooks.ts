@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import crypto from 'crypto';
 import { emailService } from '../services/email';
 import { sanityService } from '../services/sanity';
-import { discordService } from '../services/discord';
+import { n8nService } from '../services/n8n';
 
 const router = Router();
 
@@ -102,8 +102,8 @@ router.post('/event-published', async (req: Request, res: Response) => {
         hour12: true 
       });
 
-      // Send Discord notification directly
-      await discordService.sendEventNotification({
+      // Trigger n8n workflow for Discord notification
+      await n8nService.notifyEventPublished({
         title: event.title,
         slug: event.slug.current,
         description: event.description,
@@ -151,9 +151,9 @@ router.post('/content-published', async (req: Request, res: Response) => {
 
     const contentType = _type === 'blogPost' ? 'Blog Post' : 'Vlog';
 
-    // Send Discord notification directly (blog posts only)
+    // Trigger n8n workflow for Discord notification (blog posts only)
     if (_type === 'blogPost') {
-      await discordService.sendBlogNotification({
+      await n8nService.notifyBlogPublished({
         title,
         slug: slug.current,
         excerpt: excerpt || 'Check out our latest blog post!',
