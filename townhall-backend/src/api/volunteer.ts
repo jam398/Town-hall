@@ -37,11 +37,7 @@ router.post(
           to: email,
           firstName,
         });
-
-        // Update volunteer to mark email as sent
-        await sanityService.updateVolunteer(volunteer._id, {
-          confirmationSent: true,
-        });
+        console.log(`Confirmation email sent to: ${email}`);
       } catch (emailError) {
         console.error('Failed to send confirmation email:', emailError);
         // Don't fail the application if email fails
