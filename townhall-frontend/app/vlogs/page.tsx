@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import { Play, Eye, ArrowRight } from 'lucide-react';
+import { Play, ArrowRight } from 'lucide-react';
 import { getVlogs, Vlog } from '@/lib/api';
 import { SITE_CONFIG } from '@/lib/constants';
 import { FeaturedVlog } from '@/components/ui/FeaturedVlog';
 import { ContentStats } from '@/components/ui/ContentStats';
+import { AccentBar } from '@/components/ui/AccentBar';
+import { VlogCard } from '@/components/ui/VlogCard';
 
 export const metadata: Metadata = {
   title: 'Vlogs',
@@ -35,72 +36,6 @@ function getVlogStats(vlogs: Vlog[]) {
   ];
 }
 
-// VlogCard component - Swiss Modern with enhanced visuals
-function VlogCard({ vlog, index }: { vlog: Vlog; index: number }) {
-  const formattedDate = new Date(vlog.date + 'T00:00:00').toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  return (
-    <Link
-      href={`https://youtube.com/watch?v=${vlog.youtubeId}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-      data-testid="vlog-card"
-    >
-      <article className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-all duration-300 hover:-translate-y-1">
-        {/* Video thumbnail with number overlay */}
-        <div className="relative aspect-video bg-swiss-black overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
-          
-          {/* Episode number - Swiss Modern typographic element */}
-          <div className="absolute top-0 left-0 p-4">
-            <span className="text-display font-bold text-white/10 leading-none">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-          </div>
-          
-          {/* Play button */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-14 h-14 bg-swiss-white flex items-center justify-center group-hover:bg-swiss-red transition-all duration-300 group-hover:scale-110">
-              <Play className="w-7 h-7 text-swiss-black group-hover:text-swiss-white ml-0.5" fill="currentColor" />
-            </div>
-          </div>
-          
-          {/* Duration badge */}
-          {vlog.duration && (
-            <div className="absolute bottom-3 right-3 px-2 py-1 bg-swiss-black/90 text-swiss-white text-caption font-medium backdrop-blur-sm">
-              {vlog.duration}
-            </div>
-          )}
-          
-          {/* Red accent line on hover */}
-          <div className="absolute bottom-0 left-0 w-0 h-1 bg-swiss-red group-hover:w-full transition-all duration-300" />
-        </div>
-        
-        <div className="p-6 flex flex-col flex-grow">
-          <h3 className="text-h3 font-semibold text-swiss-black mb-3 group-hover:text-swiss-red transition-colors line-clamp-2">
-            {vlog.title}
-          </h3>
-          <p className="text-body-sm text-swiss-gray mb-4 line-clamp-2 flex-grow">
-            {vlog.description}
-          </p>
-          <div className="flex items-center justify-between text-body-sm text-swiss-gray pt-4 border-t border-swiss-border">
-            <div className="flex items-center gap-2">
-              <Eye className="w-4 h-4 text-swiss-black" aria-hidden="true" />
-              <span>{vlog.views?.toLocaleString() || 0}</span>
-            </div>
-            <span>{formattedDate}</span>
-          </div>
-        </div>
-      </article>
-    </Link>
-  );
-}
-
 
 // Main page content - Swiss Modern with visual enhancements
 function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
@@ -114,7 +49,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-12 gap-8 mb-12">
             <div className="lg:col-span-6">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-display font-bold text-swiss-black mb-6">
                 Vlogs
               </h1>
@@ -152,7 +87,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
             <>
               <div className="flex items-end justify-between mb-12">
                 <div>
-                  <div className="w-12 h-1 bg-swiss-black mb-6" />
+                  <AccentBar color="black" size="md" className="mb-6" />
                   <h2 className="text-h2 font-bold text-swiss-black">
                     All Videos
                   </h2>
@@ -190,7 +125,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 lg:text-display font-bold text-swiss-white mb-6">
                 Subscribe to Our Channel
               </h2>

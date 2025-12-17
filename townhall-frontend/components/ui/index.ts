@@ -22,6 +22,7 @@ export type { BlogPost } from './BlogCard';
 export { FeaturedEvent } from './FeaturedEvent';
 export { FeaturedArticle } from './FeaturedArticle';
 export { FeaturedVlog } from './FeaturedVlog';
+export { VlogCard } from './VlogCard';
 // Layout Components
 export { AccentBar } from './AccentBar';
 export { Accordion } from './Accordion';

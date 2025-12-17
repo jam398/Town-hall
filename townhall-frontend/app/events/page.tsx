@@ -4,6 +4,7 @@ import { EventsPageClient } from './EventsPageClient';
 import { getEvents } from '@/lib/api';
 import { ArrowRight, Calendar } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { AccentBar } from '@/components/ui/AccentBar';
 import { FeaturedEvent } from '@/components/ui/FeaturedEvent';
 import { ContentStats } from '@/components/ui/ContentStats';
 
@@ -58,7 +59,7 @@ export default async function EventsPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-12 gap-8 mb-12">
             <div className="lg:col-span-6">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-display font-bold text-swiss-black mb-6">
                 Events
               </h1>
@@ -100,7 +101,7 @@ export default async function EventsPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black mb-4">
                 Can&apos;t Make It?
               </h2>

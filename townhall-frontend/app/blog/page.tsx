@@ -3,6 +3,7 @@ import { BlogPost } from '@/components/ui/BlogCard';
 import { BlogPageClient } from './BlogPageClient';
 import { getBlogPosts } from '@/lib/api';
 import { ArrowRight, BookOpen } from 'lucide-react';
+import { AccentBar } from '@/components/ui/AccentBar';
 import { FeaturedArticle } from '@/components/ui/FeaturedArticle';
 import { ContentStats } from '@/components/ui/ContentStats';
 
@@ -60,7 +61,7 @@ export default async function BlogPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-12 gap-8 mb-12">
             <div className="lg:col-span-6">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-display font-bold text-swiss-black mb-6">
                 Blog
               </h1>
@@ -102,7 +103,7 @@ export default async function BlogPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black mb-4">
                 Want to Contribute?
               </h2>
