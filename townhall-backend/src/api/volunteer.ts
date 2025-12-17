@@ -5,6 +5,7 @@ import { sanityService } from '../services/sanity';
 import { emailService } from '../services/email';
 import { hubspotService } from '../services/hubspot';
 import { n8nService } from '../services/n8n';
+import { discordService } from '../services/discord';
 import { VolunteerRequest } from '../types';
 
 const router = Router();
@@ -67,7 +68,21 @@ router.post(
         // Don't fail the application if HubSpot fails
       }
 
-      // Trigger n8n workflow for Discord notification
+      // Send Discord notification (direct webhook)
+      try {
+        await discordService.sendVolunteerNotification({
+          firstName,
+          lastName,
+          email,
+          interest,
+          motivation,
+        });
+      } catch (discordError) {
+        console.error('Failed to send Discord notification:', discordError);
+        // Don't fail the application if Discord fails
+      }
+
+      // Trigger n8n workflow for additional automations
       try {
         await n8nService.notifyVolunteerSignup({
           firstName,

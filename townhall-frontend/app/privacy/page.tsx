@@ -77,6 +77,25 @@ export default function PrivacyPage() {
 
               <section className="mb-12">
                 <h2 className="text-h2 font-bold text-swiss-black mb-4">
+                  Cookies and Analytics
+                </h2>
+                <p className="text-body text-swiss-gray mb-4">
+                  We use cookies to remember your preferences and improve your experience:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-body text-swiss-gray mb-4">
+                  <li><strong>Necessary cookies:</strong> Required for the website to function (e.g., remembering your cookie preferences)</li>
+                  <li><strong>Analytics cookies:</strong> Help us understand how visitors use our site (Plausible Analytics - privacy-focused, no personal data collected)</li>
+                  <li><strong>Marketing cookies:</strong> Used to deliver relevant content (currently not in use)</li>
+                </ul>
+                <p className="text-body text-swiss-gray">
+                  You can manage your cookie preferences at any time using the cookie banner 
+                  that appears when you first visit our site, or by clearing your browser&apos;s 
+                  local storage.
+                </p>
+              </section>
+
+              <section className="mb-12">
+                <h2 className="text-h2 font-bold text-swiss-black mb-4">
                   Your Rights
                 </h2>
                 <p className="text-body text-swiss-gray mb-4">
