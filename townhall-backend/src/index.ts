@@ -52,7 +52,7 @@ const corsOptions = {
         return;
       }
     }
-    // Fix 3: Production CORS - include ngrok and common deployment URLs
+    // Production CORS - Vercel, Render, ngrok, and local development
     const allowedOrigins = [
       process.env.FRONTEND_URL || 'http://localhost:3000',
       'http://localhost:3001',
@@ -60,11 +60,24 @@ const corsOptions = {
       'null',
     ];
     
+    // Allow Vercel preview/production deployments
+    if (origin && (origin.endsWith('.vercel.app') || origin.includes('.vercel.app'))) {
+      callback(null, true);
+      return;
+    }
+    
     // Allow any ngrok URLs (they change frequently)
     if (origin && origin.includes('.ngrok')) {
       callback(null, true);
       return;
     }
+    
+    // Allow Render URLs (for backend-to-backend if needed)
+    if (origin && origin.includes('.onrender.com')) {
+      callback(null, true);
+      return;
+    }
+    
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {

@@ -1,0 +1,28 @@
+# Render Blueprint for Town Hall Backend
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: townhall-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: townhall-backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: SANITY_PROJECT_ID
+        sync: false  # Set manually in Render dashboard
+      - key: SANITY_DATASET
+        sync: false
+      - key: SANITY_TOKEN
+        sync: false
+      - key: FRONTEND_URL
+        sync: false  # Set to your Vercel URL after deployment
+      - key: N8N_WEBHOOK_URL
+        sync: false  # Set to your n8n cloud webhook URL
