@@ -23,6 +23,29 @@ interface YouTubeVideoData {
   thumbnail: string;
 }
 
+interface YouTubeAPIResponse {
+  items?: Array<{
+    id: string;
+    snippet: {
+      title: string;
+      description: string;
+      publishedAt: string;
+      thumbnails: {
+        default?: { url: string };
+        high?: { url: string };
+      };
+    };
+    statistics: {
+      viewCount?: string;
+      likeCount?: string;
+      commentCount?: string;
+    };
+    contentDetails?: {
+      duration: string;
+    };
+  }>;
+}
+
 class YouTubeService {
   private apiKey: string;
   private baseUrl = 'https://www.googleapis.com/youtube/v3';
@@ -77,7 +100,7 @@ class YouTubeService {
         return null;
       }
 
-      const data = await response.json();
+      const data = await response.json() as YouTubeAPIResponse;
 
       if (!data.items || data.items.length === 0) {
         console.warn(`No YouTube video found for ID: ${videoId}`);
@@ -121,7 +144,7 @@ class YouTubeService {
         return null;
       }
 
-      const data = await response.json();
+      const data = await response.json() as YouTubeAPIResponse;
 
       if (!data.items || data.items.length === 0) {
         console.warn(`No YouTube video found for ID: ${videoId}`);
@@ -187,7 +210,7 @@ class YouTubeService {
           continue;
         }
 
-        const data = await response.json();
+        const data = await response.json() as YouTubeAPIResponse;
 
         if (data.items) {
           for (const video of data.items) {
