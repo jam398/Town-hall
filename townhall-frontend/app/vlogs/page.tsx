@@ -15,10 +15,15 @@ export const metadata: Metadata = {
 // Fetch vlogs from backend API
 async function fetchVlogs(): Promise<Vlog[]> {
   try {
+    console.log('[Vlogs Page] Fetching vlogs...');
     const apiVlogs = await getVlogs();
+    console.log(`[Vlogs Page] Fetched ${apiVlogs.length} vlogs`);
     return apiVlogs;
   } catch (error) {
-    console.error('Error fetching vlogs:', error);
+    console.error('[Vlogs Page] Error fetching vlogs:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[Vlogs Page] API URL:', process.env.NEXT_PUBLIC_API_URL);
+    }
     return [];
   }
 }

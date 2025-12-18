@@ -7,6 +7,11 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
+// Debug: Log API URL on startup (server-side only)
+if (typeof window === 'undefined') {
+  console.log('[API] Server-side API_URL:', API_URL);
+}
+
 // Types
 export interface Event {
   slug: string;
@@ -179,6 +184,9 @@ async function apiRequest<T>(
 ): Promise<T> {
   const url = `${API_URL}${endpoint}`;
   
+  // Debug logging
+  console.log(`[API] Fetching: ${url}`);
+  
   const defaultHeaders: HeadersInit = {
     'Content-Type': 'application/json',
   };
@@ -188,14 +196,24 @@ async function apiRequest<T>(
     ? CACHE_CONFIG.mutation 
     : CACHE_CONFIG[cacheStrategy];
 
-  const response = await fetch(url, {
-    ...cacheConfig,
-    ...options,
-    headers: {
-      ...defaultHeaders,
-      ...options.headers,
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...cacheConfig,
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...options.headers,
+      },
+    });
+  } catch (fetchError) {
+    console.error(`[API] Network error fetching ${url}:`, fetchError);
+    throw new ApiError(
+      `Network error: Unable to connect to API at ${url}`,
+      0,
+      'NETWORK_ERROR'
+    );
+  }
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));

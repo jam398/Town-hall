@@ -18,10 +18,17 @@ export const revalidate = 10;
 // Fetch blog posts from backend API
 async function fetchBlogPosts() {
   try {
+    console.log('[Blog Page] Fetching blog posts...');
     const apiPosts = await getBlogPosts();
+    console.log(`[Blog Page] Fetched ${apiPosts.length} posts`);
     return apiPosts;
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
+    // Log the full error for debugging
+    console.error('[Blog Page] Error fetching blog posts:', error);
+    // In development, throw to see the error; in production, return empty
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[Blog Page] API URL:', process.env.NEXT_PUBLIC_API_URL);
+    }
     return [];
   }
 }
