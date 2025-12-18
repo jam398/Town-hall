@@ -68,13 +68,18 @@ interface SanityBlogPost {
 
 export interface Vlog {
   id: string;
+  slug: string;
   title: string;
   description: string;
   thumbnail: string;
   duration: string;
   views: number;
+  viewsFormatted: string;
+  likes: number;
   date: string;
+  publishedAt: string;
   youtubeId: string;
+  youtubeUrl: string;
 }
 
 export interface RegistrationData {
@@ -289,8 +294,23 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
 // Vlogs API
 export async function getVlogs(): Promise<Vlog[]> {
-  const response = await apiRequest<{ vlogs: Vlog[] }>('/vlogs', {}, 'static');
-  return response.vlogs;
+  const response = await apiRequest<{ vlogs: any[] }>('/vlogs', {}, 'dynamic');
+  // Map API response to Vlog interface
+  return response.vlogs.map((vlog) => ({
+    id: vlog.slug || vlog.youtubeId,
+    slug: vlog.slug,
+    title: vlog.title,
+    description: vlog.description || '',
+    thumbnail: vlog.thumbnail || `https://img.youtube.com/vi/${vlog.youtubeId}/hqdefault.jpg`,
+    duration: vlog.duration || '',
+    views: vlog.views || 0,
+    viewsFormatted: vlog.viewsFormatted || '0',
+    likes: vlog.likes || 0,
+    date: vlog.publishedAt,
+    publishedAt: vlog.publishedAt,
+    youtubeId: vlog.youtubeId,
+    youtubeUrl: vlog.youtubeUrl || '',
+  }));
 }
 
 // Forms API
