@@ -160,8 +160,8 @@ class YouTubeService {
         viewCount: parseInt(video.statistics.viewCount || '0', 10),
         likeCount: parseInt(video.statistics.likeCount || '0', 10),
         commentCount: parseInt(video.statistics.commentCount || '0', 10),
-        duration: this.parseDuration(video.contentDetails.duration),
-        thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.default?.url,
+        duration: this.parseDuration(video.contentDetails?.duration || 'PT0S'),
+        thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.default?.url || '',
       };
     } catch (error) {
       console.error('Failed to fetch YouTube video data:', error);
