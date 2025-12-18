@@ -33,8 +33,8 @@ router.get('/', async (req: Request, res: Response) => {
         publishedAt: stats?.publishedAt || vlog.publishedAt,
         youtubeId: videoId,
         youtubeUrl: vlog.youtubeUrl,
-        thumbnail: vlog.thumbnail?.asset?.url,
-        duration: vlog.duration,
+        thumbnail: stats?.thumbnail || vlog.thumbnail?.asset?.url || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+        duration: stats?.duration || vlog.duration || null,
         tags: vlog.tags || [],
         // YouTube stats
         viewCount: stats ? parseInt(stats.viewCount, 10) : 0,

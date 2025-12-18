@@ -9,6 +9,8 @@ interface YouTubeVideoStats {
   likeCount: string;
   commentCount: string;
   publishedAt: string;
+  thumbnail: string;
+  duration: string;
 }
 
 interface YouTubeVideoData {
@@ -92,7 +94,7 @@ class YouTubeService {
     }
 
     try {
-      const url = `${this.baseUrl}/videos?part=statistics,snippet&id=${videoId}&key=${this.apiKey}`;
+      const url = `${this.baseUrl}/videos?part=statistics,snippet,contentDetails&id=${videoId}&key=${this.apiKey}`;
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -113,6 +115,8 @@ class YouTubeService {
         likeCount: video.statistics.likeCount || '0',
         commentCount: video.statistics.commentCount || '0',
         publishedAt: video.snippet.publishedAt,
+        thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.default?.url || '',
+        duration: this.parseDuration(video.contentDetails?.duration || 'PT0S'),
       };
     } catch (error) {
       console.error('Failed to fetch YouTube video stats:', error);
@@ -202,7 +206,7 @@ class YouTubeService {
 
       for (const chunk of chunks) {
         const ids = chunk.join(',');
-        const url = `${this.baseUrl}/videos?part=statistics,snippet&id=${ids}&key=${this.apiKey}`;
+        const url = `${this.baseUrl}/videos?part=statistics,snippet,contentDetails&id=${ids}&key=${this.apiKey}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -219,6 +223,8 @@ class YouTubeService {
               likeCount: video.statistics.likeCount || '0',
               commentCount: video.statistics.commentCount || '0',
               publishedAt: video.snippet.publishedAt,
+              thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.default?.url || '',
+              duration: this.parseDuration(video.contentDetails?.duration || 'PT0S'),
             });
           }
         }
