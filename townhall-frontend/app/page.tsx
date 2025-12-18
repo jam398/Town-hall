@@ -1,32 +1,70 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Calendar, Users, Lightbulb, Heart, Play } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { EventCard, Event } from '@/components/ui/EventCard';
-import { BlogCard, BlogPost } from '@/components/ui/BlogCard';
-import { events as eventsData, blogPosts as blogPostsData } from '@/lib/data';
+import { EventCard } from '@/components/ui/EventCard';
+import { BlogCard } from '@/components/ui/BlogCard';
+import { AccentBar } from '@/components/ui/AccentBar';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { getEvents, getBlogPosts, Event, BlogPost } from '@/lib/api';
 
-// Get first 3 events and posts for homepage
-const upcomingEvents: Event[] = eventsData.slice(0, 3).map(event => ({
-  slug: event.slug,
-  title: event.title,
-  description: event.description,
-  date: event.date,
-  time: event.time,
-  location: event.location,
-  capacity: event.capacity,
-  registered: event.registered,
-  tags: event.tags,
-}));
+function ContentSkeleton() {
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="animate-pulse">
+          <div className="bg-swiss-light h-48 mb-4" />
+          <div className="h-4 bg-swiss-light w-3/4 mb-2" />
+          <div className="h-4 bg-swiss-light w-1/2" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
-const latestPosts: BlogPost[] = blogPostsData.slice(0, 3).map(post => ({
-  slug: post.slug,
-  title: post.title,
-  excerpt: post.excerpt,
-  date: post.date,
-  author: post.author,
-  tags: post.tags,
-  readTime: post.readTime,
-}));
+async function EventsList() {
+  let events: Event[] = [];
+  try {
+    const allEvents = await getEvents();
+    events = allEvents.slice(0, 3);
+  } catch {
+    // Fallback to empty
+  }
+
+  if (events.length === 0) {
+    return <EmptyState variant="events" actionLabel="View All Events" actionHref="/events" />;
+  }
+
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {events.map((event) => (
+        <EventCard key={event.slug} event={event} />
+      ))}
+    </div>
+  );
+}
+
+async function BlogList() {
+  let posts: BlogPost[] = [];
+  try {
+    const allPosts = await getBlogPosts();
+    posts = allPosts.slice(0, 3);
+  } catch {
+    // Fallback to empty
+  }
+
+  if (posts.length === 0) {
+    return <EmptyState variant="posts" actionLabel="View All Articles" actionHref="/blog" />;
+  }
+
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <BlogCard key={post.slug} post={post} />
+      ))}
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -41,15 +79,15 @@ export default function HomePage() {
         </div>
         
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-12 min-h-[90vh]">
+          <div className="grid lg:grid-cols-12 min-h-hero">
             {/* Left Column - Content */}
             <div className="lg:col-span-7 flex flex-col justify-center py-16 lg:py-24 lg:pr-16">
-              <div className="w-16 h-1 bg-swiss-red mb-8" />
+              <AccentBar color="red" size="lg" className="mb-8" />
               <p className="text-swiss-red text-body font-medium tracking-wide mb-6">
                 Newark&apos;s AI Community Hub
               </p>
               
-              <h1 className="text-[4rem] lg:text-[5.5rem] font-bold text-swiss-black leading-[0.95] mb-8">
+              <h1 className="text-hero lg:text-hero-lg text-swiss-black mb-8">
                 Learn AI.
                 <br />
                 <span className="text-swiss-gray">Build Together.</span>
@@ -82,14 +120,14 @@ export default function HomePage() {
               <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-neutral-700" />
               
               <div className="text-swiss-white p-12 text-center relative">
-                <div className="w-32 h-1 bg-swiss-red mx-auto mb-10" />
-                <p className="text-[2.5rem] font-bold leading-tight mb-4">
+                <AccentBar color="red" size="lg" className="w-32 mx-auto mb-10" />
+                <p className="text-hero-subtitle mb-4">
                   AI Education
                 </p>
                 <p className="text-h3 text-neutral-400 font-medium">
                   For Everyone
                 </p>
-                <div className="w-32 h-1 bg-swiss-red mx-auto mt-10" />
+                <AccentBar color="red" size="lg" className="w-32 mx-auto mt-10" />
                 
                 {/* Decorative large number */}
                 <div className="absolute -bottom-8 -right-4 text-[200px] font-bold text-white/[0.03] leading-none select-none">
@@ -126,7 +164,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-12 gap-16 items-start">
             {/* Left - Title */}
             <div className="lg:col-span-4">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black">
                 Our Mission
               </h2>
@@ -175,7 +213,7 @@ export default function HomePage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-8 mb-16">
             <div className="lg:col-span-8">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black">
                 Upcoming Events
               </h2>
@@ -191,11 +229,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.map((event) => (
-              <EventCard key={event.slug} event={event} />
-            ))}
-          </div>
+          <Suspense fallback={<ContentSkeleton />}>
+            <EventsList />
+          </Suspense>
         </div>
       </section>
 
@@ -204,7 +240,7 @@ export default function HomePage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-8 mb-16">
             <div className="lg:col-span-8">
-              <div className="w-12 h-1 bg-swiss-black mb-6" />
+              <AccentBar color="black" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black">
                 Latest Articles
               </h2>
@@ -220,11 +256,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {latestPosts.map((post) => (
-              <BlogCard key={post.slug} post={post} />
-            ))}
-          </div>
+          <Suspense fallback={<ContentSkeleton />}>
+            <BlogList />
+          </Suspense>
         </div>
       </section>
 
@@ -238,7 +272,7 @@ export default function HomePage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-16 h-1 bg-swiss-red mb-8" />
+              <AccentBar color="red" size="lg" className="mb-8" />
               <h2 className="text-h1 lg:text-display font-bold text-swiss-white mb-6">
                 Join Our Community
               </h2>
@@ -256,11 +290,13 @@ export default function HomePage() {
                   Join Discord
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </a>
-                <Link href="/volunteer">
-                  <Button variant="outline" size="lg" className="border-swiss-white text-swiss-white hover:bg-swiss-white hover:text-swiss-black w-full sm:w-auto">
-                    Become a Volunteer
-                  </Button>
-                </Link>
+                <Button
+                  href="/volunteer"
+                  variant="outline-inverted"
+                  size="lg"
+                >
+                  Become a Volunteer
+                </Button>
               </div>
             </div>
             <div className="lg:col-span-5 hidden lg:flex justify-end">

@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea, Select } from '@/components/ui/Input';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+import { submitVolunteerForm, ApiError } from '@/lib/api';
+import { validators } from '@/lib/validation';
+import { SITE_CONFIG } from '@/lib/constants';
 
 const interestOptions = [
   { value: 'workshop-facilitator', label: 'Workshop Facilitator' },
@@ -40,27 +41,20 @@ export function VolunteerForm() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
+    const firstNameError = validators.required(formData.firstName, 'First name');
+    if (firstNameError) newErrors.firstName = firstNameError;
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
+    const lastNameError = validators.required(formData.lastName, 'Last name');
+    if (lastNameError) newErrors.lastName = lastNameError;
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
+    const emailError = validators.email(formData.email);
+    if (emailError) newErrors.email = emailError;
 
-    if (!formData.interest) {
-      newErrors.interest = 'Please select an area of interest';
-    }
+    const interestError = validators.required(formData.interest, 'Area of interest');
+    if (interestError) newErrors.interest = 'Please select an area of interest';
 
-    if (!formData.motivation.trim()) {
-      newErrors.motivation = 'Please tell us why you want to volunteer';
-    }
+    const motivationError = validators.required(formData.motivation, 'Motivation');
+    if (motivationError) newErrors.motivation = 'Please tell us why you want to volunteer';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -76,21 +70,40 @@ export function VolunteerForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/volunteer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      await submitVolunteerForm({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        interest: formData.interest,
+        availability: formData.availability || undefined,
+        experience: formData.experience || undefined,
+        motivation: formData.motivation,
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Submission failed');
-      }
-
       setIsSuccess(true);
     } catch (error) {
-      setErrors({ submit: 'Something went wrong. Please try again.' });
+      if (error instanceof ApiError) {
+        // Use the user-friendly message from ApiError
+        setErrors({ submit: error.getUserMessage() });
+        
+        // If we have field-level validation errors, show them on the fields
+        if (error.details && error.details.length > 0) {
+          const fieldErrors: Record<string, string> = {};
+          error.details.forEach(detail => {
+            fieldErrors[detail.field] = detail.message;
+          });
+          setErrors(prev => ({ ...prev, ...fieldErrors }));
+        }
+      } else if (error instanceof Error) {
+        // Network errors or other exceptions
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          setErrors({ submit: 'Unable to connect to server. Please check your internet connection.' });
+        } else {
+          setErrors({ submit: 'Something went wrong. Please try again.' });
+        }
+      } else {
+        setErrors({ submit: 'Something went wrong. Please try again.' });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -99,7 +112,7 @@ export function VolunteerForm() {
   if (isSuccess) {
     return (
       <div className="text-center py-8" role="alert" aria-live="polite">
-        <div className="w-20 h-20 mx-auto mb-6 bg-bauhaus-yellow flex items-center justify-center">
+        <div className="w-20 h-20 mx-auto mb-6 bg-swiss-light border border-swiss-border flex items-center justify-center">
           <svg
             className="w-10 h-10 text-black"
             fill="none"
@@ -121,7 +134,7 @@ export function VolunteerForm() {
           get back to you within a week.
         </p>
         <p className="text-sm text-gray-500">
-          In the meantime, join our <a href="https://discord.gg/townhall" className="text-bauhaus-blue hover:underline">Discord community</a> to connect with other volunteers.
+          In the meantime, join our <a href={SITE_CONFIG.discord} className="text-swiss-red hover:underline">Discord community</a> to connect with other volunteers.
         </p>
       </div>
     );
@@ -225,7 +238,7 @@ export function VolunteerForm() {
         />
 
         {errors.submit && (
-          <p className="text-sm text-bauhaus-red" role="alert">
+          <p className="text-sm text-swiss-red" role="alert">
             {errors.submit}
           </p>
         )}

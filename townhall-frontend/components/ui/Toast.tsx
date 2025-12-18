@@ -94,16 +94,16 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
       icon: 'text-green-500',
     },
     error: {
-      container: 'border-l-4 border-l-bauhaus-red bg-red-50',
-      icon: 'text-bauhaus-red',
+      container: 'border-l-4 border-l-swiss-red bg-red-50',
+      icon: 'text-swiss-red',
     },
     warning: {
-      container: 'border-l-4 border-l-bauhaus-yellow bg-yellow-50',
+      container: 'border-l-4 border-l-amber-500 bg-yellow-50',
       icon: 'text-yellow-600',
     },
     info: {
-      container: 'border-l-4 border-l-bauhaus-blue bg-blue-50',
-      icon: 'text-bauhaus-blue',
+      container: 'border-l-4 border-l-swiss-black bg-blue-50',
+      icon: 'text-swiss-black',
     },
   };
 

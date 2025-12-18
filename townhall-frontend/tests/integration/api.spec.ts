@@ -218,7 +218,7 @@ test.describe('API Integration - Error States', () => {
     await page.click('button[type="submit"]');
     
     // Should show error message
-    const errorMessage = page.locator('[role="alert"], .text-red-500, .text-bauhaus-red');
+    const errorMessage = page.locator('[role="alert"], .text-red-500, .text-swiss-red');
     await expect(errorMessage.first()).toBeVisible({ timeout: 5000 });
   });
 

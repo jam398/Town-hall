@@ -81,7 +81,7 @@ export function EventsPageClient({ events, allTags }: EventsPageClientProps) {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value as typeof dateFilter)}
-              className="px-4 py-3 border-2 border-black focus:outline-none focus:border-bauhaus-blue"
+              className="px-4 py-3 border-2 border-swiss-black focus:outline-none focus:border-swiss-red"
               aria-label="Filter by date"
             >
               <option value="all">All Dates</option>
@@ -125,7 +125,7 @@ export function EventsPageClient({ events, allTags }: EventsPageClientProps) {
                 setSelectedTags([]);
                 setDateFilter('all');
               }}
-              className="px-4 py-2 bg-bauhaus-blue text-white font-semibold uppercase tracking-wider hover:bg-blue-800 transition-colors"
+              className="px-4 py-2 bg-swiss-black text-swiss-white font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
             >
               Clear Filters
             </button>

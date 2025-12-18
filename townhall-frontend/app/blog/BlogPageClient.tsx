@@ -26,7 +26,7 @@ export function BlogPageClient({ posts, allTags }: BlogPageClientProps) {
         searchQuery === '' ||
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.author.toLowerCase().includes(searchQuery.toLowerCase());
+        (typeof post.author === 'string' ? post.author : post.author?.name || '').toLowerCase().includes(searchQuery.toLowerCase());
 
       // Tag filter
       const matchesTags =
@@ -121,7 +121,7 @@ export function BlogPageClient({ posts, allTags }: BlogPageClientProps) {
                 setSearchQuery('');
                 setSelectedTags([]);
               }}
-              className="px-4 py-2 bg-bauhaus-blue text-white font-semibold uppercase tracking-wider hover:bg-blue-800 transition-colors"
+              className="px-4 py-2 bg-swiss-black text-swiss-white font-semibold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
             >
               Clear Filters
             </button>

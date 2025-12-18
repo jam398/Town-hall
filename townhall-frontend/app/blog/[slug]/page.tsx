@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, User, Clock, Share2, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { PortableText } from '@portabletext/react';
 import { BlogCard } from '@/components/ui/BlogCard';
 import { getBlogPost, getBlogPosts, BlogPost } from '@/lib/api';
+import { createSafeHtml } from '@/lib/sanitize';
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://townhallnewark.org';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPost(params.slug);
@@ -25,25 +29,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   if (post) {
     const allPosts = await getBlogPosts();
     relatedPosts = allPosts
-      .filter(p => p.slug !== post.slug && p.tags.some(tag => post.tags.includes(tag)))
+      .filter(p => p.slug !== post.slug && p.tags?.some(tag => post.tags?.includes(tag)))
       .slice(0, 2);
   }
 
   if (!post) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-black uppercase mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-6">This article doesn&apos;t exist or has been removed.</p>
-          <Link
-            href="/blog"
-            className="inline-block px-6 py-3 bg-bauhaus-blue text-white font-semibold uppercase tracking-wider"
-          >
-            View All Posts
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const formattedDate = new Date(post.date + 'T00:00:00').toLocaleDateString('en-US', {
@@ -52,7 +43,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     year: 'numeric',
   });
 
-  const shareUrl = `https://townhallnewark.org/blog/${post.slug}`;
+  const shareUrl = `${BASE_URL}/blog/${post.slug}`;
 
   return (
     <article className="min-h-screen">
@@ -61,7 +52,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-600 hover:text-bauhaus-blue transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-swiss-gray hover:text-swiss-red transition-colors"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Blog
@@ -87,10 +78,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {post.tags.map((tag: string) => (
+            {post.tags?.map((tag: string) => (
               <span
                 key={tag}
-                className="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-bauhaus-yellow text-black"
+                className="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-swiss-light text-swiss-black"
               >
                 {tag}
               </span>
@@ -128,13 +119,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="grid lg:grid-cols-12 gap-12">
             {/* Main content */}
             <div className="lg:col-span-8">
-              <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-a:text-bauhaus-blue prose-a:no-underline hover:prose-a:underline">
+              <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-a:text-swiss-red prose-a:no-underline hover:prose-a:underline">
                 {post.content && typeof post.content === 'object' ? (
                   <PortableText value={post.content} />
                 ) : post.content && typeof post.content === 'string' ? (
-                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                  <div dangerouslySetInnerHTML={createSafeHtml(post.content)} />
                 ) : (
-                  <p className="text-gray-600">No content available. Excerpt: {post.excerpt}</p>
+                  <p className="text-gray-600">{post.excerpt}</p>
                 )}
               </div>
 
@@ -152,7 +143,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         />
                       </div>
                     ) : (
-                      <div className="w-16 h-16 bg-bauhaus-blue flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                      <div className="w-16 h-16 bg-swiss-black flex items-center justify-center text-swiss-white font-bold text-xl flex-shrink-0">
                         {typeof post.author === 'string' ? post.author.split(' ').map((n: string) => n[0]).join('') : (post.author.name || 'THT').split(' ').map((n: string) => n[0]).join('')}
                       </div>
                     )}
@@ -181,7 +172,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-bauhaus-blue hover:text-white transition-colors"
+                      className="w-10 h-10 flex items-center justify-center bg-swiss-light hover:bg-swiss-red hover:text-swiss-white transition-colors"
                       aria-label="Share on Twitter"
                     >
                       <Twitter className="w-5 h-5" />
@@ -190,7 +181,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-bauhaus-blue hover:text-white transition-colors"
+                      className="w-10 h-10 flex items-center justify-center bg-swiss-light hover:bg-swiss-red hover:text-swiss-white transition-colors"
                       aria-label="Share on Facebook"
                     >
                       <Facebook className="w-5 h-5" />
@@ -199,7 +190,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-bauhaus-blue hover:text-white transition-colors"
+                      className="w-10 h-10 flex items-center justify-center bg-swiss-light hover:bg-swiss-red hover:text-swiss-white transition-colors"
                       aria-label="Share on LinkedIn"
                     >
                       <Linkedin className="w-5 h-5" />
@@ -208,7 +199,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 </div>
 
                 {/* Newsletter */}
-                <div className="bg-bauhaus-yellow p-6">
+                <div className="bg-swiss-light border border-swiss-border p-6">
                   <h3 className="font-bold uppercase tracking-wider mb-2">
                     Stay Updated
                   </h3>

@@ -6,12 +6,15 @@ let client: SanityClient | null = null;
 
 function getClient(): SanityClient {
   if (!client) {
+    const token = process.env.SANITY_TOKEN;
     console.log('🔧 Creating Sanity client with dataset:', process.env.SANITY_DATASET);
+    console.log('🔑 Token length:', token ? token.length : 0);
+    console.log('🔑 Token prefix:', token ? token.substring(0, 10) + '...' : 'none');
     client = createClient({
       projectId: process.env.SANITY_PROJECT_ID || 'pvm742xo',
       dataset: process.env.SANITY_DATASET || 'production',
       apiVersion: process.env.SANITY_API_VERSION || '2024-01-01',
-      token: process.env.SANITY_TOKEN,
+      token: token,
       useCdn: false, // Use false for write operations
     });
   }

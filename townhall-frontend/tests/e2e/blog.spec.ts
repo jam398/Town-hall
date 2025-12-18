@@ -22,23 +22,25 @@ test.describe('Blog Listing', () => {
 
   test('displays list of blog posts', async ({ page }) => {
     const blogCards = page.locator('[data-testid="blog-card"], .blog-card, article');
+    
+    // Wait for content to load - API should return posts
+    await page.waitForLoadState('networkidle');
+    
     const count = await blogCards.count();
 
-    if (count > 0) {
-      const firstCard = blogCards.first();
-      await expect(firstCard).toBeVisible();
+    // CRITICAL: Blog posts MUST be loaded from API - empty state indicates API failure
+    expect(count, 'Blog posts should be loaded from API. If this fails, check backend connection.').toBeGreaterThan(0);
 
-      // Blog card should have title
-      await expect(firstCard.locator('h2, h3, [data-testid="blog-title"]')).toBeVisible();
+    const firstCard = blogCards.first();
+    await expect(firstCard).toBeVisible();
 
-      // Blog card should have date or author
-      const hasDate = await firstCard.locator('time, [data-testid="blog-date"]').count() > 0;
-      const hasAuthor = await firstCard.locator('[data-testid="blog-author"]').count() > 0;
-      expect(hasDate || hasAuthor).toBeTruthy();
-    } else {
-      // Empty state should be shown
-      await expect(page.locator('body')).toContainText(/no.*posts|coming soon/i);
-    }
+    // Blog card should have title
+    await expect(firstCard.locator('h2, h3, [data-testid="blog-title"]')).toBeVisible();
+
+    // Blog card should have date or author
+    const hasDate = await firstCard.locator('time, [data-testid="blog-date"]').count() > 0;
+    const hasAuthor = await firstCard.locator('[data-testid="blog-author"]').count() > 0;
+    expect(hasDate || hasAuthor).toBeTruthy();
   });
 
   test('blog cards are clickable and navigate to post', async ({ page }) => {

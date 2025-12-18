@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Event } from '@/components/ui/EventCard';
 import { EventsPageClient } from './EventsPageClient';
 import { getEvents } from '@/lib/api';
-import { ArrowRight, Calendar, MapPin, Users, Clock } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/constants';
+import { AccentBar } from '@/components/ui/AccentBar';
+import { FeaturedEvent } from '@/components/ui/FeaturedEvent';
+import { ContentStats } from '@/components/ui/ContentStats';
 
 export const metadata: Metadata = {
   title: 'Events',
@@ -31,113 +33,17 @@ function getAllTagsFromEvents(events: Event[]): string[] {
   return Array.from(tagsSet).sort();
 }
 
-// Featured Event Card - Large format
-function FeaturedEvent({ event }: { event: Event }) {
-  const eventDate = new Date(event.date + 'T00:00:00');
-  const formattedDate = eventDate.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-  });
-  const month = eventDate.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-  const day = eventDate.getDate();
-
-  return (
-    <Link href={`/events/${event.slug}`} className="group block">
-      <article className="grid lg:grid-cols-12 gap-0 bg-swiss-black overflow-hidden">
-        {/* Featured image or date display area */}
-        <div className="lg:col-span-4 relative aspect-video lg:aspect-auto lg:min-h-[400px]">
-          {event.image ? (
-            <Image
-              src={event.image}
-              alt={event.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 33vw"
-            />
-          ) : (
-            <>
-              <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
-              {/* Large date display - Swiss Modern typographic element */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-                <span className="text-caption font-medium text-swiss-red tracking-widest mb-2">
-                  {month}
-                </span>
-                <span className="text-[100px] lg:text-[140px] font-bold text-white leading-none">
-                  {day}
-                </span>
-              </div>
-            </>
-          )}
-          {/* Tags */}
-          {event.tags && event.tags.length > 0 && (
-            <div className="absolute bottom-4 left-4 flex gap-2 z-10">
-              {event.tags.slice(0, 2).map((tag) => (
-                <span key={tag} className="px-3 py-1.5 bg-swiss-red text-swiss-white text-caption font-medium">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-          <div className="absolute top-0 right-0 w-px h-full bg-neutral-700 hidden lg:block" />
-        </div>
-        
-        {/* Content area */}
-        <div className="lg:col-span-8 p-8 lg:p-12 flex flex-col justify-center">
-          <div className="w-12 h-1 bg-swiss-red mb-6" />
-          <p className="text-caption font-medium text-swiss-red mb-4 tracking-wide">
-            NEXT EVENT
-          </p>
-          <h2 className="text-h2 lg:text-h1 font-bold text-swiss-white mb-4 group-hover:text-swiss-red transition-colors line-clamp-2">
-            {event.title}
-          </h2>
-          <p className="text-body text-neutral-400 mb-6 line-clamp-2">
-            {event.description}
-          </p>
-          <div className="grid sm:grid-cols-3 gap-4 text-body-sm text-neutral-500 mb-8">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-swiss-red" aria-hidden="true" />
-              <span>{formattedDate}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-swiss-red" aria-hidden="true" />
-              <span>{event.time}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-swiss-red" aria-hidden="true" />
-              <span>{event.location}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-swiss-white group-hover:text-swiss-red transition-colors">
-            <span className="font-medium">Register Now</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </div>
-        </div>
-      </article>
-    </Link>
-  );
-}
-
-// Stats component
-function EventStats({ events }: { events: Event[] }) {
+// Generate stats for events
+function getEventStats(events: Event[]) {
   const totalEvents = events.length;
   const totalCapacity = events.reduce((sum, e) => sum + (e.capacity || 0), 0);
   
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-swiss-border">
-      {[
-        { value: totalEvents, label: 'Upcoming Events' },
-        { value: totalCapacity || '∞', label: 'Available Spots' },
-        { value: '100%', label: 'Free to Attend' },
-        { value: 'Weekly', label: 'New Events' },
-      ].map((stat, index) => (
-        <div key={index} className="bg-swiss-white p-6 lg:p-8 text-center">
-          <p className="text-h2 lg:text-h1 font-bold text-swiss-black mb-1">{stat.value}</p>
-          <p className="text-body-sm text-swiss-gray">{stat.label}</p>
-        </div>
-      ))}
-    </div>
-  );
+  return [
+    { value: totalEvents, label: 'Upcoming Events' },
+    { value: totalCapacity || '∞', label: 'Available Spots' },
+    { value: '100%', label: 'Free to Attend' },
+    { value: 'Weekly', label: 'New Events' },
+  ];
 }
 
 export default async function EventsPage() {
@@ -153,7 +59,7 @@ export default async function EventsPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-12 gap-8 mb-12">
             <div className="lg:col-span-6">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h1 className="text-display font-bold text-swiss-black mb-6">
                 Events
               </h1>
@@ -179,7 +85,7 @@ export default async function EventsPage() {
       {events.length > 0 && (
         <section className="border-y border-swiss-border">
           <div className="max-w-swiss mx-auto">
-            <EventStats events={events} />
+            <ContentStats stats={getEventStats(events)} />
           </div>
         </section>
       )}
@@ -195,7 +101,7 @@ export default async function EventsPage() {
         <div className="max-w-swiss mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="w-12 h-1 bg-swiss-red mb-6" />
+              <AccentBar color="red" size="md" className="mb-6" />
               <h2 className="text-h1 font-bold text-swiss-black mb-4">
                 Can&apos;t Make It?
               </h2>
@@ -212,7 +118,7 @@ export default async function EventsPage() {
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <a
-                  href="https://discord.gg/townhall"
+                  href={SITE_CONFIG.discord}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-swiss-black text-swiss-black font-medium hover:bg-swiss-black hover:text-swiss-white transition-colors"

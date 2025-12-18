@@ -91,7 +91,7 @@ export function Modal({
         className={cn(
           'relative w-full bg-white border-2 border-black shadow-lg',
           'transform transition-all',
-          'focus:outline-none focus-visible:ring-2 focus-visible:ring-bauhaus-blue',
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-swiss-red',
           sizeClasses[size],
           className
         )}
@@ -110,7 +110,7 @@ export function Modal({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-bauhaus-blue"
+                className="p-2 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-swiss-red"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" aria-hidden="true" />

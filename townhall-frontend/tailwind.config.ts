@@ -25,8 +25,8 @@ const config: Config = {
         swiss: {
           black: '#0A0A0A',      // Headlines, primary text, primary buttons
           white: '#FFFFFF',       // Backgrounds, cards
-          red: '#E53935',         // CTAs, accents, focus states
-          gray: '#6B7280',        // Secondary text, icons
+          red: '#C62828',         // CTAs, accents, focus states
+          gray: '#525252',        // Secondary text, icons
           light: '#F5F5F5',       // Section backgrounds
           border: '#E5E5E5',      // Borders, dividers
           success: '#10B981',     // Success states
@@ -34,7 +34,7 @@ const config: Config = {
           warning: '#F59E0B',     // Warning states
         },
         // Legacy Bauhaus colors (for backward compatibility)
-        'bauhaus-red': '#E53935',
+        'bauhaus-red': '#C62828',
         'bauhaus-yellow': '#F59E0B',
         'bauhaus-blue': '#0A0A0A',
         'bauhaus-black': '#0A0A0A',
@@ -58,7 +58,7 @@ const config: Config = {
           200: '#fecaca',
           300: '#fca5a5',
           400: '#f87171',
-          500: '#E53935',   // Swiss Red
+          500: '#C62828',   // Swiss Red
           600: '#dc2626',
           700: '#b91c1c',
           800: '#991b1b',
@@ -82,7 +82,7 @@ const config: Config = {
           200: '#e5e5e5',
           300: '#d4d4d4',
           400: '#a3a3a3',
-          500: '#6B7280',   // Swiss Gray
+          500: '#525252',   // Swiss Gray
           600: '#525252',
           700: '#404040',
           800: '#262626',
@@ -105,6 +105,10 @@ const config: Config = {
         'h2': ['2rem', { lineHeight: '1.2', fontWeight: '600' }],
         'h1': ['3rem', { lineHeight: '1.1', fontWeight: '700' }],
         'display': ['4rem', { lineHeight: '1.0', fontWeight: '700', letterSpacing: '-0.02em' }],
+        // Hero typography - extracted magic numbers
+        'hero': ['4rem', { lineHeight: '0.95', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'hero-lg': ['5.5rem', { lineHeight: '0.95', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'hero-subtitle': ['2.5rem', { lineHeight: '1.1', fontWeight: '700' }],
         // Legacy sizes for compatibility
         'xs': ['0.75rem', { lineHeight: '1rem' }],
         'sm': ['0.875rem', { lineHeight: '1.25rem' }],
@@ -122,6 +126,10 @@ const config: Config = {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
+      },
+      minHeight: {
+        // Hero section heights
+        'hero': '90vh',
       },
       maxWidth: {
         'swiss': '1280px',  // Swiss Modern max content width

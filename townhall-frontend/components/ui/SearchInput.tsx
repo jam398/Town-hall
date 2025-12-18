@@ -66,7 +66,7 @@ export function SearchInput({
         placeholder={placeholder}
         className={cn(
           'w-full pl-10 pr-10 py-3 border-2 border-black',
-          'focus:outline-none focus:border-bauhaus-blue',
+          'focus:outline-none focus:border-swiss-red',
           'placeholder:text-gray-400'
         )}
         aria-label={placeholder}

@@ -1,0 +1,60 @@
+<footer class="bg-swiss-black text-white py-16 lg:py-24">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 font-bold text-lg mb-4">
+          <span class="w-8 h-8 bg-swiss-red"></span>
+          Town Hall Newark
+        </div>
+        <p class="text-neutral-400 text-body-sm">
+          Newark's community hub for free AI education. Learn, connect, and grow with your neighbors.
+        </p>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h3 class="font-bold text-body mb-4">Quick Links</h3>
+        <ul class="space-y-2 text-neutral-400">
+          <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+          <li><a href="/events/" class="hover:text-white transition-colors">Events</a></li>
+          <li><a href="/blog/" class="hover:text-white transition-colors">Blog</a></li>
+          <li><a href="/vlogs/" class="hover:text-white transition-colors">Vlogs</a></li>
+          <li><a href="/about/" class="hover:text-white transition-colors">About</a></li>
+        </ul>
+      </div>
+      
+      <!-- Get Involved -->
+      <div>
+        <h3 class="font-bold text-body mb-4">Get Involved</h3>
+        <ul class="space-y-2 text-neutral-400">
+          <li><a href="/volunteer/" class="hover:text-white transition-colors">Volunteer</a></li>
+          <li><a href="/contact/" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="{{ site.discord }}" target="_blank" rel="noopener" class="hover:text-white transition-colors">Join Discord</a></li>
+        </ul>
+      </div>
+      
+      <!-- Connect -->
+      <div>
+        <h3 class="font-bold text-body mb-4">Connect</h3>
+        <ul class="space-y-2 text-neutral-400">
+          <li><a href="{{ site.discord }}" target="_blank" rel="noopener" class="hover:text-white transition-colors">Discord</a></li>
+          <li><a href="{{ site.twitter }}" target="_blank" rel="noopener" class="hover:text-white transition-colors">Twitter</a></li>
+          <li><a href="{{ site.youtube }}" target="_blank" rel="noopener" class="hover:text-white transition-colors">YouTube</a></li>
+          <li><a href="mailto:{{ site.email }}" class="hover:text-white transition-colors">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Bottom -->
+    <div class="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-neutral-400 text-body-sm">
+        &copy; {% year %} Town Hall Newark. All rights reserved.
+      </p>
+      <div class="flex gap-6 text-neutral-400 text-body-sm">
+        <a href="/privacy/" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

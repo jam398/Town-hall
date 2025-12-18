@@ -1,18 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, User, ArrowRight } from 'lucide-react';
-import { Card } from './Card';
+import { BlogPost } from '@/lib/api';
 
-export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  author: string | { name: string; bio?: string; avatar?: string };
-  image?: string;
-  tags?: string[];
-  readTime?: string;
-}
+// Re-export BlogPost type for convenience
+export type { BlogPost } from '@/lib/api';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -28,7 +20,7 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
       <article
-        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-colors"
+        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
         data-testid="blog-card"
       >
         {/* Image - Swiss Modern minimal */}

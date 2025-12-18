@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea, Select } from '@/components/ui/Input';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+import { submitContactForm, ApiError } from '@/lib/api';
+import { validators } from '@/lib/validation';
 
 const subjectOptions = [
   { value: 'general', label: 'General Inquiry' },
@@ -29,24 +29,21 @@ export function ContactForm() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
+    const nameError = validators.required(formData.name, 'Name');
+    if (nameError) newErrors.name = nameError;
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
+    const emailError = validators.email(formData.email);
+    if (emailError) newErrors.email = emailError;
 
-    if (!formData.subject) {
-      newErrors.subject = 'Please select a subject';
-    }
+    const subjectError = validators.required(formData.subject, 'Subject');
+    if (subjectError) newErrors.subject = 'Please select a subject';
 
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+    const messageError = validators.required(formData.message, 'Message');
+    if (messageError) {
+      newErrors.message = messageError;
+    } else {
+      const minLengthError = validators.minLength(formData.message, 10, 'Message');
+      if (minLengthError) newErrors.message = minLengthError;
     }
 
     setErrors(newErrors);
@@ -63,21 +60,36 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to send message');
-      }
-
       setIsSuccess(true);
     } catch (error) {
-      setErrors({ submit: 'Something went wrong. Please try again.' });
+      if (error instanceof ApiError) {
+        // Use the user-friendly message from ApiError
+        setErrors({ submit: error.getUserMessage() });
+        
+        // If we have field-level validation errors, show them on the fields
+        if (error.details && error.details.length > 0) {
+          const fieldErrors: Record<string, string> = {};
+          error.details.forEach(detail => {
+            fieldErrors[detail.field] = detail.message;
+          });
+          setErrors(prev => ({ ...prev, ...fieldErrors }));
+        }
+      } else if (error instanceof Error) {
+        // Network errors or other exceptions
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          setErrors({ submit: 'Unable to connect to server. Please check your internet connection.' });
+        } else {
+          setErrors({ submit: 'Something went wrong. Please try again.' });
+        }
+      } else {
+        setErrors({ submit: 'Something went wrong. Please try again.' });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -86,9 +98,9 @@ export function ContactForm() {
   if (isSuccess) {
     return (
       <div className="text-center py-8" role="alert" aria-live="polite">
-        <div className="w-20 h-20 mx-auto mb-6 bg-bauhaus-blue flex items-center justify-center">
+        <div className="w-20 h-20 mx-auto mb-6 bg-swiss-black flex items-center justify-center">
           <svg
-            className="w-10 h-10 text-white"
+            className="w-10 h-10 text-swiss-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -102,8 +114,8 @@ export function ContactForm() {
             />
           </svg>
         </div>
-        <h3 className="text-2xl font-black uppercase mb-2">Message Sent!</h3>
-        <p className="text-gray-600 mb-4">
+        <h3 className="text-h2 font-bold text-swiss-black mb-2">Message Sent!</h3>
+        <p className="text-swiss-gray mb-4">
           Thank you for reaching out. We&apos;ll get back to you within 48 hours.
         </p>
         <button
@@ -111,7 +123,7 @@ export function ContactForm() {
             setIsSuccess(false);
             setFormData({ name: '', email: '', subject: '', message: '' });
           }}
-          className="text-sm font-semibold uppercase tracking-wider text-bauhaus-blue hover:text-bauhaus-red transition-colors"
+          className="text-body-sm font-semibold text-swiss-black hover:text-swiss-red transition-colors"
         >
           Send Another Message
         </button>
@@ -170,7 +182,7 @@ export function ContactForm() {
         />
 
         {errors.submit && (
-          <p className="text-sm text-bauhaus-red" role="alert">
+          <p className="text-body-sm text-swiss-red" role="alert">
             {errors.submit}
           </p>
         )}

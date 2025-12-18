@@ -1,0 +1,119 @@
+<div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50 bg-swiss-white border-t-4 border-swiss-red shadow-2xl hidden" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc">
+  <div class="max-w-swiss mx-auto px-6 py-6">
+    <!-- Main View -->
+    <div id="cookie-main" class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div class="flex-1">
+        <h2 id="cookie-title" class="text-lg font-bold text-swiss-black mb-2">We value your privacy</h2>
+        <p id="cookie-desc" class="text-body text-swiss-gray">
+          We use cookies to enhance your browsing experience and analyze site traffic. 
+          By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/privacy/" class="text-swiss-red hover:underline">Read our Privacy Policy</a>
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="showCookiePrefs()" class="px-6 py-3 text-swiss-black border-2 border-swiss-black hover:bg-gray-100 transition-colors font-medium">
+          Preferences
+        </button>
+        <button onclick="rejectCookies()" class="px-6 py-3 text-swiss-black border-2 border-swiss-black hover:bg-gray-100 transition-colors font-medium">
+          Reject All
+        </button>
+        <button onclick="acceptCookies()" class="px-6 py-3 bg-swiss-red text-white hover:bg-red-700 transition-colors font-medium">
+          Accept All
+        </button>
+      </div>
+    </div>
+    
+    <!-- Preferences View -->
+    <div id="cookie-prefs" class="hidden">
+      <h2 class="text-lg font-bold text-swiss-black mb-4">Cookie Preferences</h2>
+      <div class="space-y-4 mb-6">
+        <div class="flex items-center justify-between p-4 bg-gray-100">
+          <div>
+            <h3 class="font-bold text-swiss-black">Necessary Cookies</h3>
+            <p class="text-sm text-swiss-gray">Required for the website to function. Cannot be disabled.</p>
+          </div>
+          <input type="checkbox" checked disabled class="w-5 h-5" aria-label="Necessary cookies">
+        </div>
+        <div class="flex items-center justify-between p-4 bg-gray-100">
+          <div>
+            <h3 class="font-bold text-swiss-black">Analytics Cookies</h3>
+            <p class="text-sm text-swiss-gray">Help us understand how visitors interact with our website.</p>
+          </div>
+          <input type="checkbox" id="analytics-toggle" class="w-5 h-5 accent-swiss-red" aria-label="Analytics cookies">
+        </div>
+        <div class="flex items-center justify-between p-4 bg-gray-100">
+          <div>
+            <h3 class="font-bold text-swiss-black">Marketing Cookies</h3>
+            <p class="text-sm text-swiss-gray">Used to deliver personalized content and ads.</p>
+          </div>
+          <input type="checkbox" id="marketing-toggle" class="w-5 h-5 accent-swiss-red" aria-label="Marketing cookies">
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="hideCookiePrefs()" class="px-6 py-3 text-swiss-black border-2 border-swiss-black hover:bg-gray-100 transition-colors font-medium">
+          Back
+        </button>
+        <button onclick="savePreferences()" class="px-6 py-3 bg-swiss-red text-white hover:bg-red-700 transition-colors font-medium">
+          Save Preferences
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CONSENT_KEY = 'townhall_cookie_consent';
+  
+  function initCookieConsent() {
+    const stored = localStorage.getItem(CONSENT_KEY);
+    if (!stored) {
+      document.getElementById('cookie-consent').classList.remove('hidden');
+    } else {
+      const prefs = JSON.parse(stored);
+      if (prefs.analytics) loadAnalytics();
+    }
+  }
+  
+  function loadAnalytics() {
+    if (!document.getElementById('plausible-script')) {
+      const script = document.createElement('script');
+      script.id = 'plausible-script';
+      script.defer = true;
+      script.dataset.domain = 'townhallnewark.org';
+      script.src = 'https://plausible.io/js/script.js';
+      document.head.appendChild(script);
+    }
+  }
+  
+  function saveConsent(prefs) {
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(prefs));
+    document.getElementById('cookie-consent').classList.add('hidden');
+    if (prefs.analytics) loadAnalytics();
+  }
+  
+  function acceptCookies() {
+    saveConsent({ necessary: true, analytics: true, marketing: true });
+  }
+  
+  function rejectCookies() {
+    saveConsent({ necessary: true, analytics: false, marketing: false });
+  }
+  
+  function showCookiePrefs() {
+    document.getElementById('cookie-main').classList.add('hidden');
+    document.getElementById('cookie-prefs').classList.remove('hidden');
+  }
+  
+  function hideCookiePrefs() {
+    document.getElementById('cookie-main').classList.remove('hidden');
+    document.getElementById('cookie-prefs').classList.add('hidden');
+  }
+  
+  function savePreferences() {
+    const analytics = document.getElementById('analytics-toggle').checked;
+    const marketing = document.getElementById('marketing-toggle').checked;
+    saveConsent({ necessary: true, analytics, marketing });
+  }
+  
+  document.addEventListener('DOMContentLoaded', initCookieConsent);
+</script>

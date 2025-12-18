@@ -97,7 +97,7 @@ describe('useToast', () => {
     
     await waitFor(() => {
       const toast = screen.getByRole('alert');
-      expect(toast).toHaveClass('border-l-bauhaus-red');
+      expect(toast).toHaveClass('border-l-swiss-red');
     });
   });
 
@@ -368,7 +368,7 @@ describe('Toast styling variants', () => {
     
     await waitFor(() => {
       const toast = screen.getByRole('alert');
-      expect(toast).toHaveClass('border-l-bauhaus-yellow');
+      expect(toast).toHaveClass('border-l-amber-500');
     });
   });
 
@@ -383,7 +383,7 @@ describe('Toast styling variants', () => {
     
     await waitFor(() => {
       const toast = screen.getByRole('alert');
-      expect(toast).toHaveClass('border-l-bauhaus-blue');
+      expect(toast).toHaveClass('border-l-swiss-black');
     });
   });
 });

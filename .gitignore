@@ -33,3 +33,17 @@ test-results/
 
 # Docker
 *.log
+
+# Proxy / ngrok
+proxy.js
+
+# Temporary / generated files
+*.tsbuildinfo
+ngrok-test-results/
+
+# Local env overrides (keep .env.example, ignore actual .env files)
+.env.local
+.env.*.local
+
+# Playwright snapshots (optional, can be large)
+*-snapshots/

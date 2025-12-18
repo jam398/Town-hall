@@ -42,7 +42,7 @@ describe('Pagination', () => {
     
     const currentPageButton = screen.getByText('3');
     expect(currentPageButton).toHaveAttribute('aria-current', 'page');
-    expect(currentPageButton).toHaveClass('bg-bauhaus-blue');
+    expect(currentPageButton).toHaveClass('bg-swiss-black');
   });
 
   it('calls onPageChange when clicking a page number', () => {

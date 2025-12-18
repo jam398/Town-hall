@@ -1,0 +1,184 @@
+---
+layout: base.njk
+title: Volunteer
+description: Join our volunteer team and help bring AI education to Newark. No experience required.
+permalink: /volunteer/
+---
+
+<!-- Hero Section -->
+<section class="py-24 lg:py-32 bg-swiss-white border-b border-swiss-border">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-5">
+        {% accentBar "red" %}
+        <h1 class="text-h1 font-bold text-swiss-black mb-6">Become a Volunteer</h1>
+      </div>
+      <div class="lg:col-span-7">
+        <p class="text-h3 text-swiss-black leading-relaxed">
+          Help us bring AI education to Newark. No experience required—just 
+          enthusiasm and a desire to help your community.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Volunteer Roles -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="mb-12">
+      {% accentBar "black" %}
+      <h2 class="text-h2 font-bold text-swiss-black">Ways to Help</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card p-6">
+        <div class="w-12 h-12 mb-4 bg-swiss-black flex items-center justify-center">
+          <span class="text-white text-xl">🎓</span>
+        </div>
+        <h3 class="text-h4 font-semibold text-swiss-black mb-2">Workshop Assistant</h3>
+        <p class="text-body-sm text-swiss-gray">
+          Help run workshops by assisting attendees, managing materials, and supporting instructors.
+        </p>
+      </div>
+      <div class="card p-6">
+        <div class="w-12 h-12 mb-4 bg-swiss-black flex items-center justify-center">
+          <span class="text-white text-xl">📸</span>
+        </div>
+        <h3 class="text-h4 font-semibold text-swiss-black mb-2">Content Creator</h3>
+        <p class="text-body-sm text-swiss-gray">
+          Create photos, videos, and social media content to share our mission with the community.
+        </p>
+      </div>
+      <div class="card p-6">
+        <div class="w-12 h-12 mb-4 bg-swiss-black flex items-center justify-center">
+          <span class="text-white text-xl">🤝</span>
+        </div>
+        <h3 class="text-h4 font-semibold text-swiss-black mb-2">Community Ambassador</h3>
+        <p class="text-body-sm text-swiss-gray">
+          Spread the word about Town Hall in your neighborhood, workplace, or community groups.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Application Form -->
+<section class="py-24 lg:py-32 bg-swiss-light">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-5">
+        {% accentBar "red" %}
+        <h2 class="text-h2 font-bold text-swiss-black mb-4">Apply to Volunteer</h2>
+        <p class="text-body text-swiss-gray">
+          Fill out this form and we'll be in touch within a few days.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <form action="/api/volunteer" method="POST" class="bg-swiss-white border border-swiss-border p-8">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="firstName" class="block text-body font-medium text-swiss-black mb-2">First Name *</label>
+              <input type="text" id="firstName" name="firstName" required
+                class="w-full px-4 py-3 border border-swiss-border focus:border-swiss-black outline-none transition-colors">
+            </div>
+            <div>
+              <label for="lastName" class="block text-body font-medium text-swiss-black mb-2">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" required
+                class="w-full px-4 py-3 border border-swiss-border focus:border-swiss-black outline-none transition-colors">
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <label for="email" class="block text-body font-medium text-swiss-black mb-2">Email *</label>
+            <input type="email" id="email" name="email" required
+              class="w-full px-4 py-3 border border-swiss-border focus:border-swiss-black outline-none transition-colors">
+          </div>
+          
+          <div class="mb-6">
+            <label for="interest" class="block text-body font-medium text-swiss-black mb-2">What interests you most? *</label>
+            <select id="interest" name="interest" required
+              class="w-full px-4 py-3 border border-swiss-border focus:border-swiss-black outline-none transition-colors bg-white">
+              <option value="">Select a role</option>
+              <option value="workshop-assistant">Workshop Assistant</option>
+              <option value="content-creator">Content Creator</option>
+              <option value="community-ambassador">Community Ambassador</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="mb-6">
+            <label for="motivation" class="block text-body font-medium text-swiss-black mb-2">Why do you want to volunteer? (optional)</label>
+            <textarea id="motivation" name="motivation" rows="4"
+              class="w-full px-4 py-3 border border-swiss-border focus:border-swiss-black outline-none transition-colors resize-none"></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-full">
+            Submit Application
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8">
+    <div class="mb-12">
+      {% accentBar "black" %}
+      <h2 class="text-h2 font-bold text-swiss-black">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="space-y-4 max-w-3xl">
+      <details class="border border-swiss-border p-6 group">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-swiss-black">
+          Do I need AI experience?
+          <span class="text-swiss-red group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-4 text-body text-swiss-gray">
+          No! We welcome volunteers of all backgrounds. If you're curious about AI and want to help 
+          your community, that's all you need. We'll provide any training necessary.
+        </p>
+      </details>
+      
+      <details class="border border-swiss-border p-6 group">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-swiss-black">
+          How much time is required?
+          <span class="text-swiss-red group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-4 text-body text-swiss-gray">
+          We're flexible! Most volunteers help with 1-2 events per month, which typically means 
+          2-4 hours of commitment. You can do more or less based on your availability.
+        </p>
+      </details>
+      
+      <details class="border border-swiss-border p-6 group">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-swiss-black">
+          What training is provided?
+          <span class="text-swiss-red group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-4 text-body text-swiss-gray">
+          All volunteers receive an orientation session and role-specific training. Workshop 
+          assistants shadow experienced volunteers before leading. We also have ongoing 
+          learning opportunities through our Discord community.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 lg:py-32 bg-swiss-black">
+  <div class="max-w-swiss mx-auto px-6 lg:px-8 text-center">
+    {% accentBar "red" %}
+    <h2 class="text-h1 font-bold text-white mb-6">Not Ready to Volunteer?</h2>
+    <p class="text-body-lg text-neutral-400 max-w-lg mx-auto mb-8">
+      Join our Discord to connect with the community first. You can always 
+      volunteer later!
+    </p>
+    <a href="{{ site.discord }}" target="_blank" rel="noopener" class="btn btn-primary">
+      Join Discord
+    </a>
+  </div>
+</section>
