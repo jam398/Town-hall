@@ -6,93 +6,86 @@ param(
     [string]$FrontendUrl = ""
 )
 
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "Town Hall Deployment Verification" -ForegroundColor Cyan
-Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "=========================================="
+Write-Host "Town Hall Deployment Verification"
+Write-Host "=========================================="
 Write-Host ""
 
 # Check backend health
-Write-Host "[1/5] Checking backend health..." -ForegroundColor Yellow
+Write-Host "[1/5] Checking backend health..."
 try {
     $healthResponse = Invoke-RestMethod -Uri "$BackendUrl/api/health" -Method Get
     if ($healthResponse.status -eq "healthy") {
-        Write-Host "✓ Backend is healthy" -ForegroundColor Green
-        Write-Host "  Sanity: $($healthResponse.services.sanity)" -ForegroundColor Gray
+        Write-Host "OK: Backend is healthy"
+        Write-Host "  Sanity: $($healthResponse.services.sanity)"
     } else {
-        Write-Host "✗ Backend health check failed" -ForegroundColor Red
+        Write-Host "FAIL: Backend health check failed"
     }
 } catch {
-    Write-Host "✗ Backend unreachable: $_" -ForegroundColor Red
+    Write-Host "FAIL: Backend unreachable"
     exit 1
 }
 Write-Host ""
 
 # Check blog API
-Write-Host "[2/5] Checking blog API..." -ForegroundColor Yellow
+Write-Host "[2/5] Checking blog API..."
 try {
     $blogResponse = Invoke-RestMethod -Uri "$BackendUrl/api/blog" -Method Get
     $blogCount = $blogResponse.posts.Count
     if ($blogCount -gt 0) {
-        Write-Host "✓ Blog API returned $blogCount posts" -ForegroundColor Green
+        Write-Host "OK: Blog API returned $blogCount posts"
     } else {
-        Write-Host "✗ Blog API returned no posts" -ForegroundColor Red
+        Write-Host "FAIL: Blog API returned no posts"
     }
 } catch {
-    Write-Host "✗ Blog API failed: $_" -ForegroundColor Red
+    Write-Host "FAIL: Blog API error"
 }
 Write-Host ""
 
 # Check vlogs API
-Write-Host "[3/5] Checking vlogs API..." -ForegroundColor Yellow
+Write-Host "[3/5] Checking vlogs API..."
 try {
     $vlogsResponse = Invoke-RestMethod -Uri "$BackendUrl/api/vlogs" -Method Get
     $vlogsCount = $vlogsResponse.vlogs.Count
     if ($vlogsCount -gt 0) {
-        Write-Host "✓ Vlogs API returned $vlogsCount videos" -ForegroundColor Green
+        Write-Host "OK: Vlogs API returned $vlogsCount videos"
     } else {
-        Write-Host "✗ Vlogs API returned no videos" -ForegroundColor Red
+        Write-Host "FAIL: Vlogs API returned no videos"
     }
 } catch {
-    Write-Host "✗ Vlogs API failed: $_" -ForegroundColor Red
+    Write-Host "FAIL: Vlogs API error"
 }
 Write-Host ""
 
 # Check events API
-Write-Host "[4/5] Checking events API..." -ForegroundColor Yellow
+Write-Host "[4/5] Checking events API..."
 try {
     $eventsResponse = Invoke-RestMethod -Uri "$BackendUrl/api/events" -Method Get
     $eventsCount = $eventsResponse.events.Count
-    Write-Host "✓ Events API returned $eventsCount events" -ForegroundColor Green
+    Write-Host "OK: Events API returned $eventsCount events"
 } catch {
-    Write-Host "✗ Events API failed: $_" -ForegroundColor Red
+    Write-Host "FAIL: Events API error"
 }
 Write-Host ""
 
 # Check frontend (if URL provided)
 if ($FrontendUrl) {
-    Write-Host "[5/5] Checking frontend..." -ForegroundColor Yellow
+    Write-Host "[5/5] Checking frontend..."
     try {
         $frontendResponse = Invoke-WebRequest -Uri $FrontendUrl -UseBasicParsing
         if ($frontendResponse.StatusCode -eq 200) {
-            Write-Host "✓ Frontend is accessible (HTTP 200)" -ForegroundColor Green
+            Write-Host "OK: Frontend is accessible (HTTP 200)"
         } else {
-            Write-Host "✗ Frontend returned HTTP $($frontendResponse.StatusCode)" -ForegroundColor Red
+            Write-Host "FAIL: Frontend returned HTTP $($frontendResponse.StatusCode)"
         }
     } catch {
-        Write-Host "✗ Frontend unreachable: $_" -ForegroundColor Red
+        Write-Host "FAIL: Frontend unreachable"
     }
 } else {
-    Write-Host "[5/5] Skipping frontend check (no FrontendUrl provided)" -ForegroundColor Yellow
-    Write-Host "  Run with: .\verify-deployment.ps1 -FrontendUrl 'https://your-app.vercel.app'" -ForegroundColor Gray
+    Write-Host "[5/5] Skipping frontend check (no FrontendUrl provided)"
 }
 Write-Host ""
 
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "Verification complete!" -ForegroundColor Green
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "Next steps:" -ForegroundColor White
-Write-Host "1. Visit $FrontendUrl/blog to verify blog posts display" -ForegroundColor Gray
-Write-Host "2. Visit $FrontendUrl/vlogs to verify videos display" -ForegroundColor Gray
-Write-Host "3. Submit a test volunteer form to verify form submission works" -ForegroundColor Gray
-Write-Host ""
+Write-Host "=========================================="
+Write-Host "Verification complete!"
+Write-Host "=========================================="
