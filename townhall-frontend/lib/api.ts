@@ -296,19 +296,18 @@ export async function getVlogs(): Promise<Vlog[]> {
   const response = await apiRequest<{ vlogs: any[] }>('/vlogs', {}, 'dynamic');
   // Map API response to Vlog interface
   return response.vlogs.map((vlog) => ({
-    id: vlog.slug || vlog.youtubeId,
     slug: vlog.slug,
     title: vlog.title,
     description: vlog.description || '',
     thumbnail: vlog.thumbnail || `https://img.youtube.com/vi/${vlog.youtubeId}/hqdefault.jpg`,
-    duration: vlog.duration || '',
-    views: vlog.views || 0,
-    viewsFormatted: vlog.viewsFormatted || '0',
-    likes: vlog.likes || 0,
-    date: vlog.publishedAt,
+    duration: vlog.duration,
+    viewCount: vlog.viewCount || 0,
+    likeCount: vlog.likeCount || 0,
+    commentCount: vlog.commentCount || 0,
     publishedAt: vlog.publishedAt,
     youtubeId: vlog.youtubeId,
-    youtubeUrl: vlog.youtubeUrl || '',
+    youtubeUrl: vlog.youtubeUrl,
+    tags: vlog.tags || [],
   }));
 }
 
