@@ -26,32 +26,64 @@ import aiRouter from './api/ai';
 import newsletterRouter from './api/newsletter';
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3001;
+const isDev = process.env.NODE_ENV !== 'production';
 
-// Security middleware
-app.use(helmet());
-
-// CORS configuration
-const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:3000',
-  'https://townhall-fronend.vercel.app', // Production frontend
-  'http://localhost:3001', // Allow API docs/testing
-  'http://localhost:8080', // Allow vlog viewer
-  'null' // Allow file:// protocol for local HTML files
-];
-
+// CORS configuration - MUST come before helmet for preflight requests
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    // Allow requests with no origin (like mobile apps, curl, or file://)
+    // In development, allow all localhost origins
+    if (isDev) {
+      if (!origin || origin.startsWith('http://127.0.0.1:') || origin.startsWith('http://localhost:')) {
+        callback(null, true);
+        return;
+      }
+    }
+    // Production CORS - Vercel, Render, ngrok, and local development
+    const allowedOrigins = [
+      process.env.FRONTEND_URL || 'http://localhost:3000',
+      'https://townhall-fronend.vercel.app',
+      'http://localhost:3001',
+      'http://localhost:8080',
+      'null',
+    ];
+    
+    // Allow Vercel preview/production deployments
+    if (origin && (origin.endsWith('.vercel.app') || origin.includes('.vercel.app'))) {
+      callback(null, true);
+      return;
+    }
+    
+    // Allow any ngrok URLs (they change frequently)
+    if (origin && origin.includes('.ngrok')) {
+      callback(null, true);
+      return;
+    }
+    
+    // Allow Render URLs (for backend-to-backend if needed)
+    if (origin && origin.includes('.onrender.com')) {
+      callback(null, true);
+      return;
+    }
+    
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 };
 app.use(cors(corsOptions));
+
+// Security middleware - after CORS
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 
 // Body parser
 app.use(express.json());
