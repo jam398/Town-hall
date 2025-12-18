@@ -34,6 +34,7 @@ app.use(helmet());
 // CORS configuration
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:3000',
+  'https://townhall-fronend.vercel.app', // Production frontend
   'http://localhost:3001', // Allow API docs/testing
   'http://localhost:8080', // Allow vlog viewer
   'null' // Allow file:// protocol for local HTML files
