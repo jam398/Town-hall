@@ -5,8 +5,12 @@
  * Requires YOUTUBE_API_KEY environment variable.
  */
 
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
+
+// Get API key at runtime (after .env is loaded)
+function getApiKey(): string | undefined {
+  return process.env.YOUTUBE_API_KEY;
+}
 
 export interface YouTubeVideoStats {
   viewCount: number;
@@ -22,13 +26,14 @@ export interface YouTubeVideoStats {
  * Fetch video statistics from YouTube API
  */
 export async function getVideoStats(videoId: string): Promise<YouTubeVideoStats | null> {
-  if (!YOUTUBE_API_KEY) {
+  const apiKey = getApiKey();
+  if (!apiKey) {
     console.warn('[YouTube] API key not configured - returning null');
     return null;
   }
 
   try {
-    const url = `${YOUTUBE_API_BASE}/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+    const url = `${YOUTUBE_API_BASE}/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${apiKey}`;
     const response = await fetch(url);
     
     if (!response.ok) {
@@ -36,7 +41,7 @@ export async function getVideoStats(videoId: string): Promise<YouTubeVideoStats 
       return null;
     }
 
-    const data = await response.json();
+    const data = await response.json() as { items?: any[] };
     
     if (!data.items || data.items.length === 0) {
       console.warn(`[YouTube] Video not found: ${videoId}`);
@@ -68,8 +73,12 @@ export async function getVideoStats(videoId: string): Promise<YouTubeVideoStats 
  */
 export async function getMultipleVideoStats(videoIds: string[]): Promise<Map<string, YouTubeVideoStats>> {
   const results = new Map<string, YouTubeVideoStats>();
+  const apiKey = getApiKey();
   
-  if (!YOUTUBE_API_KEY || videoIds.length === 0) {
+  if (!apiKey || videoIds.length === 0) {
+    if (!apiKey) {
+      console.warn('[YouTube] API key not configured - skipping stats fetch');
+    }
     return results;
   }
 
@@ -80,7 +89,7 @@ export async function getMultipleVideoStats(videoIds: string[]): Promise<Map<str
       const batch = videoIds.slice(i, i + batchSize);
       const ids = batch.join(',');
       
-      const url = `${YOUTUBE_API_BASE}/videos?part=snippet,statistics,contentDetails&id=${ids}&key=${YOUTUBE_API_KEY}`;
+      const url = `${YOUTUBE_API_BASE}/videos?part=snippet,statistics,contentDetails&id=${ids}&key=${apiKey}`;
       const response = await fetch(url);
       
       if (!response.ok) {
@@ -88,7 +97,7 @@ export async function getMultipleVideoStats(videoIds: string[]): Promise<Map<str
         continue;
       }
 
-      const data = await response.json();
+      const data = await response.json() as { items?: any[] };
       
       for (const video of data.items || []) {
         const snippet = video.snippet;
