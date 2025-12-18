@@ -1,0 +1,10 @@
+{
+  // Markdownlint configuration for Town Hall frontend
+  "default": true,
+  // Allow longer lines (common in docs)
+  "MD013": false,
+  // Allow inline HTML
+  "MD033": false,
+  // Allow duplicate headings in different sections
+  "MD024": { "siblings_only": true }
+}
