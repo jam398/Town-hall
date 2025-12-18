@@ -20,7 +20,7 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
       <article
-        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-colors"
+        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
         data-testid="blog-card"
       >
         {/* Image - Swiss Modern minimal */}

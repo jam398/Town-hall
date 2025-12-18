@@ -419,3 +419,118 @@ a:focus-visible {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
+
+/* ============================================
+   ENHANCED CARD STYLES
+   ============================================ */
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================
+   IMPROVED SECTION SPACING
+   ============================================ */
+
+.section-padding {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+/* ============================================
+   GRADIENT OVERLAYS
+   ============================================ */
+
+.gradient-overlay {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.gradient-overlay-dark {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+/* ============================================
+   IMPROVED BUTTON STYLES
+   ============================================ */
+
+.btn-primary {
+  background-color: var(--swiss-red);
+  color: white;
+  font-weight: 500;
+  padding: 0.875rem 2rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #c62828;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--swiss-black);
+  color: white;
+  font-weight: 500;
+  padding: 0.875rem 2rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #171717;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   IMPROVED FORM INPUTS
+   ============================================ */
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--swiss-black);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.1);
+}
+
+/* ============================================
+   SMOOTH PAGE TRANSITIONS
+   ============================================ */
+
+main {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ============================================
+   IMPROVED SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--swiss-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--swiss-gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--swiss-black);
+}

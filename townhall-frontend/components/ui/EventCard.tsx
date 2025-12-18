@@ -19,7 +19,7 @@ export function EventCard({ event }: EventCardProps) {
   return (
     <Link href={`/events/${event.slug}`} className="block group">
       <article
-        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-colors"
+        className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
         data-testid="event-card"
       >
         {/* Swiss Modern accent line */}

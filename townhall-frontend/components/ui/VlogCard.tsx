@@ -22,7 +22,7 @@ export function VlogCard({ vlog, index }: VlogCardProps) {
       className="group block"
       data-testid="vlog-card"
     >
-      <article className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black transition-all duration-300 hover:-translate-y-1">
+      <article className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
         {/* Video thumbnail with number overlay */}
         <div className="relative aspect-video bg-swiss-black overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
