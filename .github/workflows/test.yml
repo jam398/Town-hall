@@ -110,12 +110,12 @@ jobs:
           fi
         working-directory: ./townhall-frontend
 
-  # Deploy to Netlify (on main branch only)
+  # Deploy to Netlify (on main branch only, when secrets are configured)
   deploy:
     name: Deploy to Netlify
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && vars.NETLIFY_CONFIGURED == 'true'
 
     steps:
       - name: Checkout code
@@ -136,7 +136,7 @@ jobs:
         run: npm run build
         working-directory: ./townhall-frontend
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://api.townhallnewark.org/api' }}
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0

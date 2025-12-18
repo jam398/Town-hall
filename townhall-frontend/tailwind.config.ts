@@ -25,8 +25,8 @@ const config: Config = {
         swiss: {
           black: '#0A0A0A',      // Headlines, primary text, primary buttons
           white: '#FFFFFF',       // Backgrounds, cards
-          red: '#E53935',         // CTAs, accents, focus states
-          gray: '#6B7280',        // Secondary text, icons
+          red: '#C62828',         // CTAs, accents, focus states
+          gray: '#525252',        // Secondary text, icons
           light: '#F5F5F5',       // Section backgrounds
           border: '#E5E5E5',      // Borders, dividers
           success: '#10B981',     // Success states
@@ -34,7 +34,7 @@ const config: Config = {
           warning: '#F59E0B',     // Warning states
         },
         // Legacy Bauhaus colors (for backward compatibility)
-        'bauhaus-red': '#E53935',
+        'bauhaus-red': '#C62828',
         'bauhaus-yellow': '#F59E0B',
         'bauhaus-blue': '#0A0A0A',
         'bauhaus-black': '#0A0A0A',
@@ -58,7 +58,7 @@ const config: Config = {
           200: '#fecaca',
           300: '#fca5a5',
           400: '#f87171',
-          500: '#E53935',   // Swiss Red
+          500: '#C62828',   // Swiss Red
           600: '#dc2626',
           700: '#b91c1c',
           800: '#991b1b',
@@ -82,7 +82,7 @@ const config: Config = {
           200: '#e5e5e5',
           300: '#d4d4d4',
           400: '#a3a3a3',
-          500: '#6B7280',   // Swiss Gray
+          500: '#525252',   // Swiss Gray
           600: '#525252',
           700: '#404040',
           800: '#262626',
