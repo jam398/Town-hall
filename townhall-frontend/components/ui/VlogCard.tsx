@@ -25,7 +25,15 @@ export function VlogCard({ vlog, index }: VlogCardProps) {
       <article className="bg-swiss-white border border-swiss-border h-full flex flex-col hover:border-swiss-black hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
         {/* Video thumbnail with number overlay */}
         <div className="relative aspect-video bg-swiss-black overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+          {/* YouTube thumbnail */}
+          {vlog.thumbnail && (
+            <img
+              src={vlog.thumbnail}
+              alt={vlog.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/20 to-neutral-900/20" />
           
           {/* Episode number - Swiss Modern typographic element */}
           <div className="absolute top-0 left-0 p-4">

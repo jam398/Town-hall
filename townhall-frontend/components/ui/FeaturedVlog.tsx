@@ -24,7 +24,15 @@ export function FeaturedVlog({ vlog }: FeaturedVlogProps) {
       <article className="grid lg:grid-cols-12 gap-0 bg-swiss-black overflow-hidden">
         {/* Video thumbnail area */}
         <div className="lg:col-span-7 relative aspect-video lg:aspect-auto lg:min-h-[400px]">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 to-neutral-800" />
+          {/* YouTube thumbnail */}
+          {vlog.thumbnail && (
+            <img
+              src={vlog.thumbnail}
+              alt={vlog.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/30 to-neutral-800/30" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-20 h-20 lg:w-24 lg:h-24 bg-swiss-white flex items-center justify-center group-hover:bg-swiss-red transition-all duration-300 group-hover:scale-110">
               <Play className="w-10 h-10 lg:w-12 lg:h-12 text-swiss-black group-hover:text-swiss-white ml-1" fill="currentColor" aria-hidden="true" />
