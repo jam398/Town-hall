@@ -228,6 +228,7 @@ describe('Contact Form Validation', () => {
   });
 
   it('should accept valid contact form', async () => {
+    (sanityService.createContact as jest.Mock).mockResolvedValue({ _id: 'contact-123' });
     (emailService.sendContactFormNotification as jest.Mock).mockResolvedValue(undefined);
     (hubspotService.createOrUpdateContact as jest.Mock).mockResolvedValue('hubspot-123');
 
