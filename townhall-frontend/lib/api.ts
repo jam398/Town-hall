@@ -67,19 +67,18 @@ interface SanityBlogPost {
 }
 
 export interface Vlog {
-  id: string;
   slug: string;
   title: string;
   description: string;
-  thumbnail: string;
-  duration: string;
-  views: number;
-  viewsFormatted: string;
-  likes: number;
-  date: string;
+  thumbnail?: string;
+  duration: string | null;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
   publishedAt: string;
-  youtubeId: string;
-  youtubeUrl: string;
+  youtubeId: string | null;
+  youtubeUrl?: string;
+  tags?: string[];
 }
 
 export interface RegistrationData {

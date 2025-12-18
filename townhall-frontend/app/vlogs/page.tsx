@@ -33,7 +33,7 @@ async function fetchVlogs(): Promise<Vlog[]> {
 
 // Generate stats for vlogs
 function getVlogStats(vlogs: Vlog[]) {
-  const totalViews = vlogs.reduce((sum, vlog) => sum + (vlog.views || 0), 0);
+  const totalViews = vlogs.reduce((sum, vlog) => sum + (vlog.viewCount || 0), 0);
   const totalVideos = vlogs.length;
   
   return [
@@ -106,7 +106,7 @@ function VlogsPageContent({ vlogs }: { vlogs: Vlog[] }) {
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {remainingVlogs.map((vlog, index) => (
-                  <VlogCard key={vlog.id} vlog={vlog} index={index + 1} />
+                  <VlogCard key={vlog.slug} vlog={vlog} index={index + 1} />
                 ))}
               </div>
             </>

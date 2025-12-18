@@ -7,7 +7,7 @@ interface FeaturedVlogProps {
 }
 
 export function FeaturedVlog({ vlog }: FeaturedVlogProps) {
-  const formattedDate = new Date(vlog.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(vlog.publishedAt).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
@@ -55,7 +55,7 @@ export function FeaturedVlog({ vlog }: FeaturedVlogProps) {
           <div className="flex items-center gap-6 text-body-sm text-neutral-500 mb-8">
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4" aria-hidden="true" />
-              <span>{vlog.views?.toLocaleString() || 0} views</span>
+              <span>{vlog.viewCount?.toLocaleString() || 0} views</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" aria-hidden="true" />

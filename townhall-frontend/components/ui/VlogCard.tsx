@@ -8,15 +8,11 @@ interface VlogCardProps {
 }
 
 export function VlogCard({ vlog, index }: VlogCardProps) {
-  // Format the publish date from YouTube or Sanity
-  const dateStr = vlog.publishedAt || vlog.date;
-  const formattedDate = dateStr 
-    ? new Date(dateStr).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    : '';
+  const formattedDate = new Date(vlog.publishedAt).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 
   return (
     <Link
@@ -66,7 +62,7 @@ export function VlogCard({ vlog, index }: VlogCardProps) {
           <div className="flex items-center justify-between text-body-sm text-swiss-gray pt-4 border-t border-swiss-border">
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4 text-swiss-black" aria-hidden="true" />
-              <span>{vlog.viewsFormatted || vlog.views?.toLocaleString() || '0'} views</span>
+              <span>{vlog.viewCount?.toLocaleString() || 0} views</span>
             </div>
             <span>{formattedDate}</span>
           </div>
