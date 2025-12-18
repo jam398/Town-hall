@@ -5,7 +5,8 @@
  * Uses environment variable for API URL configuration.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+// Production Render backend URL as fallback if env var not set
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://townhall-backend-vpyh.onrender.com/api';
 
 // Debug: Log API URL on startup (server-side only)
 if (typeof window === 'undefined') {

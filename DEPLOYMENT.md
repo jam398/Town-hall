@@ -62,7 +62,7 @@ Go to **Environment** tab and add:
 ### 1.4 Deploy
 Click **Create Web Service**. Render will build and deploy automatically.
 
-**Your backend URL will be**: `https://townhall-backend.onrender.com`
+**Your backend URL is**: `https://townhall-backend-vpyh.onrender.com`
 
 > ⚠️ **Note**: Free tier services spin down after 15 minutes of inactivity. First request after spin-down takes ~30 seconds.
 
@@ -88,7 +88,7 @@ Go to **Settings** → **Environment Variables** and add:
 
 | Key | Value | Environments |
 |-----|-------|--------------|
-| `NEXT_PUBLIC_API_URL` | `https://townhall-backend.onrender.com/api` | Production, Preview, Development |
+| `NEXT_PUBLIC_API_URL` | `https://townhall-backend-vpyh.onrender.com/api` | Production, Preview, Development |
 
 ### 2.4 Deploy
 Click **Deploy**. Vercel will build and deploy automatically.
@@ -142,7 +142,7 @@ After creating each workflow:
 
 ### 4.1 Test Backend Health
 ```bash
-curl https://townhall-backend.onrender.com/api/health
+curl https://townhall-backend-vpyh.onrender.com/api/health
 ```
 Expected: `{"status":"ok","timestamp":"..."}`
 
@@ -175,7 +175,7 @@ RESEND_API_KEY=your_resend_key (optional)
 
 ### Frontend (Vercel)
 ```env
-NEXT_PUBLIC_API_URL=https://townhall-backend.onrender.com/api
+NEXT_PUBLIC_API_URL=https://townhall-backend-vpyh.onrender.com/api
 ```
 
 ---
@@ -184,7 +184,7 @@ NEXT_PUBLIC_API_URL=https://townhall-backend.onrender.com/api
 
 ### "Network error: Unable to connect to API"
 - Check that `NEXT_PUBLIC_API_URL` is set correctly in Vercel
-- Verify backend is running: `curl https://your-backend.onrender.com/api/health`
+- Verify backend is running: `curl https://townhall-backend-vpyh.onrender.com/api/health`
 - Check Render logs for errors
 
 ### CORS Errors
