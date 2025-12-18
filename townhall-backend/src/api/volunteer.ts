@@ -5,7 +5,6 @@ import { sanityService } from '../services/sanity';
 import { emailService } from '../services/email';
 import { hubspotService } from '../services/hubspot';
 import { n8nService } from '../services/n8n';
-import { discordService } from '../services/discord';
 import { VolunteerRequest } from '../types';
 
 const router = Router();
@@ -38,11 +37,7 @@ router.post(
           to: email,
           firstName,
         });
-
-        // Update volunteer to mark email as sent
-        await sanityService.updateVolunteer(volunteer._id, {
-          confirmationSent: true,
-        });
+        console.log(`Confirmation email sent to: ${email}`);
       } catch (emailError) {
         console.error('Failed to send confirmation email:', emailError);
         // Don't fail the application if email fails
@@ -68,21 +63,7 @@ router.post(
         // Don't fail the application if HubSpot fails
       }
 
-      // Send Discord notification (direct webhook)
-      try {
-        await discordService.sendVolunteerNotification({
-          firstName,
-          lastName,
-          email,
-          interest,
-          motivation,
-        });
-      } catch (discordError) {
-        console.error('Failed to send Discord notification:', discordError);
-        // Don't fail the application if Discord fails
-      }
-
-      // Trigger n8n workflow for additional automations
+      // Trigger n8n workflow for Discord notification
       try {
         await n8nService.notifyVolunteerSignup({
           firstName,

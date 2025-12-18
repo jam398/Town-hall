@@ -36,6 +36,11 @@ function portableTextToHtml(blocks: any[]): string {
 }
 
 export const sanityService = {
+  // Expose client for direct access when needed
+  get client() {
+    return getClient();
+  },
+
   // Events
   async getEvents(): Promise<Event[]> {
     const query = `*[_type == "event" && status == "published" && dateTime >= now()] | order(dateTime asc) {
@@ -227,6 +232,22 @@ export const sanityService = {
 
   async updateVolunteer(id: string, data: Partial<Volunteer>): Promise<Volunteer> {
     return getClient().patch(id).set(data).commit();
+  },
+
+  // Contacts
+  async createContact(data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }): Promise<any> {
+    const doc = {
+      _type: 'contact' as const,
+      ...data,
+      status: 'new' as const,
+      submittedAt: new Date().toISOString(),
+    };
+    return getClient().create(doc);
   },
 
   // Utility

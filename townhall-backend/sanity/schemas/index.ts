@@ -4,6 +4,7 @@ import blogPost from './blogPost';
 import vlogPost from './vlogPost';
 import registration from './registration';
 import volunteer from './volunteer';
+import contact from './contact';
 
 export const schemaTypes = [
   // Content types
@@ -15,4 +16,5 @@ export const schemaTypes = [
   // User submissions
   registration,
   volunteer,
+  contact,
 ];
