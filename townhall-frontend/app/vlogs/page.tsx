@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: 'Video content from Town Hall Newark. Watch workshop recordings, tutorials, and community stories.',
 };
 
+// Revalidate every hour to show fresh YouTube stats
+export const revalidate = 3600;
+
 // Fetch vlogs from backend API
 async function fetchVlogs(): Promise<Vlog[]> {
   try {
